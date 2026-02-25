@@ -16,6 +16,8 @@ class Produk extends Model
         'id_kategori',
         'id_jenis',
         'id_tipe',
+        'id_varian',
+        'id_warna',
         'nama_produk',
         'deskripsi_produk',
         'harga_produk',
@@ -25,38 +27,74 @@ class Produk extends Model
         'gambar_produk'
     ];
 
+    /**
+     * Relasi ke Varian
+     */
+    public function varian()
+    {
+        return $this->belongsTo(Varian::class, 'id_varian');
+    }
+
+    /**
+     * Relasi ke Warna
+     */
+    public function warna()
+    {
+        return $this->belongsTo(Warna::class, 'id_warna');
+    }
+
+    /**
+     * Relasi ke Kategori
+     */
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }
 
+    /**
+     * Relasi ke Jenis
+     */
     public function jenis()
     {
         return $this->belongsTo(Jenis::class, 'id_jenis');
     }
 
+    /**
+     * Relasi ke Tipe
+     */
     public function tipe()
     {
         return $this->belongsTo(Tipe::class, 'id_tipe');
     }
 
+    /**
+     * Relasi Many-to-Many ke Gudang (Sebagai Stok)
+     * Menggunakan tabel 'stok' sebagai pivot table
+     */
     public function gudang()
     {
         return $this->belongsToMany(
             Gudang::class,
-            'stok',
-            'id_produk',
-            'id_gudang'
-        )->withPivot('qty');
+            'stok',      // Tabel Pivot
+            'id_produk', // FK di tabel stok untuk produk
+            'id_gudang'  // FK di tabel stok untuk gudang
+        )->withPivot('qty')->withTimestamps();
+        // withTimestamps() disarankan jika tabel stok memiliki created_at/updated_at
     }
 
-    public function stok()
-    {
-        return $this->hasMany(Stok::class, 'id_produk')->with('gudang');
-    }
-
+    /**
+     * Relasi ke Supplier
+     */
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'id_supplier', 'id_supplier');
+    }
+
+    /**
+     * Helper untuk mengambil total stok dari semua gudang
+     */
+    public function getTotalStokAttribute()
+    {
+        return $this->gudang->sum('pivot.qty');
     }
 }

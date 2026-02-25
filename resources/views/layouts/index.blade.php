@@ -104,7 +104,7 @@ $konf = DB::table('setting')->first();
 
                         {{-- Katalog Gadget --}}
                         <li
-                            class="menu-item {{ Route::is('kategori.*') || Route::is('jenis.*') || Route::is('tipe.*') || Route::is('produk.*') || Route::is('supplier.*') ? 'active open' : '' }}">
+                            class="menu-item {{ Route::is('kategori.*') || Route::is('jenis.*') || Route::is('warna.*') || Route::is('varian.*') || Route::is('tipe.*') || Route::is('produk.*') || Route::is('supplier.*') ? 'active open' : '' }}">
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
                                 <i class="menu-icon tf-icons bx bx-box"></i>
                                 <div>Katalog Gadget</div>
@@ -122,6 +122,14 @@ $konf = DB::table('setting')->first();
                                         href="{{ route('tipe.index') }}" class="menu-link">
                                         <div>Tipe Model</div>
                                     </a></li>
+                                <li class="menu-item {{ Route::is('varian.*') ? 'active' : '' }}"><a
+                                        href="{{ route('varian.index') }}" class="menu-link">
+                                        <div>Varian</div>
+                                    </a></li>
+                                <li class="menu-item {{ Route::is('warna.*') ? 'active' : '' }}"><a
+                                        href="{{ route('warna.index') }}" class="menu-link">
+                                        <div>Warna</div>
+                                    </a></li>
                                 <li class="menu-item {{ Route::is('produk.*') ? 'active' : '' }}"><a
                                         href="{{ route('produk.index') }}" class="menu-link">
                                         <div>Daftar Produk</div>
@@ -133,200 +141,9 @@ $konf = DB::table('setting')->first();
                             </ul>
                         </li>
 
-                        {{-- Inventaris --}}
-                        <li class="menu-item {{ Route::is('gudang.*') || Route::is('stok.*') ? 'active open' : '' }}">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons bx bx-buildings"></i>
-                                <div>Inventaris & Logistik</div>
-                            </a>
-                            <ul class="menu-sub">
-                                <li class="menu-item {{ Route::is('gudang.*') ? 'active' : '' }}"><a
-                                        href="{{ route('gudang.index') }}" class="menu-link">
-                                        <div>Lokasi Gudang</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('stok.*') ? 'active' : '' }}"><a
-                                        href="{{ route('stok.index') }}" class="menu-link">
-                                        <div>Kontrol Stok</div>
-                                    </a></li>
-                            </ul>
-                        </li>
 
-                        {{-- Penjualan --}}
-                        <li
-                            class="menu-item {{ Route::is('pos.*') || Route::is('pelanggan.*') || Route::is('laporan.*') ? 'active open' : '' }}">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons bx bx-cart-alt"></i>
-                                <div>Penjualan & Analisa</div>
-                            </a>
-                            <ul class="menu-sub">
-                                <li class="menu-item {{ Route::is('pos.*') ? 'active' : '' }}"><a
-                                        href="{{ route('pos.index') }}" class="menu-link">
-                                        <div>Terminal POS</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('pelanggan.*') ? 'active' : '' }}"><a
-                                        href="{{ route('pelanggan.index') }}" class="menu-link">
-                                        <div>Database Pelanggan</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('laporan.*') ? 'active' : '' }}"><a
-                                        href="{{ route('laporan.index') }}" class="menu-link">
-                                        <div>Laporan Penjualan</div>
-                                    </a></li>
-                            </ul>
-                        </li>
-
-                        <li class="menu-header small text-uppercase"><span class="menu-header-text">HR & Admin</span>
-                        </li>
-                        <li
-                            class="menu-item {{ Route::is('anggota.*') || Route::is('pusat.*') || Route::is('region.*') || Route::is('kategori_anggota.*') || Route::is('departement.*') || Route::is('divisi.*') || Route::is('slip-gaji.*') || Route::is('offering-letter.*') ? 'active open' : '' }}">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons bx bx-group"></i>
-                                <div>SDM Karyawan</div>
-                            </a>
-                            <ul class="menu-sub">
-                                <li class="menu-item {{ Route::is('pusat.*') ? 'active' : '' }}"><a
-                                        href="{{ route('pusat.index') }}" class="menu-link">
-                                        <div>Pusat</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('region.*') ? 'active' : '' }}"><a
-                                        href="{{ route('region.index') }}" class="menu-link">
-                                        <div>Unit / Region</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('kategori_anggota.*') ? 'active' : '' }}"><a
-                                        href="{{ route('kategori_anggota.index') }}" class="menu-link">
-                                        <div>Kategori Karyawan</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('departement.*') ? 'active' : '' }}"><a
-                                        href="{{ route('departement.index') }}" class="menu-link">
-                                        <div>Departement</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('divisi.*') ? 'active' : '' }}"><a
-                                        href="{{ route('divisi.index') }}" class="menu-link">
-                                        <div>Divisi</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('anggota.*') ? 'active' : '' }}"><a
-                                        href="{{ route('anggota.index') }}" class="menu-link">
-                                        <div>Data Karyawan</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('slip-gaji.*') ? 'active' : '' }}"><a
-                                        href="{{ route('slip-gaji.index') }}" class="menu-link">
-                                        <div>Payroll / Slip Gaji</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('offering-letter.*') ? 'active' : '' }}"><a
-                                        href="{{ route('offering-letter.index') }}" class="menu-link">
-                                        <div>Offering Letter (OL)</div>
-                                    </a></li>
-                            </ul>
-                        </li>
-
-                        <li
-                            class="menu-item {{ Route::is('anggota.*') || Route::is('provinsi.*') || Route::is('kota.*') || Route::is('kecamatan.*') || Route::is('kelurahan.*') ? 'active open' : '' }}">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons bx bx-group"></i>
-                                <div>Lokasi</div>
-                            </a>
-                            <ul class="menu-sub">
-                                <li class="menu-item {{ Route::is('provinsi.*') ? 'active' : '' }}"><a
-                                        href="{{ route('provinsi.index') }}" class="menu-link">
-                                        <div>Provinsi</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('kota.*') ? 'active' : '' }}"><a
-                                        href="{{ route('kota.index') }}" class="menu-link">
-                                        <div>Kabupaten/ Kota</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('kecamatan.*') ? 'active' : '' }}"><a
-                                        href="{{ route('kecamatan.index') }}" class="menu-link">
-                                        <div>Kecamatan</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('kelurahan.*') ? 'active' : '' }}"><a
-                                        href="{{ route('kelurahan.index') }}" class="menu-link">
-                                        <div>Kelurahan</div>
-                                    </a></li>
-
-                            </ul>
-                        </li>
 
                         {{-- ROLE: KASIR --}}
-                    @elseif(auth()->user()->jabatan == 'Kasir')
-                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Transaksi
-                                Kasir</span></li>
-
-                        {{-- POS (Akses Utama Kasir) --}}
-                        <li class="menu-item {{ Route::is('pos.*') ? 'active' : '' }}">
-                            <a href="{{ route('pos.index') }}" class="menu-link">
-                                <i class="menu-icon tf-icons bx bx-cart-alt"></i>
-                                <div>Terminal POS</div>
-                            </a>
-                        </li>
-
-                        {{-- Stok (Kasir perlu cek stok saat jualan) --}}
-                        <li class="menu-item {{ Route::is('stok.*') ? 'active' : '' }}">
-                            <a href="{{ route('stok.index') }}" class="menu-link">
-                                <i class="menu-icon tf-icons bx bx-buildings"></i>
-                                <div>Cek Stok Produk</div>
-                            </a>
-                        </li>
-
-                        {{-- Berita (Agar Kasir tahu info terbaru) --}}
-                        <li class="menu-item {{ Route::is('berita.*') ? 'active' : '' }}">
-                            <a href="{{ route('berita.index') }}" class="menu-link">
-                                <i class="menu-icon tf-icons bx bx-news"></i>
-                                <div>Berita & Informasi</div>
-                            </a>
-                        </li>
-
-                        {{-- ROLE: HRD --}}
-                    @elseif(auth()->user()->jabatan == 'HRD')
-                        {{-- (Isi menu HRD sama seperti sebelumnya) --}}
-                        <li
-                            class="menu-item {{ Route::is('anggota.*') || Route::is('pusat.*') || Route::is('region.*') || Route::is('slip-gaji.*') || Route::is('offering-letter.*') ? 'active open' : '' }}">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons bx bx-group"></i>
-                                <div>SDM Karyawan</div>
-                            </a>
-                            <ul class="menu-sub">
-                                <li class="menu-item {{ Route::is('pusat.*') ? 'active' : '' }}"><a
-                                        href="{{ route('pusat.index') }}" class="menu-link">
-                                        <div>Pusat</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('region.*') ? 'active' : '' }}"><a
-                                        href="{{ route('region.index') }}" class="menu-link">
-                                        <div>Unit / Region</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('anggota.*') ? 'active' : '' }}"><a
-                                        href="{{ route('anggota.index') }}" class="menu-link">
-                                        <div>Data Karyawan</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('slip-gaji.*') ? 'active' : '' }}"><a
-                                        href="{{ route('slip-gaji.index') }}" class="menu-link">
-                                        <div>Payroll / Slip Gaji</div>
-                                    </a></li>
-                                <li class="menu-item {{ Route::is('offering-letter.*') ? 'active' : '' }}"><a
-                                        href="{{ route('offering-letter.index') }}" class="menu-link">
-                                        <div>Offering Letter (OL)</div>
-                                    </a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-item {{ Route::is('berita.*') ? 'active' : '' }}">
-                            <a href="{{ route('berita.index') }}" class="menu-link">
-                                <i class="menu-icon tf-icons bx bx-news"></i>
-                                <div>Berita & Informasi</div>
-                            </a>
-                        </li>
-
-                        {{-- ROLE: USER BIASA / KARYAWAN --}}
-                    @else
-                        <li class="menu-item {{ Route::is('slip-gaji.*') ? 'active' : '' }}">
-                            <a href="{{ route('slip-gaji.index') }}" class="menu-link">
-                                <i class="menu-icon tf-icons bx bx-wallet"></i>
-                                <div>Slip Gaji Saya</div>
-                            </a>
-                        </li>
-                        <li class="menu-item {{ Route::is('berita.*') ? 'active' : '' }}">
-                            <a href="{{ route('berita.index') }}" class="menu-link">
-                                <i class="menu-icon tf-icons bx bx-news"></i>
-                                <div>Berita & Informasi</div>
-                            </a>
-                        </li>
                     @endif
                 </ul>
             </aside>
@@ -595,109 +412,7 @@ $konf = DB::table('setting')->first();
         });
     </script>
 
-    <script>
-        $(document).ready(function() {
 
-            /* =============================
-               KATEGORI -> JENIS
-            ============================= */
-
-            $('#pusat-dd').on('change', function() {
-
-                let idPusat = $(this).val();
-
-                $('#region-dd').html('<option value="">Loading...</option>');
-
-                if (idPusat) {
-                    $.ajax({
-                        url: "{{ route('fetch-region') }}", // gunakan nama route
-                        type: "GET",
-                        data: {
-                            id_pusat: idPusat
-                        },
-                        dataType: 'json',
-                        success: function(res) {
-                            $('#region-dd').html(
-                                '<option value="">-- Pilih Region --</option>');
-                            if (res.region.length > 0) {
-                                $.each(res.region, function(key, value) {
-                                    $('#region-dd').append('<option value="' + value
-                                        .id_region + '">' + value.nama_region +
-                                        '</option>');
-                                });
-                            } else {
-                                $('#region-dd').html(
-                                    '<option value="">Tidak ada Region</option>');
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(xhr.responseText);
-                            alert('Gagal mengambil data region');
-                            $('#region-dd').html(
-                                '<option value="">-- Pilih Region --</option>');
-                        }
-                    });
-                } else {
-                    $('#region-dd').html('<option value="">-- Pilih Region --</option>');
-                }
-
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            // 1. Ketika Provinsi Berubah
-            $('#provinsi-dd').on('change', function() {
-                var idProvinsi = this.value;
-                $("#kota-dd").html('<option value="">Sedang memuat...</option>');
-                $("#kecamatan-dd").html('<option value="">-- Pilih Kecamatan --</option>');
-
-                $.ajax({
-                    url: "{{ url('/fetch-kota') }}", // Sesuaikan dengan route
-                    type: "POST",
-                    data: {
-                        id_pusat: idProvinsi,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#kota-dd').html('<option value="">-- Pilih Kota --</option>');
-                        $.each(result.kota, function(key, value) {
-                            $("#kota-dd").append('<option value="' + value.id_kota +
-                                '">' +
-                                value.nama_kota + '</option>');
-                        });
-                    }
-                });
-            });
-
-            // 2. Ketika Kota Berubah
-            $('#kota-dd').on('change', function() {
-                var idKota = this.value;
-                $("#kecamatan-dd").html('<option value="">Sedang memuat...</option>');
-
-                $.ajax({
-                    url: "{{ url('/fetch-kecamatan') }}", // Sesuaikan dengan route
-                    type: "POST",
-                    data: {
-                        id_kota: idKota,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(res) {
-                        $('#kecamatan-dd').html(
-                            '<option value="">-- Pilih Kecamatan --</option>');
-                        $.each(res.kecamatan, function(key, value) {
-                            $("#kecamatan-dd").append('<option value="' + value
-                                .id_kecamatan + '">' +
-                                value.nama_kecamatan + '</option>');
-                        });
-                    }
-                });
-            });
-        });
-    </script>
 
 
     @stack('scripts')

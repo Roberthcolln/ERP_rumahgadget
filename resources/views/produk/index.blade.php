@@ -11,6 +11,7 @@
             </a>
         </div>
 
+        {{-- Filter Section --}}
         <div class="card mb-4 border-0 shadow-sm">
             <div class="card-body">
                 <form method="GET" action="{{ route('produk.index') }}">
@@ -95,24 +96,38 @@
                                         </div>
                                         <div>
                                             <span class="d-block fw-bold text-dark">{{ $row->nama_produk }}</span>
-                                            <small class="text-muted text-uppercase" style="font-size: 0.7rem;">ID:
-                                                #{{ $row->id_produk }}</small>
+                                            <small class="text-muted text-uppercase" style="font-size: 0.7rem;">
+                                                ID: #{{ $row->id_produk }}
+                                            </small>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="d-flex flex-column gap-1">
+                                    <div class="d-flex flex-wrap gap-1" style="max-width: 250px;">
                                         <span
                                             class="badge bg-label-primary w-fit-content">{{ $row->kategori->nama_kategori }}</span>
                                         <span
                                             class="badge bg-label-info w-fit-content">{{ $row->jenis->nama_jenis }}</span>
                                         <span
                                             class="badge bg-label-warning w-fit-content">{{ $row->tipe->nama_tipe }}</span>
+
+                                        {{-- Tambahan Varian & Warna --}}
+                                        @if ($row->varian)
+                                            <span class="badge bg-label-secondary w-fit-content">
+                                                <i class="bx bx-purchase-tag-alt me-1"></i>{{ $row->varian->nama_varian }}
+                                            </span>
+                                        @endif
+                                        @if ($row->warna)
+                                            <span class="badge bg-dark w-fit-content">
+                                                <i class="bx bx-palette me-1"></i>{{ $row->warna->nama_warna }}
+                                            </span>
+                                        @endif
                                     </div>
                                 </td>
                                 <td>
-                                    <span
-                                        class="fw-bold text-dark">Rp{{ number_format($row->harga_jual_produk, 0, ',', '.') }}</span>
+                                    <span class="fw-bold text-dark">
+                                        Rp{{ number_format($row->harga_jual_produk, 0, ',', '.') }}
+                                    </span>
                                 </td>
                                 <td>
                                     @foreach ($row->gudang as $g)
@@ -160,59 +175,3 @@
         </div>
     </div>
 @endsection
-
-<style>
-    .w-fit-content {
-        width: fit-content;
-    }
-
-    .object-fit-cover {
-        object-fit: cover;
-    }
-
-    .avatar-md {
-        width: 48px;
-        height: 48px;
-    }
-
-    .table thead th {
-        font-size: 0.75rem;
-        letter-spacing: 0.5px;
-    }
-</style>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Init Tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        tooltipTriggerList.map(function(el) {
-            return new bootstrap.Tooltip(el)
-        });
-
-        // SweetAlert Delete
-        document.querySelectorAll('.show_confirm').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                let form = this.closest("form");
-                Swal.fire({
-                    title: 'Hapus Produk?',
-                    text: "Seluruh data stok terkait produk ini juga akan terhapus!",
-                    icon: 'error',
-                    showCancelButton: true,
-                    confirmButtonColor: '#ff3e1d',
-                    cancelButtonColor: '#8592a3',
-                    confirmButtonText: 'Ya, Hapus Sekarang!',
-                    cancelButtonText: 'Batal',
-                    customClass: {
-                        confirmButton: 'btn btn-danger me-3',
-                        cancelButton: 'btn btn-label-secondary'
-                    },
-                    buttonsStyling: false
-                }).then((result) => {
-                    if (result.isConfirmed) form.submit();
-                });
-            });
-        });
-    });
-</script>
