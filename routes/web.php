@@ -1,18 +1,20 @@
 <?php
 
-
+use App\Http\Controllers\AksesorisController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DashboardController;
 
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisController;
-
+use App\Http\Controllers\KategoriAksesorisController;
 use App\Http\Controllers\KategoriController;
-
+use App\Http\Controllers\KategoriServiceController;
+use App\Http\Controllers\KreditController;
 use App\Http\Controllers\PelangganController;
 
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TipeController;
@@ -34,9 +36,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/harga', [HomeController::class, 'harga'])->name('harga');
+Route::get('/aksesoriss', [HomeController::class, 'aksesoriss'])->name('aksesoriss');
+Route::get('/harga/detail/{id}', [HomeController::class, 'detail'])->name('harga.detail');
+Route::get('/jual', [HomeController::class, 'jual'])->name('jual');
 
+Route::get('/cek-harga/{id}', [HomeController::class, 'cekHarga']);
 Route::get('/get-jenis-filter', [HomeController::class, 'getJenis'])->name('getJenisFilter');
 Route::get('/get-tipe-filter', [HomeController::class, 'getTipe'])->name('getTipeFilter');
+
+Route::get('/web_service', [HomeController::class, 'service'])->name('web.service');
+Route::get('/service/detail/{id}', [HomeController::class, 'detailService']);
+
+Route::get('/kredits', [HomeController::class, 'kredits'])->name('kredits');
 
 
 Route::middleware([
@@ -59,7 +70,12 @@ Route::middleware([
     Route::resource('warna', WarnaController::class);
     Route::resource('produk', ProdukController::class);
     Route::resource('gudang', GudangController::class);
+    Route::resource('kredit', KreditController::class);
+    Route::resource('kategori_service', KategoriServiceController::class);
+    Route::resource('service', ServiceController::class);
 
+    Route::resource('kategori_aksesoris', KategoriAksesorisController::class);
+    Route::resource('aksesoris', AksesorisController::class);
 
     Route::resource('supplier', SupplierController::class);
     Route::resource('pelanggan', PelangganController::class);
@@ -86,5 +102,15 @@ Route::middleware([
 
         // Fitur upload gambar CKEditor juga biasanya hanya untuk admin
         Route::post('/berita/upload-image', [BeritaController::class, 'storeImage'])->name('berita.upload');
+    });
+
+    Route::post('api/fetch-jenis', function (Illuminate\Http\Request $request) {
+        $data['jenis'] = App\Models\Jenis::where("id_kategori", $request->id_kategori)->get(["nama_jenis", "id_jenis"]);
+        return response()->json($data);
+    });
+
+    Route::post('api/fetch-tipe', function (Illuminate\Http\Request $request) {
+        $data['tipe'] = App\Models\Tipe::where("id_jenis", $request->id_jenis)->get(["nama_tipe", "id_tipe"]);
+        return response()->json($data);
     });
 });

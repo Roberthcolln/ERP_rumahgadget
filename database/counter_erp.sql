@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Feb 2026 pada 06.08
+-- Waktu pembuatan: 26 Feb 2026 pada 14.15
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -20,6 +20,62 @@ SET time_zone = "+00:00";
 --
 -- Database: `counter_erp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `aksesoris`
+--
+
+CREATE TABLE `aksesoris` (
+  `id_aksesoris` bigint(20) UNSIGNED NOT NULL,
+  `id_kategori_aksesoris` bigint(20) UNSIGNED NOT NULL,
+  `id_supplier` bigint(20) UNSIGNED DEFAULT NULL,
+  `nama_aksesoris` varchar(255) NOT NULL,
+  `deskripsi_aksesoris` text DEFAULT NULL,
+  `harga_aksesoris` double NOT NULL,
+  `harga_jual_aksesoris` double NOT NULL,
+  `harga_promo_aksesoris` double DEFAULT NULL,
+  `gambar_aksesoris` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `aksesoris`
+--
+
+INSERT INTO `aksesoris` (`id_aksesoris`, `id_kategori_aksesoris`, `id_supplier`, `nama_aksesoris`, `deskripsi_aksesoris`, `harga_aksesoris`, `harga_jual_aksesoris`, `harga_promo_aksesoris`, `gambar_aksesoris`, `created_at`, `updated_at`) VALUES
+(14, 10, 1, 'Motif Character', '<p>Mantap</p>', 20000, 25000, 0, '1772082501_699fd5454b2f3.png', '2026-02-26 05:08:21', '2026-02-26 05:08:21'),
+(15, 11, 2, 'Jisu Handheld Life 5', '<p>Bagus</p>', 200000, 229000, 0, '1772084859_699fde7bb967c.jpg', '2026-02-26 05:47:39', '2026-02-26 05:47:39');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `berita`
+--
+
+CREATE TABLE `berita` (
+  `id_berita` int(10) UNSIGNED NOT NULL,
+  `judul_berita` varchar(255) NOT NULL,
+  `isi_berita` text NOT NULL,
+  `gambar_berita` varchar(255) NOT NULL,
+  `slug_berita` varchar(255) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `tgl_berita` date NOT NULL,
+  `id_kategori_berita` int(11) NOT NULL,
+  `id_kategori_karyawan` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `berita`
+--
+
+INSERT INTO `berita` (`id_berita`, `judul_berita`, `isi_berita`, `gambar_berita`, `slug_berita`, `user_id`, `tgl_berita`, `id_kategori_berita`, `id_kategori_karyawan`, `created_at`, `updated_at`) VALUES
+(5, 'Kenaikan Gaji 2026', '<p>Kenaikan gaji karyawan di tahun 2026 sebesar 30% oleh presiden wawowo hahahahahah. Kenaikan gaji karyawan di tahun 2026 sebesar 30% oleh presiden wawowo hahahahahahKenaikan gaji karyawan di tahun 2026 sebesar 30% oleh presiden wawowo hahahahahah</p>', '1767717542-kenaikan-gaji-2026.jpeg', 'kenaikan-gaji-2026', 1, '2026-01-07', 1, 3, '2026-01-06 16:21:49', '2026-01-13 10:46:27'),
+(6, 'tes123 releated', '<p>csdgfy</p>', 'Berita20260113065005.jpg', 'tes123-releated', 1, '2026-01-13', 2, 10, '2026-01-13 10:50:05', '2026-01-13 10:50:05');
 
 -- --------------------------------------------------------
 
@@ -44,8 +100,8 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 ('laravel-cache-3e163eed328d91a543f0374de32513f5:timer', 'i:1771725718;', 1771725718),
 ('laravel-cache-97ea0d204888a3914ddcab4360fd1c43', 'i:1;', 1771734811),
 ('laravel-cache-97ea0d204888a3914ddcab4360fd1c43:timer', 'i:1771734811;', 1771734811),
-('laravel-cache-c525a5357e97fef8d3db25841c86da1a', 'i:1;', 1771717304),
-('laravel-cache-c525a5357e97fef8d3db25841c86da1a:timer', 'i:1771717304;', 1771717304),
+('laravel-cache-c525a5357e97fef8d3db25841c86da1a', 'i:2;', 1772074463),
+('laravel-cache-c525a5357e97fef8d3db25841c86da1a:timer', 'i:1772074463;', 1772074463),
 ('laravel-cache-f980f13938d0ea754f5c742b4bba363b', 'i:1;', 1771718160),
 ('laravel-cache-f980f13938d0ea754f5c742b4bba363b:timer', 'i:1771718160;', 1771718160);
 
@@ -60,56 +116,6 @@ CREATE TABLE `cache_locks` (
   `owner` varchar(255) NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `departement`
---
-
-CREATE TABLE `departement` (
-  `id_departement` int(10) UNSIGNED NOT NULL,
-  `nama_departement` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `departement`
---
-
-INSERT INTO `departement` (`id_departement`, `nama_departement`, `created_at`, `updated_at`) VALUES
-(1, 'Departemen Penjualan & Pemasaran', '2026-02-18 20:03:30', '2026-02-18 20:03:30'),
-(2, 'Departemen Operasional', '2026-02-18 20:03:39', '2026-02-18 20:03:39'),
-(3, 'Departemen Keuangan', '2026-02-18 20:03:50', '2026-02-18 20:03:50'),
-(4, 'Departemen HRD', '2026-02-18 20:03:59', '2026-02-18 20:03:59'),
-(5, 'Departemen Logistik', '2026-02-18 20:04:10', '2026-02-18 20:04:10'),
-(6, 'Departemen IT', '2026-02-18 20:04:21', '2026-02-18 20:04:21');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `divisi`
---
-
-CREATE TABLE `divisi` (
-  `id_divisi` int(10) UNSIGNED NOT NULL,
-  `nama_divisi` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `divisi`
---
-
-INSERT INTO `divisi` (`id_divisi`, `nama_divisi`, `created_at`, `updated_at`) VALUES
-(1, 'Divisi Penjualan Retail', '2026-02-18 20:04:49', '2026-02-18 20:04:49'),
-(2, 'Divisi Toko / Store', '2026-02-18 20:05:03', '2026-02-18 20:05:03'),
-(3, 'Divisi Akuntansi', '2026-02-18 20:05:13', '2026-02-18 20:05:13'),
-(4, 'Divisi Pelatihan & Pengembangan', '2026-02-18 20:05:26', '2026-02-18 20:05:26'),
-(5, 'Divisi Pergudangan', '2026-02-18 20:05:38', '2026-02-18 20:05:38'),
-(6, 'Divisi Sistem & Database', '2026-02-18 20:05:48', '2026-02-18 20:05:48');
 
 -- --------------------------------------------------------
 
@@ -158,28 +164,25 @@ INSERT INTO `gudang` (`id_gudang`, `nama_gudang`, `kode_gudang`, `lokasi`, `alam
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `inventory_movement`
+-- Struktur dari tabel `gudang_aksesoris`
 --
 
-CREATE TABLE `inventory_movement` (
+CREATE TABLE `gudang_aksesoris` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `id_produk` bigint(20) UNSIGNED NOT NULL,
+  `id_aksesoris` bigint(20) UNSIGNED NOT NULL,
   `id_gudang` bigint(20) UNSIGNED NOT NULL,
-  `tipe` enum('IN','OUT','ADJUST') NOT NULL,
-  `qty` int(11) NOT NULL,
-  `keterangan` varchar(255) DEFAULT NULL,
+  `qty` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `inventory_movement`
+-- Dumping data untuk tabel `gudang_aksesoris`
 --
 
-INSERT INTO `inventory_movement` (`id`, `id_produk`, `id_gudang`, `tipe`, `qty`, `keterangan`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'IN', 10, '10 PCS', '2026-02-18 14:36:55', '2026-02-18 14:36:55'),
-(2, 1, 2, 'IN', 15, '15 PCS', '2026-02-18 14:38:09', '2026-02-18 14:38:09'),
-(3, 1, 2, 'IN', 15, '15 PCS', '2026-02-18 14:40:04', '2026-02-18 14:40:04');
+INSERT INTO `gudang_aksesoris` (`id`, `id_aksesoris`, `id_gudang`, `qty`, `created_at`, `updated_at`) VALUES
+(1, 14, 2, 10, '2026-02-26 05:08:21', '2026-02-26 05:08:21'),
+(2, 15, 2, 10, '2026-02-26 05:47:39', '2026-02-26 05:47:39');
 
 -- --------------------------------------------------------
 
@@ -267,44 +270,74 @@ INSERT INTO `kategori` (`id_kategori`, `nama_kategori`, `created_at`, `updated_a
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kategori_admin`
+-- Struktur dari tabel `kategori_aksesoris`
 --
 
-CREATE TABLE `kategori_admin` (
-  `id_kategori_admin` int(10) UNSIGNED NOT NULL,
-  `nama_kategori_admin` varchar(255) NOT NULL,
+CREATE TABLE `kategori_aksesoris` (
+  `id_kategori_aksesoris` bigint(20) UNSIGNED NOT NULL,
+  `nama_kategori_aksesoris` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `kategori_admin`
+-- Dumping data untuk tabel `kategori_aksesoris`
 --
 
-INSERT INTO `kategori_admin` (`id_kategori_admin`, `nama_kategori_admin`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', '2023-05-02 05:33:46', '2023-05-02 05:33:46');
+INSERT INTO `kategori_aksesoris` (`id_kategori_aksesoris`, `nama_kategori_aksesoris`, `created_at`, `updated_at`) VALUES
+(10, 'Case iPhone', '2026-02-26 04:54:49', '2026-02-26 04:54:49'),
+(11, 'Mini Fan', '2026-02-26 05:46:33', '2026-02-26 05:46:33');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kategori_anggota`
+-- Struktur dari tabel `kategori_service`
 --
 
-CREATE TABLE `kategori_anggota` (
-  `id_kategori_anggota` int(10) UNSIGNED NOT NULL,
-  `nama_kategori_anggota` varchar(255) NOT NULL,
+CREATE TABLE `kategori_service` (
+  `id_kategori_service` bigint(20) UNSIGNED NOT NULL,
+  `nama_kategori_service` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `kategori_anggota`
+-- Dumping data untuk tabel `kategori_service`
 --
 
-INSERT INTO `kategori_anggota` (`id_kategori_anggota`, `nama_kategori_anggota`, `created_at`, `updated_at`) VALUES
-(1, 'Karyawan Tetap (Permanent Employee)', '2026-02-18 20:01:28', '2026-02-18 20:01:28'),
-(2, 'Karyawan Kontrak / Freelance', '2026-02-18 20:01:40', '2026-02-18 20:01:40'),
-(3, 'Magang / Internship', '2026-02-18 20:01:50', '2026-02-18 20:01:50');
+INSERT INTO `kategori_service` (`id_kategori_service`, `nama_kategori_service`, `created_at`, `updated_at`) VALUES
+(6, 'Service iPhone', '2026-02-25 07:27:33', '2026-02-25 07:27:33'),
+(7, 'Service iPad', '2026-02-25 07:27:50', '2026-02-25 07:27:50'),
+(8, 'Service iWatch', '2026-02-25 07:28:07', '2026-02-25 07:28:07'),
+(9, 'Service MacBook', '2026-02-25 07:28:19', '2026-02-25 07:28:19');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `kredit_produk`
+--
+
+CREATE TABLE `kredit_produk` (
+  `id_kredit` int(10) UNSIGNED NOT NULL,
+  `id_kategori` int(10) UNSIGNED NOT NULL,
+  `id_jenis` int(10) UNSIGNED NOT NULL,
+  `id_tipe` int(10) UNSIGNED NOT NULL,
+  `id_varian` int(10) UNSIGNED NOT NULL,
+  `id_warna` int(10) UNSIGNED NOT NULL,
+  `harga_kredit` decimal(15,2) NOT NULL,
+  `dp` decimal(15,2) NOT NULL,
+  `cicilan` enum('6','9','12') NOT NULL,
+  `harga_cicilan` decimal(15,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `kredit_produk`
+--
+
+INSERT INTO `kredit_produk` (`id_kredit`, `id_kategori`, `id_jenis`, `id_tipe`, `id_varian`, `id_warna`, `harga_kredit`, `dp`, `cicilan`, `harga_cicilan`, `created_at`, `updated_at`) VALUES
+(2, 3, 4, 3, 3, 13, 10999000.00, 0.00, '12', 1567000.00, '2026-02-26 08:51:16', '2026-02-26 08:51:16');
 
 -- --------------------------------------------------------
 
@@ -342,55 +375,17 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (17, '2026_02_22_023819_add_id_user_to_penjualan_table', 10),
 (18, '2026_02_22_074809_create_pelanggans_table', 11),
 (19, '2026_02_22_074836_add_customer_to_penjualan_table', 11),
-(20, '2026_02_22_125211_create_offering_letters_table', 12);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `mutasi_stok`
---
-
-CREATE TABLE `mutasi_stok` (
-  `id_mutasi` int(11) NOT NULL,
-  `id_produk` int(11) DEFAULT NULL,
-  `id_gudang` int(11) DEFAULT NULL,
-  `tipe` enum('MASUK','KELUAR') DEFAULT NULL,
-  `jumlah` int(11) DEFAULT NULL,
-  `keterangan` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `offering_letters`
---
-
-CREATE TABLE `offering_letters` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `nomor_surat` varchar(255) NOT NULL,
-  `nama_kandidat` varchar(255) NOT NULL,
-  `posisi` varchar(255) NOT NULL,
-  `status_kerja` varchar(255) NOT NULL,
-  `tanggal_mulai` date NOT NULL,
-  `penempatan` varchar(255) NOT NULL,
-  `masa_training` int(11) NOT NULL,
-  `maks_training` int(11) NOT NULL,
-  `min_training` int(11) NOT NULL,
-  `gaji_training` decimal(15,2) NOT NULL,
-  `gaji_lulus` decimal(15,2) NOT NULL,
-  `ruang_lingkup` text NOT NULL,
-  `nda_klausul` text NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `offering_letters`
---
-
-INSERT INTO `offering_letters` (`id`, `nomor_surat`, `nama_kandidat`, `posisi`, `status_kerja`, `tanggal_mulai`, `penempatan`, `masa_training`, `maks_training`, `min_training`, `gaji_training`, `gaji_lulus`, `ruang_lingkup`, `nda_klausul`, `created_at`, `updated_at`) VALUES
-(1, 'RG/02-2026/001', 'Thania Pears', 'IT Staff Development', 'PKWT/PKWTT', '2026-02-23', 'Rumah Gadget Teuku Umar', 3, 4, 2, 3200000.00, 3700000.00, '<ul><li>Mengembangkan dan memelihara website perusahaan.</li><li>Melakukan perbaikan bug serta peningkatan performa sistem.</li><li>Berkolaborasi dengan tim desain/front-end dan tim operasional dalam pengembangan fitur.</li><li>Memastikan keamanan, stabilitas, serta optimalisasi website perusahaan.</li></ul>', '<ul><li>Data pelanggan dan supplier</li><li>Data penjualan dan strategi bisnis</li><li>Informasi sistem, source code, database, dan akses server</li><li>Informasi keuangan, kebijakan internal, dan dokumen perusahaan lainnya</li></ul>', '2026-02-22 05:02:46', '2026-02-22 05:02:46');
+(20, '2026_02_22_125211_create_offering_letters_table', 12),
+(21, '2026_02_24_165252_create_barang_masuks_table', 13),
+(22, '2026_02_24_165258_create_barang_keluars_table', 13),
+(23, '2026_02_23_150600_add_details_to_pelanggan_table', 14),
+(24, '2026_02_23_154611_add_points_to_pelanggans_table', 14),
+(25, '2026_02_23_164402_create_transaksi_stoks_table', 14),
+(26, '2026_02_23_164407_create_detail_transaksi_stoks_table', 14),
+(27, '2026_02_24_034452_add_qty_to_produk_table', 14),
+(28, '2026_02_25_154329_create_services_table', 15),
+(29, '2026_02_26_130640_create_gudang_aksesoris_table', 16),
+(30, '2026_02_26_162526_create_kredits_table', 17);
 
 -- --------------------------------------------------------
 
@@ -414,85 +409,30 @@ CREATE TABLE `pelanggan` (
   `id_pelanggan` bigint(20) UNSIGNED NOT NULL,
   `nama_pelanggan` varchar(255) NOT NULL,
   `no_hp` varchar(255) DEFAULT NULL,
+  `alamat` text DEFAULT NULL,
+  `jenis_kelamin` enum('L','P') DEFAULT NULL,
+  `tanggal_lahir` date DEFAULT NULL,
+  `id_provinsi` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_kota` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_kecamatan` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_kelurahan` bigint(20) UNSIGNED DEFAULT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'Pending',
   `email` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `point` int(11) NOT NULL DEFAULT 0,
+  `level` enum('Bronze','Silver','Platinum') NOT NULL DEFAULT 'Bronze'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data untuk tabel `pelanggan`
 --
 
-INSERT INTO `pelanggan` (`id_pelanggan`, `nama_pelanggan`, `no_hp`, `email`, `created_at`, `updated_at`) VALUES
-(1, 'Roberth', '082245782682', 'pattroberth13@gmail.com', '2026-02-21 23:56:21', '2026-02-21 23:56:21'),
-(3, 'Colln', '082124944770', NULL, '2026-02-22 00:48:43', '2026-02-22 00:48:43'),
-(4, 'Colln', '082124944773', 'kasir2@gmail.com', '2026-02-22 03:06:37', '2026-02-22 03:06:37'),
-(5, 'Roberth', '082245782681', 'pattpolly16@gmail.com', '2026-02-22 03:09:40', '2026-02-22 03:09:40');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `penjualan`
---
-
-CREATE TABLE `penjualan` (
-  `id_penjualan` bigint(20) UNSIGNED NOT NULL,
-  `id_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `id_pelanggan` bigint(20) UNSIGNED DEFAULT NULL,
-  `kode_invoice` varchar(255) NOT NULL,
-  `tanggal_penjualan` datetime DEFAULT NULL,
-  `total` decimal(15,2) NOT NULL DEFAULT 0.00,
-  `status` enum('draft','selesai','batal') NOT NULL DEFAULT 'draft',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `bayar` bigint(20) DEFAULT NULL,
-  `kembali` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `penjualan`
---
-
-INSERT INTO `penjualan` (`id_penjualan`, `id_user`, `id_pelanggan`, `kode_invoice`, `tanggal_penjualan`, `total`, `status`, `created_at`, `updated_at`, `bayar`, `kembali`) VALUES
-(1, 13, 1, 'INV1771718181', '2026-02-22 07:56:00', 91895000.00, 'selesai', '2026-02-21 23:56:21', '2026-02-21 23:56:21', 91895000, 0),
-(2, 13, 1, 'INV1771719995', '2026-02-22 08:26:00', 43399000.00, 'selesai', '2026-02-22 00:26:35', '2026-02-22 00:26:35', 43399000, 0),
-(4, 14, 3, 'INV1771721323', '2026-02-22 08:47:00', 72396000.00, 'selesai', '2026-02-22 00:48:43', '2026-02-22 00:48:43', 72400000, 4000),
-(5, 14, 4, 'INV1771729597', '2026-02-22 11:06:00', 25499000.00, 'selesai', '2026-02-22 03:06:37', '2026-02-22 03:06:37', 25500000, 1000),
-(6, 13, 5, 'INV1771729780', '2026-02-22 11:08:00', 3398000.00, 'selesai', '2026-02-22 03:09:40', '2026-02-22 03:09:40', 3400000, 2000),
-(7, 14, 1, 'INV1771729857', '2026-02-22 11:10:00', 86798000.00, 'selesai', '2026-02-22 03:10:57', '2026-02-22 03:10:57', 86800000, 2000);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `penjualan_detail`
---
-
-CREATE TABLE `penjualan_detail` (
-  `id_detail` bigint(20) UNSIGNED NOT NULL,
-  `id_penjualan` bigint(20) UNSIGNED NOT NULL,
-  `id_produk` bigint(20) UNSIGNED NOT NULL,
-  `qty` int(11) NOT NULL,
-  `harga` decimal(15,2) NOT NULL,
-  `subtotal` decimal(15,2) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `penjualan_detail`
---
-
-INSERT INTO `penjualan_detail` (`id_detail`, `id_penjualan`, `id_produk`, `qty`, `harga`, `subtotal`, `created_at`, `updated_at`) VALUES
-(1, 1, 4, 2, 43399000.00, 86798000.00, '2026-02-21 23:56:21', '2026-02-21 23:56:21'),
-(2, 1, 5, 3, 1699000.00, 5097000.00, '2026-02-21 23:56:21', '2026-02-21 23:56:21'),
-(3, 2, 4, 1, 43399000.00, 43399000.00, '2026-02-22 00:26:35', '2026-02-22 00:26:35'),
-(8, 4, 8, 1, 25499000.00, 25499000.00, '2026-02-22 00:48:43', '2026-02-22 00:48:43'),
-(9, 4, 3, 1, 43399000.00, 43399000.00, '2026-02-22 00:48:43', '2026-02-22 00:48:43'),
-(10, 4, 6, 2, 1699000.00, 3398000.00, '2026-02-22 00:48:43', '2026-02-22 00:48:43'),
-(11, 4, 7, 1, 100000.00, 100000.00, '2026-02-22 00:48:43', '2026-02-22 00:48:43'),
-(12, 5, 8, 1, 25499000.00, 25499000.00, '2026-02-22 03:06:37', '2026-02-22 03:06:37'),
-(13, 6, 5, 2, 1699000.00, 3398000.00, '2026-02-22 03:09:40', '2026-02-22 03:09:40'),
-(14, 7, 3, 2, 43399000.00, 86798000.00, '2026-02-22 03:10:57', '2026-02-22 03:10:57');
+INSERT INTO `pelanggan` (`id_pelanggan`, `nama_pelanggan`, `no_hp`, `alamat`, `jenis_kelamin`, `tanggal_lahir`, `id_provinsi`, `id_kota`, `id_kecamatan`, `id_kelurahan`, `status`, `email`, `created_at`, `updated_at`, `point`, `level`) VALUES
+(1, 'Roberth', '082245782682', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', 'pattroberth13@gmail.com', '2026-02-21 23:56:21', '2026-02-21 23:56:21', 0, 'Bronze'),
+(3, 'Colln', '082124944770', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', NULL, '2026-02-22 00:48:43', '2026-02-22 00:48:43', 0, 'Bronze'),
+(4, 'Colln', '082124944773', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', 'kasir2@gmail.com', '2026-02-22 03:06:37', '2026-02-22 03:06:37', 0, 'Bronze'),
+(5, 'Roberth', '082245782681', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', 'pattpolly16@gmail.com', '2026-02-22 03:09:40', '2026-02-22 03:09:40', 0, 'Bronze');
 
 -- --------------------------------------------------------
 
@@ -524,6 +464,8 @@ CREATE TABLE `produk` (
   `id_kategori` bigint(20) UNSIGNED NOT NULL,
   `id_jenis` bigint(20) UNSIGNED NOT NULL,
   `id_tipe` bigint(20) UNSIGNED NOT NULL,
+  `id_warna` bigint(20) NOT NULL,
+  `id_varian` bigint(20) NOT NULL,
   `id_supplier` bigint(20) UNSIGNED DEFAULT NULL,
   `nama_produk` varchar(255) NOT NULL,
   `deskripsi_produk` text DEFAULT NULL,
@@ -539,56 +481,75 @@ CREATE TABLE `produk` (
 -- Dumping data untuk tabel `produk`
 --
 
-INSERT INTO `produk` (`id_produk`, `id_kategori`, `id_jenis`, `id_tipe`, `id_supplier`, `nama_produk`, `deskripsi_produk`, `harga_produk`, `harga_jual_produk`, `harga_promo_produk`, `gambar_produk`, `created_at`, `updated_at`) VALUES
-(2, 3, 4, 3, 1, 'iPhone 13', '<p>Varian : 128gb<br>Color : Midnight</p>', 7999000, 8249000, 7999000, '1771436312.jpg', '2026-02-18 17:38:32', '2026-02-21 17:10:15'),
-(3, 3, 4, 5, 1, 'iPhone 17 Pro Max', '<p>Varian : 2TB<br>Color : Cosmic Orange</p>', 43399000, 43999000, 43399000, '1771437184.jpg', '2026-02-18 17:53:04', '2026-02-21 17:10:32'),
-(4, 3, 4, 5, 1, 'iPhone 17 Pro Max', '<p>Varian : 2TB<br>Color : Midnight</p>', 43399000, 43999000, 43399000, '1771438662.jpg', '2026-02-18 18:17:42', '2026-02-21 17:10:52'),
-(5, 4, 8, 6, 2, 'OPPO A3X', '<p><strong>Varian </strong>: 4/128GB<br><strong>Warna</strong> : Nebula Red</p>', 1199000, 1699000, 0, '1771695413.png', '2026-02-21 17:36:53', '2026-02-21 17:36:53'),
-(6, 4, 8, 6, 2, 'OPPO A3X', '<p><strong>Varian </strong>: 4/128GB<br>Warna : Nebula Red</p>', 1199000, 1699000, 0, '1771695547.png', '2026-02-21 17:39:07', '2026-02-21 17:39:07'),
-(7, 5, 9, 7, 2, 'Casing Cover Hard Case HP iPhone 13 Pro Max', '<p>Case Motif Custom Gambar / Foto Desain Otomotif Mobil BMW Mercy Honda Mazda Toyota</p>', 75000, 125000, 100000, '1771695867.jpeg', '2026-02-21 17:44:27', '2026-02-21 17:44:27'),
-(8, 3, 4, 5, 2, 'iPhone 17 Pro Max', '<p><strong>Varian </strong>: 256GB<br><strong>Warna </strong>: Silver</p>', 22499000, 25749000, 25499000, '1771696647.jpeg', '2026-02-21 17:57:27', '2026-02-21 17:57:27');
+INSERT INTO `produk` (`id_produk`, `id_kategori`, `id_jenis`, `id_tipe`, `id_warna`, `id_varian`, `id_supplier`, `nama_produk`, `deskripsi_produk`, `harga_produk`, `harga_jual_produk`, `harga_promo_produk`, `gambar_produk`, `created_at`, `updated_at`) VALUES
+(2, 3, 4, 3, 11, 3, 1, 'iPhone 13', '<p>Varian : 128gb<br>Color : Midnight</p>', 7999000, 8249000, 7999000, '1771436312.jpg', '2026-02-18 17:38:32', '2026-02-25 03:00:09'),
+(3, 3, 4, 5, 13, 3, 1, 'iPhone 17 Pro Max', '<p>Varian : 2TB<br>Color : Cosmic Orange</p>', 43399000, 43999000, 43399000, '1771437184.jpg', '2026-02-18 17:53:04', '2026-02-25 03:01:15'),
+(4, 3, 4, 5, 11, 4, 1, 'iPhone 17 Pro Max', '<p>Varian : 2TB<br>Color : Midnight</p>', 43399000, 43999000, 43399000, '1771438662.jpg', '2026-02-18 18:17:42', '2026-02-25 03:03:06'),
+(9, 4, 7, 4, 11, 3, 1, 'Vivo Y04S', '<p>tes</p>', 1000000, 2000000, 1500000, '1771991273.jpeg', '2026-02-25 03:47:53', '2026-02-25 05:11:59');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pusat`
+-- Struktur dari tabel `services`
 --
 
-CREATE TABLE `pusat` (
-  `id_pusat` int(10) UNSIGNED NOT NULL,
-  `nama_pusat` varchar(255) NOT NULL,
+CREATE TABLE `services` (
+  `id_service` bigint(20) UNSIGNED NOT NULL,
+  `id_kategori_service` bigint(20) UNSIGNED NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `macbook` varchar(255) DEFAULT NULL,
+  `lcd_oem` double NOT NULL DEFAULT 0,
+  `lcd_original` double NOT NULL DEFAULT 0,
+  `lcd_ori_premium_oled` double NOT NULL DEFAULT 0,
+  `lcd_ori_apple` double NOT NULL DEFAULT 0,
+  `pindah_chip_lcd` double NOT NULL DEFAULT 0,
+  `adhesive_lcd` double NOT NULL DEFAULT 0,
+  `battery_garansi_1_tahun` double NOT NULL DEFAULT 0,
+  `battery_garansi_lifetime` double NOT NULL DEFAULT 0,
+  `battery_apple_chip` double NOT NULL DEFAULT 0,
+  `battery_pindah_chip` double NOT NULL DEFAULT 0,
+  `back_cam_ori` double NOT NULL DEFAULT 0,
+  `back_cam_ori_copotan` double NOT NULL DEFAULT 0,
+  `front_cam` double NOT NULL DEFAULT 0,
+  `flex_on_off` double NOT NULL DEFAULT 0,
+  `flex_volume` double NOT NULL DEFAULT 0,
+  `flex_on_off_volume` double NOT NULL DEFAULT 0,
+  `flex_charger` double NOT NULL DEFAULT 0,
+  `flex_charger_ori_apple` double NOT NULL DEFAULT 0,
+  `home_button` double NOT NULL DEFAULT 0,
+  `taptic_engine` double NOT NULL DEFAULT 0,
+  `buzzer_atas` double NOT NULL DEFAULT 0,
+  `buzzer_bawah` double NOT NULL DEFAULT 0,
+  `sensor_proximity` double NOT NULL DEFAULT 0,
+  `antena_wifi` double NOT NULL DEFAULT 0,
+  `housing_body` double NOT NULL DEFAULT 0,
+  `swap_part` double NOT NULL DEFAULT 0,
+  `back_door` double NOT NULL DEFAULT 0,
+  `kaca_kamera` double NOT NULL DEFAULT 0,
+  `water_damage` double NOT NULL DEFAULT 0,
+  `face_id` double NOT NULL DEFAULT 0,
+  `lcd_bercak` double NOT NULL DEFAULT 0,
+  `battery` double NOT NULL DEFAULT 0,
+  `lcd` double NOT NULL DEFAULT 0,
+  `charger_port` double NOT NULL DEFAULT 0,
+  `flexible_lcd` double NOT NULL DEFAULT 0,
+  `repair_glass` double NOT NULL DEFAULT 0,
+  `keyboard` double NOT NULL DEFAULT 0,
+  `speaker` double NOT NULL DEFAULT 0,
+  `trackpad` double NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `pusat`
+-- Dumping data untuk tabel `services`
 --
 
-INSERT INTO `pusat` (`id_pusat`, `nama_pusat`, `created_at`, `updated_at`) VALUES
-(1, 'Rumah Gadget Bali', '2026-02-18 19:58:24', '2026-02-18 19:58:24');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `region`
---
-
-CREATE TABLE `region` (
-  `id_region` int(10) UNSIGNED NOT NULL,
-  `id_pusat` int(11) NOT NULL,
-  `nama_region` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `region`
---
-
-INSERT INTO `region` (`id_region`, `id_pusat`, `nama_region`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Gunung Agung', '2026-02-18 19:58:51', '2026-02-21 18:24:48'),
-(2, 1, 'Teuku Umar', '2026-02-18 19:59:04', '2026-02-21 18:24:59');
+INSERT INTO `services` (`id_service`, `id_kategori_service`, `type`, `macbook`, `lcd_oem`, `lcd_original`, `lcd_ori_premium_oled`, `lcd_ori_apple`, `pindah_chip_lcd`, `adhesive_lcd`, `battery_garansi_1_tahun`, `battery_garansi_lifetime`, `battery_apple_chip`, `battery_pindah_chip`, `back_cam_ori`, `back_cam_ori_copotan`, `front_cam`, `flex_on_off`, `flex_volume`, `flex_on_off_volume`, `flex_charger`, `flex_charger_ori_apple`, `home_button`, `taptic_engine`, `buzzer_atas`, `buzzer_bawah`, `sensor_proximity`, `antena_wifi`, `housing_body`, `swap_part`, `back_door`, `kaca_kamera`, `water_damage`, `face_id`, `lcd_bercak`, `battery`, `lcd`, `charger_port`, `flexible_lcd`, `repair_glass`, `keyboard`, `speaker`, `trackpad`, `created_at`, `updated_at`) VALUES
+(2, 6, '5G', NULL, 168986, 199000, 249000, 399000, 0, 0, 79000, 89000, 0, 0, 69000, 109000, 69000, 0, 0, 99000, 99000, 0, 89000, 99000, 75000, 75000, 0, 99000, 118999, 49000, 0, 0, 99000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2026-02-26 03:49:26', '2026-02-26 03:49:26'),
+(3, 7, 'iPad 2', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 120000, 0, 0, 0, 0, 180000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 189000, 449000, 135000, 0, 0, 0, 0, 0, '2026-02-26 04:00:37', '2026-02-26 04:04:46'),
+(4, 8, 'AW S1 38MM', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 55000, 639000, 0, 149000, 599000, 0, 0, 0, '2026-02-26 04:06:13', '2026-02-26 04:06:13'),
+(5, 9, 'A1534', 'Macbook 12', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1900000, 1100000, 1600000, '2026-02-26 04:07:25', '2026-02-26 04:07:25');
 
 -- --------------------------------------------------------
 
@@ -610,10 +571,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('BAc54B8zSMmpeFPfT4KOdmFY0vsmwuiNvnoqAW4T', 16, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiajhrWHJJSDBKbkpPaVdDNFZjQmhGZDhaR1VoTDJtV3JoZGoyY3JpTyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9vZmZlcmluZy1sZXR0ZXIiO3M6NToicm91dGUiO3M6MjE6Im9mZmVyaW5nLWxldHRlci5pbmRleCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE2O3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiNTQ2MWY1YmQ4OWUzOGJmZmQzOGEyZWQ3MmMwNjAxOTU4M2JmM2M5ZDNkNjI0YWIyOWNlZTgzNWY5MjFhY2RiOSI7fQ==', 1771736862),
-('BBk47VzofdC4ZZOIM8Ll1BbTV4pAXIAQfSunxhSd', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiczVRb0F3emMwNEtjSk5ZZTdobUQwN3ptYkk0V2lZWVJPRjBEMXc4eSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9zdXBwbGllciI7czo1OiJyb3V0ZSI7czoxNDoic3VwcGxpZXIuaW5kZXgiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiYTNlMjc0ZWNkN2U0OGQxNWJhOGE0ZjY0NDA5YzAzYTIyNzY1MWI3MGFhMjFhODU0YTRlNGE5YTQ1NDU1Y2MyNyI7fQ==', 1771736851),
-('m403j9fVz5k1CsrjE3cNnw611ja542MPStGlq8GA', 14, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiZ2NvY3pRNnNJaEIzaHpGWFhoNlF1SUV2QTZPVmJnTGw4dURVS1NYbyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6MTU6ImRhc2hib2FyZC5pbmRleCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE0O3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiODM0MWY0YmQyYTk0NThiNjY0MjBmODI3NDdmZWMxOTQyMGRjNGE5NWRmZjM0NTI3ZWViYTc1YzIxOTBhYjI1NiI7fQ==', 1771732539),
-('mnzKEQpEXJwVYjOqKto197lSoJcXlz0ceEfKuqZF', 13, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiQnJoSlJnSHQ1T09XdmJPY04zMTlSMUlGZW1VRm05UTVwVkdzMVRociI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6MTU6ImRhc2hib2FyZC5pbmRleCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjEzO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiNmMzNmJkZTA5MTlmNjBkZGUyYzk3YzQ3ZWRlMmE3YmQyY2IyYTAzY2E2ZTlmNTA5ZWVlYzU4YzAwYTc0ZWRlYiI7fQ==', 1771734460);
+('CMsIZ9iqPQkLiJEIQbbxu3zF9I2fiwN0VN7M6cpg', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVmxuY0RzM1ZXT2xiUWs0OFNlTVlBVTl4Nzc0RmtXS0RCZ1o4WVpJaiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCI7czo1OiJyb3V0ZSI7czo0OiJob21lIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1772105859),
+('WzxvPLlkQNsOIfvRFVVI7Yhs2X4CujfDSGasXfwJ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiYmkyMFZjMG5yMHdud1o2Y011b0ZHNllLY2dIQ3lINzVpdDVuWmJQUCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9oYXJnYSI7czo1OiJyb3V0ZSI7czo1OiJoYXJnYSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjE6e3M6ODoiaW50ZW5kZWQiO3M6Mjg6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9rcmVkaXQiO319', 1772111547);
 
 -- --------------------------------------------------------
 
@@ -653,34 +612,6 @@ INSERT INTO `setting` (`id_setting`, `instansi_setting`, `pimpinan_setting`, `lo
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `slip_gaji`
---
-
-CREATE TABLE `slip_gaji` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `periode` varchar(255) NOT NULL,
-  `gaji_pokok` decimal(15,2) NOT NULL,
-  `tunjangan` decimal(15,2) NOT NULL DEFAULT 0.00,
-  `potongan` decimal(15,2) NOT NULL DEFAULT 0.00,
-  `biaya_layanan` decimal(15,2) NOT NULL,
-  `total_gaji` decimal(15,2) NOT NULL,
-  `tanggal_cetak` date NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `slip_gaji`
---
-
-INSERT INTO `slip_gaji` (`id`, `user_id`, `periode`, `gaji_pokok`, `tunjangan`, `potongan`, `biaya_layanan`, `total_gaji`, `tanggal_cetak`, `created_at`, `updated_at`) VALUES
-(4, 13, '2026-02', 3747800.00, 1200345.00, 150000.00, 220500.00, 5018645.00, '2026-02-22', '2026-02-22 01:32:46', '2026-02-22 01:32:46'),
-(6, 12, '2026-02', 2500000.00, 0.00, 0.00, 450000.00, 2950000.00, '2026-02-22', '2026-02-22 02:09:02', '2026-02-22 02:09:02');
-
--- --------------------------------------------------------
-
---
 -- Struktur dari tabel `stok`
 --
 
@@ -698,13 +629,10 @@ CREATE TABLE `stok` (
 --
 
 INSERT INTO `stok` (`id`, `id_produk`, `id_gudang`, `qty`, `created_at`, `updated_at`) VALUES
-(1, 2, 2, 0, NULL, '2026-02-19 19:00:49'),
-(3, 3, 3, 2, NULL, '2026-02-22 03:10:57'),
-(4, 4, 2, 9, NULL, '2026-02-22 00:26:35'),
-(5, 5, 2, 16, NULL, '2026-02-22 03:09:40'),
-(6, 6, 3, 8, NULL, '2026-02-22 00:48:43'),
-(7, 7, 3, 0, NULL, '2026-02-22 00:48:43'),
-(8, 8, 3, 10, NULL, '2026-02-22 03:06:37');
+(1, 2, 2, 10, NULL, '2026-02-25 03:25:26'),
+(3, 3, 3, 0, NULL, '2026-02-22 03:10:57'),
+(4, 4, 2, 23, NULL, '2026-02-22 00:26:35'),
+(9, 9, 2, 5, '2026-02-25 03:47:53', '2026-02-25 05:11:59');
 
 -- --------------------------------------------------------
 
@@ -732,34 +660,6 @@ CREATE TABLE `supplier` (
 INSERT INTO `supplier` (`id_supplier`, `nama_supplier`, `kode_supplier`, `email`, `telepon`, `alamat`, `perusahaan`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'PT Distributor Gadget Indonesia', 'PTDGI010', 'ptdgindonesia@gmail.com', '082245782682', 'Jl. KH. Hasyim Ashari No.35, RT.1/RW.11, Cideng, Kecamatan Gambir, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10150', 'PT Distributor Gadget Indonesia', 'aktif', '2026-02-21 17:06:52', '2026-02-21 17:06:52'),
 (2, 'Sinar Mutiara Cell', 'SMC0020', 'smcindo@gmail.com', '081181446698', 'Jl. Teuku Umar Kel. Daud No.88, Dauh Puri Klod, Kec. Denpasar Bar., Kota Denpasar, Bali 80113', 'Sinar Mutiara Cell', 'aktif', '2026-02-21 17:15:21', '2026-02-22 00:40:07');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `therapist`
---
-
-CREATE TABLE `therapist` (
-  `id_therapist` int(10) UNSIGNED NOT NULL,
-  `nama_therapist` varchar(255) NOT NULL,
-  `jenis_therapist` varchar(255) NOT NULL,
-  `gambar_therapist` varchar(255) NOT NULL,
-  `keterangan_therapist` text NOT NULL,
-  `slug_therapist` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `therapist`
---
-
-INSERT INTO `therapist` (`id_therapist`, `nama_therapist`, `jenis_therapist`, `gambar_therapist`, `keterangan_therapist`, `slug_therapist`, `created_at`, `updated_at`) VALUES
-(1, 'Tannia', 'Complementary Therapy', 'therapist_20260115214747.jpg', '<p>It encompasses a variety of approaches such as massage, meditation, yoga, tai chi, and acupuncture, often used alongside conventional medical treatments.</p>', 'tannia', '2026-01-15 13:47:47', '2026-01-15 14:21:31'),
-(2, 'Anabell Chelsea', 'Physical Therapy (Physiotherapy)', 'therapist_20260115221121.jpg', '<p>Helps restore movement and function after injury or illness, often using exercise, traction, or aquatic therapy.</p>', 'anabell-chelsea', '2026-01-15 14:11:21', '2026-01-15 14:11:21'),
-(3, 'Sharoon', 'Speech Therapy', 'therapist_20260115221828.jpg', '<p>Assisting individuals with communication disorders, such as difficulties with speech, language, or swallowing.</p>', 'sharoon', '2026-01-15 14:18:28', '2026-01-15 14:18:28'),
-(4, 'Elizabeth', 'Occupational Therapy', 'therapist_20260115222007.jpeg', '<p>Helping patients with physical, mental, or developmental limitations to carry out daily activities independently.</p>', 'elizabeth', '2026-01-15 14:20:07', '2026-01-15 14:20:07'),
-(5, 'Bendenita', 'Psychotherapy (Mental Health Therapy)', 'therapist_20260115222403.jpeg', '<p>Focuses on mental and emotional health. Some types include:</p><ul><li>Cognitive Behavioral Therapy (CBT): Helps identify and change negative thought patterns and behaviors.</li><li>Interpersonal Therapy: Helps manage problems in relationships.</li><li>Family Therapy: Involves all family members to improve relationship dynamics.</li></ul>', 'bendenita', '2026-01-15 14:24:03', '2026-01-15 14:25:07');
 
 -- --------------------------------------------------------
 
@@ -839,9 +739,65 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `is_admin`, `pa
 (15, 'Colln Junifel', 'collnjun@gmail.com', NULL, 0, '$2y$12$.DwDUTE490nDfy88tZCHdeHsM2KrmPfh/5FjWkD.CjnOEwsFeGj2G', '82254672290', NULL, NULL, 'Jl. Bhuana Surya IC No. 27 Dalung', 'Verifikasi', 'Laki-laki', '2012-01-28', 1, 5, 5, '123213544578945', 'Driver', '2026-02-04', 1, 2, NULL, NULL, 'Foto20260222112112.png', NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-22 03:21:13', '2026-02-22 03:21:13'),
 (16, 'Rian', 'rian@gmail.com', NULL, 0, '$2y$12$xpTi6a6nexXzIUB.M9OmleB.zWH4C0p5Sf92u8IfvIWN3m/OY8ICm', '82356739976', NULL, NULL, 'Desa Ayunan, Abiansemal, badung - Bali', 'Verifikasi', 'Laki-laki', '1996-02-24', 1, 4, 4, '1234567890123454', 'HRD', '2026-02-02', 1, 2, NULL, NULL, 'Foto20260222122654.png', NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-22 04:26:54', '2026-02-22 04:26:54');
 
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `varian`
+--
+
+CREATE TABLE `varian` (
+  `id_varian` int(10) UNSIGNED NOT NULL,
+  `nama_varian` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `varian`
+--
+
+INSERT INTO `varian` (`id_varian`, `nama_varian`, `created_at`, `updated_at`) VALUES
+(3, '128GB', '2026-02-17 09:49:33', '2026-02-25 02:42:08'),
+(4, '256GB', '2026-02-17 09:49:42', '2026-02-25 02:42:17'),
+(5, '64GB', '2026-02-21 17:40:37', '2026-02-25 02:42:33');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `warna`
+--
+
+CREATE TABLE `warna` (
+  `id_warna` int(10) UNSIGNED NOT NULL,
+  `nama_warna` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `warna`
+--
+
+INSERT INTO `warna` (`id_warna`, `nama_warna`, `created_at`, `updated_at`) VALUES
+(11, 'Ultramarine', '2026-02-25 02:51:12', '2026-02-25 02:51:12'),
+(13, 'Midnight', '2026-02-25 02:53:00', '2026-02-25 02:53:00');
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `aksesoris`
+--
+ALTER TABLE `aksesoris`
+  ADD PRIMARY KEY (`id_aksesoris`),
+  ADD KEY `aksesoris_id_supplier_foreign` (`id_supplier`);
+
+--
+-- Indeks untuk tabel `berita`
+--
+ALTER TABLE `berita`
+  ADD PRIMARY KEY (`id_berita`);
 
 --
 -- Indeks untuk tabel `cache`
@@ -854,18 +810,6 @@ ALTER TABLE `cache`
 --
 ALTER TABLE `cache_locks`
   ADD PRIMARY KEY (`key`);
-
---
--- Indeks untuk tabel `departement`
---
-ALTER TABLE `departement`
-  ADD PRIMARY KEY (`id_departement`);
-
---
--- Indeks untuk tabel `divisi`
---
-ALTER TABLE `divisi`
-  ADD PRIMARY KEY (`id_divisi`);
 
 --
 -- Indeks untuk tabel `failed_jobs`
@@ -882,10 +826,12 @@ ALTER TABLE `gudang`
   ADD UNIQUE KEY `gudang_kode_gudang_unique` (`kode_gudang`);
 
 --
--- Indeks untuk tabel `inventory_movement`
+-- Indeks untuk tabel `gudang_aksesoris`
 --
-ALTER TABLE `inventory_movement`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `gudang_aksesoris`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `gudang_aksesoris_id_aksesoris_foreign` (`id_aksesoris`),
+  ADD KEY `gudang_aksesoris_id_gudang_foreign` (`id_gudang`);
 
 --
 -- Indeks untuk tabel `jenis`
@@ -913,33 +859,32 @@ ALTER TABLE `kategori`
   ADD PRIMARY KEY (`id_kategori`);
 
 --
--- Indeks untuk tabel `kategori_admin`
+-- Indeks untuk tabel `kategori_aksesoris`
 --
-ALTER TABLE `kategori_admin`
-  ADD PRIMARY KEY (`id_kategori_admin`);
+ALTER TABLE `kategori_aksesoris`
+  ADD PRIMARY KEY (`id_kategori_aksesoris`);
 
 --
--- Indeks untuk tabel `kategori_anggota`
+-- Indeks untuk tabel `kategori_service`
 --
-ALTER TABLE `kategori_anggota`
-  ADD PRIMARY KEY (`id_kategori_anggota`);
+ALTER TABLE `kategori_service`
+  ADD PRIMARY KEY (`id_kategori_service`);
+
+--
+-- Indeks untuk tabel `kredit_produk`
+--
+ALTER TABLE `kredit_produk`
+  ADD PRIMARY KEY (`id_kredit`),
+  ADD KEY `kredit_produk_id_kategori_foreign` (`id_kategori`),
+  ADD KEY `kredit_produk_id_jenis_foreign` (`id_jenis`),
+  ADD KEY `kredit_produk_id_tipe_foreign` (`id_tipe`),
+  ADD KEY `kredit_produk_id_varian_foreign` (`id_varian`),
+  ADD KEY `kredit_produk_id_warna_foreign` (`id_warna`);
 
 --
 -- Indeks untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indeks untuk tabel `mutasi_stok`
---
-ALTER TABLE `mutasi_stok`
-  ADD PRIMARY KEY (`id_mutasi`);
-
---
--- Indeks untuk tabel `offering_letters`
---
-ALTER TABLE `offering_letters`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -953,19 +898,6 @@ ALTER TABLE `password_reset_tokens`
 --
 ALTER TABLE `pelanggan`
   ADD PRIMARY KEY (`id_pelanggan`);
-
---
--- Indeks untuk tabel `penjualan`
---
-ALTER TABLE `penjualan`
-  ADD PRIMARY KEY (`id_penjualan`),
-  ADD KEY `penjualan_id_user_foreign` (`id_user`);
-
---
--- Indeks untuk tabel `penjualan_detail`
---
-ALTER TABLE `penjualan_detail`
-  ADD PRIMARY KEY (`id_detail`);
 
 --
 -- Indeks untuk tabel `personal_access_tokens`
@@ -984,16 +916,11 @@ ALTER TABLE `produk`
   ADD KEY `produk_id_supplier_foreign` (`id_supplier`);
 
 --
--- Indeks untuk tabel `pusat`
+-- Indeks untuk tabel `services`
 --
-ALTER TABLE `pusat`
-  ADD PRIMARY KEY (`id_pusat`);
-
---
--- Indeks untuk tabel `region`
---
-ALTER TABLE `region`
-  ADD PRIMARY KEY (`id_region`);
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`id_service`),
+  ADD KEY `services_id_kategori_service_foreign` (`id_kategori_service`);
 
 --
 -- Indeks untuk tabel `sessions`
@@ -1010,13 +937,6 @@ ALTER TABLE `setting`
   ADD PRIMARY KEY (`id_setting`);
 
 --
--- Indeks untuk tabel `slip_gaji`
---
-ALTER TABLE `slip_gaji`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `slip_gaji_user_id_foreign` (`user_id`);
-
---
 -- Indeks untuk tabel `stok`
 --
 ALTER TABLE `stok`
@@ -1028,12 +948,6 @@ ALTER TABLE `stok`
 ALTER TABLE `supplier`
   ADD PRIMARY KEY (`id_supplier`),
   ADD UNIQUE KEY `supplier_kode_supplier_unique` (`kode_supplier`);
-
---
--- Indeks untuk tabel `therapist`
---
-ALTER TABLE `therapist`
-  ADD PRIMARY KEY (`id_therapist`);
 
 --
 -- Indeks untuk tabel `tipe`
@@ -1049,20 +963,32 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Indeks untuk tabel `varian`
+--
+ALTER TABLE `varian`
+  ADD PRIMARY KEY (`id_varian`);
+
+--
+-- Indeks untuk tabel `warna`
+--
+ALTER TABLE `warna`
+  ADD PRIMARY KEY (`id_warna`);
+
+--
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT untuk tabel `departement`
+-- AUTO_INCREMENT untuk tabel `aksesoris`
 --
-ALTER TABLE `departement`
-  MODIFY `id_departement` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `aksesoris`
+  MODIFY `id_aksesoris` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT untuk tabel `divisi`
+-- AUTO_INCREMENT untuk tabel `berita`
 --
-ALTER TABLE `divisi`
-  MODIFY `id_divisi` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `berita`
+  MODIFY `id_berita` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -1077,10 +1003,10 @@ ALTER TABLE `gudang`
   MODIFY `id_gudang` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT untuk tabel `inventory_movement`
+-- AUTO_INCREMENT untuk tabel `gudang_aksesoris`
 --
-ALTER TABLE `inventory_movement`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `gudang_aksesoris`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `jenis`
@@ -1101,52 +1027,34 @@ ALTER TABLE `kategori`
   MODIFY `id_kategori` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `kategori_admin`
+-- AUTO_INCREMENT untuk tabel `kategori_aksesoris`
 --
-ALTER TABLE `kategori_admin`
-  MODIFY `id_kategori_admin` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `kategori_aksesoris`
+  MODIFY `id_kategori_aksesoris` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT untuk tabel `kategori_anggota`
+-- AUTO_INCREMENT untuk tabel `kategori_service`
 --
-ALTER TABLE `kategori_anggota`
-  MODIFY `id_kategori_anggota` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `kategori_service`
+  MODIFY `id_kategori_service` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT untuk tabel `kredit_produk`
+--
+ALTER TABLE `kredit_produk`
+  MODIFY `id_kredit` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
---
--- AUTO_INCREMENT untuk tabel `mutasi_stok`
---
-ALTER TABLE `mutasi_stok`
-  MODIFY `id_mutasi` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT untuk tabel `offering_letters`
---
-ALTER TABLE `offering_letters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT untuk tabel `pelanggan`
 --
 ALTER TABLE `pelanggan`
   MODIFY `id_pelanggan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT untuk tabel `penjualan`
---
-ALTER TABLE `penjualan`
-  MODIFY `id_penjualan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT untuk tabel `penjualan_detail`
---
-ALTER TABLE `penjualan_detail`
-  MODIFY `id_detail` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`
@@ -1158,19 +1066,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT untuk tabel `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `id_produk` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_produk` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT untuk tabel `pusat`
+-- AUTO_INCREMENT untuk tabel `services`
 --
-ALTER TABLE `pusat`
-  MODIFY `id_pusat` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT untuk tabel `region`
---
-ALTER TABLE `region`
-  MODIFY `id_region` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `services`
+  MODIFY `id_service` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `setting`
@@ -1179,28 +1081,16 @@ ALTER TABLE `setting`
   MODIFY `id_setting` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `slip_gaji`
---
-ALTER TABLE `slip_gaji`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
 -- AUTO_INCREMENT untuk tabel `stok`
 --
 ALTER TABLE `stok`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `supplier`
 --
 ALTER TABLE `supplier`
   MODIFY `id_supplier` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT untuk tabel `therapist`
---
-ALTER TABLE `therapist`
-  MODIFY `id_therapist` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `tipe`
@@ -1215,20 +1105,55 @@ ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
+-- AUTO_INCREMENT untuk tabel `varian`
+--
+ALTER TABLE `varian`
+  MODIFY `id_varian` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT untuk tabel `warna`
+--
+ALTER TABLE `warna`
+  MODIFY `id_warna` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Ketidakleluasaan untuk tabel `penjualan`
+-- Ketidakleluasaan untuk tabel `aksesoris`
 --
-ALTER TABLE `penjualan`
-  ADD CONSTRAINT `penjualan_id_user_foreign` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `aksesoris`
+  ADD CONSTRAINT `aksesoris_id_supplier_foreign` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `gudang_aksesoris`
+--
+ALTER TABLE `gudang_aksesoris`
+  ADD CONSTRAINT `gudang_aksesoris_id_aksesoris_foreign` FOREIGN KEY (`id_aksesoris`) REFERENCES `aksesoris` (`id_aksesoris`) ON DELETE CASCADE,
+  ADD CONSTRAINT `gudang_aksesoris_id_gudang_foreign` FOREIGN KEY (`id_gudang`) REFERENCES `gudang` (`id_gudang`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `kredit_produk`
+--
+ALTER TABLE `kredit_produk`
+  ADD CONSTRAINT `kredit_produk_id_jenis_foreign` FOREIGN KEY (`id_jenis`) REFERENCES `jenis` (`id_jenis`) ON DELETE CASCADE,
+  ADD CONSTRAINT `kredit_produk_id_kategori_foreign` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`) ON DELETE CASCADE,
+  ADD CONSTRAINT `kredit_produk_id_tipe_foreign` FOREIGN KEY (`id_tipe`) REFERENCES `tipe` (`id_tipe`) ON DELETE CASCADE,
+  ADD CONSTRAINT `kredit_produk_id_varian_foreign` FOREIGN KEY (`id_varian`) REFERENCES `varian` (`id_varian`) ON DELETE CASCADE,
+  ADD CONSTRAINT `kredit_produk_id_warna_foreign` FOREIGN KEY (`id_warna`) REFERENCES `warna` (`id_warna`) ON DELETE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `produk`
 --
 ALTER TABLE `produk`
   ADD CONSTRAINT `produk_id_supplier_foreign` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `services`
+--
+ALTER TABLE `services`
+  ADD CONSTRAINT `services_id_kategori_service_foreign` FOREIGN KEY (`id_kategori_service`) REFERENCES `kategori_service` (`id_kategori_service`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

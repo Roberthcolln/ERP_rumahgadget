@@ -1,204 +1,270 @@
 @extends('layouts.web')
 
 @section('isi')
-    {{-- 1. HERO SECTION: Meniru Gambar Pertama --}}
-    <div class="hero overlay"
-        style="background-image: url('{{ asset('web/images/hero_bg_1.jpg') }}'); height: 100vh; min-height: 600px;">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center justify-content-center text-center">
-                <div class="col-lg-8" data-aos="fade-up">
-                    <h1 class="text-white fw-bold mb-4" style="font-size: 2.5rem; letter-spacing: -1px;">
-                        Solusi Terlengkap Cari Gadget Impian
+    {{-- 1. HERO SECTION DENGAN EFEK GRADIENT & BLUR --}}
+    <div class="hero_area" style="min-height: auto;">
+        {{-- <div class="bg-box" style="opacity: 0.6;">
+            <img src="{{ asset('web/images/hero-bg1.jpg') }}" alt="" style="filter: brightness(0.5) contrast(1.1);">
+        </div> --}}
+        <div class="container" style="padding: 120px 0 80px 0; position: relative; z-index: 2;">
+            <div class="row align-items-center justify-content-center text-center">
+                <div class="col-lg-10">
+                    <span class="text-warning font-weight-bold text-uppercase mb-2 d-block"
+                        style="letter-spacing: 3px; font-size: 14px;">Gadget Store Terbaik</span>
+                    <h1 class="text-white font-weight-bold mb-4"
+                        style="font-size: 3.5rem; text-shadow: 2px 4px 10px rgba(0,0,0,0.3);">
+                        Temukan Gadget <span style="color: #ffbe33;">Impian Anda</span>
                     </h1>
 
-                    {{-- Search Bar Melayang --}}
-                    <form action="{{ url()->current() }}" method="GET"
-                        class="d-flex p-2 bg-white rounded-pill shadow-lg mx-auto" style="max-width: 600px;">
-                        <input type="text" name="search"
-                            class="form-control border-0 bg-transparent px-4 py-3 rounded-pill"
-                            placeholder="Cari Gadget Anda .." value="{{ request('search') }}" style="box-shadow: none;">
-                        <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold"
-                            style="background-color: #00564d; border: none;">
-                            Search
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- 2. PRICE LIST SECTION: Meniru Gambar Kedua --}}
-    <div class="section bg-light" style="padding-top: 80px; padding-bottom: 80px;">
-        <div class="container">
-
-            {{-- Tombol Apple/Android di Tengah --}}
-            <div class="d-flex justify-content-center gap-2 mb-5" data-aos="fade-up">
-                <a href="#" class="btn-toggle-custom active">Apple</a>
-                <a href="#" class="btn-toggle-custom">Android</a>
-            </div>
-
-            <div class="row g-4">
-                {{-- Sidebar Kategori (Kiri) --}}
-                <div class="col-lg-3" data-aos="fade-right">
-                    <div class="sticky-top" style="top: 100px;">
-                        <div class="list-group list-group-flush shadow-sm rounded-4 overflow-hidden border-0">
-                            @foreach ($kategori as $kat)
-                                <a href="?kategori={{ $kat->id_kategori }}"
-                                    class="list-group-item list-group-item-action py-3 px-4 border-0 {{ request('kategori') == $kat->id_kategori ? 'active-sidebar' : 'bg-dark text-white' }}">
-                                    {{ $kat->nama_kategori }}
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Tabel Daftar Harga (Kanan) --}}
-                <div class="col-lg-9" data-aos="fade-left">
-                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                        {{-- Header Hitam Update Terakhir --}}
-                        <div class="bg-black text-white p-3 d-flex justify-content-between align-items-center">
-                            <div class="small opacity-75">Daftar Harga Unit</div>
-                            <div class="text-end" style="line-height: 1.2;">
-                                <span class="d-block x-small text-uppercase opacity-50">Update Terakhir</span>
-                                <span class="fw-bold small">{{ date('d/m/Y') }}</span><br>
-                                <span class="fw-bold small">{{ date('H:i') }}</span>
+                    {{-- Pencarian yang Lebih Modern --}}
+                    <div class="search-wrapper mx-auto shadow-lg">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white border-0 pl-4">
+                                    <i class="fa fa-search text-muted"></i>
+                                </span>
+                            </div>
+                            <input type="text" id="search-input" class="form-control border-0 py-4"
+                                placeholder="Cari merk, tipe, atau spesifikasi..." value="{{ request('search') }}"
+                                style="font-size: 16px; height: 60px;">
+                            <div class="input-group-append p-2 bg-white">
+                                <button type="button" id="btn-search"
+                                    class="btn btn-warning rounded-pill px-4 font-weight-bold shadow-sm">
+                                    CARI SEKARANG
+                                </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="bg-light">
-                                    <tr>
-                                        <th class="ps-4 py-3 text-uppercase small fw-bold">Tipe</th>
-                                        <th class="py-3 text-uppercase small fw-bold">Varian</th>
-                                        <th class="py-3 text-uppercase small fw-bold">Harga</th>
-                                        <th class="py-3 text-uppercase small fw-bold">Warna / Keterangan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($produk as $row)
-                                        <tr>
-                                            <td class="ps-4 fw-bold text-dark">{{ $row->nama_produk }}</td>
-                                            <td><span
-                                                    class="badge bg-light text-dark border">{{ $row->varian->nama_varian ?? '-' }}</span>
-                                            </td>
-                                            <td>
-                                                @if ($row->harga_promo_produk > 0)
-                                                    <small class="text-danger text-decoration-line-through d-block">Rp
-                                                        {{ number_format($row->harga_jual_produk, 0, ',', '.') }}</small>
-                                                    <span class="fw-bold text-dark">Rp
-                                                        {{ number_format($row->harga_promo_produk, 0, ',', '.') }}
-                                                        🔥</span>
-                                                @else
-                                                    <span class="fw-bold text-dark">Rp
-                                                        {{ number_format($row->harga_jual_produk, 0, ',', '.') }}</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <small class="text-muted">{{ $row->warna->nama_warna ?? '-' }}</small>
-                                                @if ($row->stok <= 0)
-                                                    <span class="text-danger fw-bold ms-2 small">SOLD</span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="4" class="text-center py-5 text-muted">Data tidak ditemukan</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+    {{-- 2. CONTENT SECTION --}}
+    <div class="section" style="padding: 60px 0; background: #f8f9fa;">
+        <div class="container">
+
+            {{-- FILTER KATEGORI (GLASSMORPHISM STYLE) --}}
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center flex-wrap" style="gap: 15px;">
+                        <button class="btn-category {{ !request('kategori') ? 'active' : '' }}" data-id="">
+                            <i class="fa fa-th-large mr-2"></i> Semua Produk
+                        </button>
+                        @foreach ($kategori as $kat)
+                            <button class="btn-category {{ request('kategori') == $kat->id_kategori ? 'active' : '' }}"
+                                data-id="{{ $kat->id_kategori }}">
+                                {{-- Ikon dinamis sederhana berdasarkan kata kunci kategori --}}
+                                <i
+                                    class="fa {{ Str::contains(strtolower($kat->nama_kategori), 'phone') ? 'fa-mobile' : 'fa-laptop' }} mr-2"></i>
+                                {{ $kat->nama_kategori }}
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                {{-- SIDEBAR BRAND --}}
+                <div class="col-lg-3 mb-4">
+                    <div class="sidebar-card shadow-sm border-0 sticky-top" style="top: 100px;">
+                        <div class="sidebar-header">
+                            <h6 class="mb-0 font-weight-bold text-dark"><i class="fa fa-filter mr-2 text-warning"></i> Pilih
+                                Brand</h6>
+                        </div>
+                        <div id="sidebar-container" class="sidebar-body">
+                            @include('partials._sidebar_jenis')
                         </div>
                     </div>
+                </div>
 
-                    {{-- Pagination --}}
-                    <div class="mt-4 d-flex justify-content-center">
-                        {{ $produk->links() }}
+                {{-- PRODUK LIST --}}
+                <div class="col-lg-9">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="font-weight-bold mb-0">Daftar Produk</h5>
+                        <small class="text-muted">Menampilkan hasil pencarian terbaik</small>
+                    </div>
+                    <div id="table-container" class="product-container">
+                        @include('partials._harga_table')
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Bottom Navigation: Meniru Gambar Pertama (Mobile) --}}
-    <div class="fixed-bottom bg-white border-top d-lg-none shadow-lg">
-        <div class="container">
-            <div class="row text-center py-2">
-                <div class="col">
-                    <a href="#" class="text-dark text-decoration-none small">
-                        <i class="icon-home d-block mb-1 fs-5"></i> Home
-                    </a>
+    {{-- 3. MODAL DETAIL DENGAN DESIGN BERSIH --}}
+    <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content border-0 shadow-2xl rounded-20">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="close-circle" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="col">
-                    <a href="#" class="text-primary text-decoration-none small">
-                        <i class="icon-search d-block mb-1 fs-5"></i> Harga
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="#" class="text-dark text-decoration-none small">
-                        <i class="icon-shopping-bag d-block mb-1 fs-5"></i> Jual
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="#" class="text-dark text-decoration-none small">
-                        <i class="icon-menu d-block mb-1 fs-5"></i> Lainnya
-                    </a>
+                <div class="modal-body p-0" id="detail-isi">
+                    {{-- Ajax Loading --}}
                 </div>
             </div>
         </div>
     </div>
 
+    {{-- SCRIPTS (Tetap sama dengan logika Anda namun sedikit dioptimasi) --}}
+    <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            let filter = {
+                kategori: "{{ request('kategori') }}",
+                jenis: "{{ request('jenis') }}",
+                search: "{{ request('search') }}",
+                page: 1
+            };
+
+            function updateContent() {
+                $('#table-container').addClass('loading-opacity');
+                $.ajax({
+                    url: "{{ route('harga') }}",
+                    method: "GET",
+                    data: filter,
+                    success: function(res) {
+                        $('#table-container').html(res.table).removeClass('loading-opacity');
+                        $('#sidebar-container').html(res.sidebar);
+                        let newUrl = window.location.pathname + '?' + $.param(filter);
+                        window.history.pushState({
+                            path: newUrl
+                        }, '', newUrl);
+                    }
+                });
+            }
+
+            $(document).on('click', '.btn-category', function() {
+                $('.btn-category').removeClass('active');
+                $(this).addClass('active');
+                filter.kategori = $(this).data('id');
+                filter.jenis = '';
+                filter.page = 1;
+                updateContent();
+            });
+
+            $(document).on('click', '.btn-filter-jenis', function(e) {
+                e.preventDefault();
+                filter.jenis = $(this).data('id');
+                filter.page = 1;
+                updateContent();
+            });
+
+            $('#btn-search').on('click', function() {
+                filter.search = $('#search-input').val();
+                filter.page = 1;
+                updateContent();
+            });
+
+            $(document).on('click', '.btn-detail', function() {
+                let id = $(this).data('id');
+                $('#modalDetail').modal('show');
+                $('#detail-isi').html(
+                    '<div class="text-center py-5"><div class="spinner-grow text-warning"></div><p class="mt-3">Menyiapkan Detail Produk...</p></div>'
+                );
+                $.get("{{ url('harga/detail') }}/" + id, function(res) {
+                    $('#detail-isi').html(res);
+                });
+            });
+        });
+    </script>
+
     <style>
-        /* CSS Untuk Meniru Tombol Apple/Android */
-        .btn-toggle-custom {
-            padding: 12px 40px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            background: #e9ecef;
-            color: #6c757d;
+        /* CSS PREMIUM CUSTOMIZATION */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+
+        /* Search Wrapper Modern */
+        .search-wrapper {
+            background: #fff;
+            border-radius: 50px;
+            padding: 5px;
+            max-width: 700px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Tombol Kategori Modern */
+        .btn-category {
+            padding: 12px 28px;
+            border-radius: 15px;
+            border: none;
+            background: #fff;
+            color: #555;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-category:hover,
+        .btn-category.active {
+            background: #ffbe33;
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 190, 51, 0.3);
+        }
+
+        /* Sidebar Card */
+        .sidebar-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: #fafafa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sidebar-body {
+            padding: 15px;
+        }
+
+        /* Modal Customization */
+        .rounded-20 {
+            border-radius: 20px !important;
+        }
+
+        .close-circle {
+            position: absolute;
+            right: -15px;
+            top: -15px;
+            width: 40px;
+            height: 40px;
+            background: #ffbe33;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            z-index: 999;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animation */
+        .loading-opacity {
+            opacity: 0.4;
             transition: 0.3s;
         }
 
-        .btn-toggle-custom.active {
-            background: #a5a5a5;
-            color: white;
+        .product-container {
+            min-height: 400px;
         }
 
-        /* Sidebar Style */
-        .active-sidebar {
-            background-color: #fff !important;
-            color: #000 !important;
-            font-weight: bold;
-            border-left: 5px solid #000 !important;
-        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero_area h1 {
+                font-size: 2.2rem !important;
+            }
 
-        .list-group-item-action:hover {
-            background-color: #333 !important;
-            color: white !important;
-        }
-
-        /* Table Style */
-        .table thead th {
-            font-size: 11px;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid #f8f9fa;
-        }
-
-        .table tbody td {
-            padding-top: 15px;
-            padding-bottom: 15px;
-            font-size: 14px;
-        }
-
-        .x-small {
-            font-size: 10px;
-        }
-
-        /* Hilangkan padding bawah untuk mobile karena ada bottom nav */
-        @media (max-width: 991px) {
-            body {
-                padding-bottom: 70px;
+            .btn-category {
+                width: 100%;
+                text-align: left;
             }
         }
     </style>

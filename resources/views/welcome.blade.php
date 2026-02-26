@@ -1,356 +1,93 @@
 @extends('layouts.web')
 
 @section('isi')
-    <div class="hero">
-        <div class="hero-slide">
-            <div class="img overlay" style="background-image: url('web/images/hero_bg_3.jpg')"></div>
-            <div class="img overlay" style="background-image: url('web/images/hero_bg_2.jpg')"></div>
-            <div class="img overlay" style="background-image: url('web/images/hero_bg_1.jpg')"></div>
-        </div>
-
+    <section class="offer_section layout_padding-bottom">
         <div class="container">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-lg-9 text-center">
-                    <h1 class="heading" data-aos="fade-up">
-                        Solusi Terlengkap Cari Gadget Impian
-                    </h1>
-                    <form action="#" class="narrow-w form-search d-flex align-items-stretch mb-3" data-aos="fade-up"
-                        data-aos-delay="200">
-                        <input type="text" class="form-control px-4" placeholder="Cari Gadget Anda .." />
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="section">
-        <div class="container">
-            <div class="row mb-5 align-items-center">
-                <div class="col-lg-6">
-                    <h2 class="font-weight-bold text-primary heading">
-                        Popular Gadget
-                    </h2>
-                </div>
-                <div class="col-lg-6 text-lg-end">
-                    <p>
-                        <a href="#" target="_blank" class="btn btn-primary text-white py-3 px-4">View all
-                            Gadget</a>
-                    </p>
-                </div>
-            </div>
             <div class="row">
-                <div class="col-12">
-                    <div class="property-slider-wrap">
-                        <div class="property-slider">
-                            <div class="property-item">
-                                <a href="property-single.html" class="img">
-                                    <img src="web/images/img_1.jpg" alt="Image" class="img-fluid" />
-                                </a>
-
-                                <div class="property-content">
-
-                                    <div>
-                                        <span class="d-block mb-2 text-black-50">{{ $konf->instansi_setting }}</span>
-                                        <span class="city d-block mb-3">APPLE</span>
-
-                                        <div class="specs d-flex mb-4">
-
-
-                                        </div>
-
-                                        <a href="property-single.html" class="btn btn-primary py-2 px-3">Cek Harga</a>
-                                    </div>
-                                </div>
+                @for ($i = 1; $i <= 4; $i++)
+                    <div class="col-md-3 col-sm-6 mb-4">
+                        <div class="box d-flex align-items-end"
+                            style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('{{ asset('web/images/o' . $i . '.jpg') }}');
+                        background-size: cover;
+                        background-position: center;
+                        min-height: 250px;
+                        border-radius: 15px;
+                        overflow: hidden;
+                        border: 1px solid rgba(255,190,51, 0.3);">
+                            <div class="detail-box w-100 p-3 text-center">
+                                <a href="{{ url('harga') }}" class="btn btn-warning btn-sm rounded-pill px-4"
+                                    style="font-weight: 600;">Cek Harga</a>
                             </div>
-                            <!-- .item -->
-
-                            <div class="property-item">
-                                <a href="property-single.html" class="img">
-                                    <img src="web/images/img_2.jpg" alt="Image" class="img-fluid" />
-                                </a>
-
-                                <div class="property-content">
-                                    <div>
-                                        <span class="d-block mb-2 text-black-50">{{ $konf->instansi_setting }}</span>
-                                        <span class="city d-block mb-3">SAMSUNG</span>
-
-                                        <div class="specs d-flex mb-4">
-
-
-                                        </div>
-
-                                        <a href="property-single.html" class="btn btn-primary py-2 px-3">Cek Harga</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .item -->
-
-                            <div class="property-item">
-                                <a href="property-single.html" class="img">
-                                    <img src="web/images/img_3.jpg" alt="Image" class="img-fluid" />
-                                </a>
-
-                                <div class="property-content">
-                                    <div>
-                                        <span class="d-block mb-2 text-black-50">{{ $konf->instansi_setting }}</span>
-                                        <span class="city d-block mb-3">OPPO</span>
-
-                                        <div class="specs d-flex mb-4">
-
-
-                                        </div>
-
-                                        <a href="property-single.html" class="btn btn-primary py-2 px-3">Cek Harga</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .item -->
-                            <div class="property-item">
-                                <a href="property-single.html" class="img">
-                                    <img src="web/images/img_4.jpg" alt="Image" class="img-fluid" />
-                                </a>
-
-                                <div class="property-content">
-                                    <div>
-                                        <span class="d-block mb-2 text-black-50">{{ $konf->instansi_setting }}</span>
-                                        <span class="city d-block mb-3">XIAOMI</span>
-
-                                        <div class="specs d-flex mb-4">
-
-
-                                        </div>
-
-                                        <a href="property-single.html" class="btn btn-primary py-2 px-3">Cek Harga</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- .item -->
-                        </div>
-
-                        <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
-                            <span class="prev" data-controls="prev" aria-controls="property" tabindex="-1">Prev</span>
-                            <span class="next" data-controls="next" aria-controls="property" tabindex="-1">Next</span>
                         </div>
                     </div>
-                </div>
+                @endfor
             </div>
         </div>
-    </div>
-
-
-
-
-    <div class="section section-4 bg-light">
+    </section>
+    <section class="food_section layout_padding-bottom">
         <div class="container">
-            <div class="row justify-content-center text-center mb-5">
-                <div class="col-lg-5">
-                    <h2 class="font-weight-bold heading text-primary mb-4">
-                        Let's find home that's perfect for you
-                    </h2>
-                    <p class="text-black-50">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-                        enim pariatur similique debitis vel nisi qui reprehenderit.
-                    </p>
+            <div class="heading_container heading_center">
+                <h2>Gadget Kami</h2>
+            </div>
+
+            <ul class="filters_menu">
+                <li class="active" data-filter="*">Semua</li>
+                @foreach ($kategori as $kat)
+                    <li data-filter=".cat-{{ $kat->id_kategori }}">{{ $kat->nama_kategori }}</li>
+                @endforeach
+            </ul>
+
+            <div class="filters-content">
+                <div class="row grid">
+                    @foreach ($produk as $pro)
+                        <div class="col-sm-6 col-lg-4 all cat-{{ $pro->id_kategori }}">
+                            <div class="box">
+                                <div>
+                                    <div class="img-box">
+                                        <img src="{{ asset('file/produk/' . $pro->gambar_produk) }}"
+                                            alt="{{ $pro->nama_produk }}">
+                                    </div>
+                                    <div class="detail-box">
+                                        <h5>{{ $pro->nama_produk }}</h5>
+                                        <p style="font-size: 13px; color: #bbb;">Tersedia stok baru dan second berkualitas.
+                                        </p>
+                                        <div class="options">
+                                            <h6>Rp {{ number_format($pro->harga_jual_produk, 0, ',', '.') }}</h6>
+                                            <a href="https://wa.me/{{ $konf->no_hp_setting }}" target="_blank">
+                                                <i class="fa fa-whatsapp" style="color:white"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-            <div class="row justify-content-between mb-5">
-                <div class="col-lg-7 mb-5 mb-lg-0 order-lg-2">
-                    <div class="img-about dots">
-                        <img src="web/images/hero_bg_3.jpg" alt="Image" class="img-fluid" />
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="d-flex feature-h">
-                        <span class="wrap-icon me-3">
-                            <span class="icon-home2"></span>
-                        </span>
-                        <div class="feature-text">
-                            <h3 class="heading">2M Properties</h3>
-                            <p class="text-black-50">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Nostrum iste.
-                            </p>
-                        </div>
-                    </div>
 
-                    <div class="d-flex feature-h">
-                        <span class="wrap-icon me-3">
-                            <span class="icon-person"></span>
-                        </span>
-                        <div class="feature-text">
-                            <h3 class="heading">Top Rated Agents</h3>
-                            <p class="text-black-50">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Nostrum iste.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="d-flex feature-h">
-                        <span class="wrap-icon me-3">
-                            <span class="icon-security"></span>
-                        </span>
-                        <div class="feature-text">
-                            <h3 class="heading">Legit Properties</h3>
-                            <p class="text-black-50">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Nostrum iste.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row section-counter mt-5">
-                <div class="col-6 col-sm-6 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-                    <div class="counter-wrap mb-5 mb-lg-0">
-                        <span class="number"><span class="countup text-primary">3298</span></span>
-                        <span class="caption text-black-50"># of Buy Properties</span>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-6 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
-                    <div class="counter-wrap mb-5 mb-lg-0">
-                        <span class="number"><span class="countup text-primary">2181</span></span>
-                        <span class="caption text-black-50"># of Sell Properties</span>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-6 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="500">
-                    <div class="counter-wrap mb-5 mb-lg-0">
-                        <span class="number"><span class="countup text-primary">9316</span></span>
-                        <span class="caption text-black-50"># of All Properties</span>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-6 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="600">
-                    <div class="counter-wrap mb-5 mb-lg-0">
-                        <span class="number"><span class="countup text-primary">7191</span></span>
-                        <span class="caption text-black-50"># of Agents</span>
-                    </div>
-                </div>
+            <div class="btn-box">
+                <a href="{{ url('harga') }}">Lihat Semua Produk</a>
             </div>
         </div>
-    </div>
-
-    <div class="section">
-        <div class="row justify-content-center footer-cta" data-aos="fade-up">
-            <div class="col-lg-7 mx-auto text-center">
-                <h2 class="mb-4">Be a part of our growing real state agents</h2>
-                <p>
-                    <a href="#" target="_blank" class="btn btn-primary text-white py-3 px-4">Apply for Real Estate
-                        agent</a>
-                </p>
-            </div>
-            <!-- /.col-lg-7 -->
-        </div>
-        <!-- /.row -->
-    </div>
-
-    <div class="section section-5 bg-light">
+    </section>
+    <section class="about_section layout_padding">
         <div class="container">
-            <div class="row justify-content-center text-center mb-5">
-                <div class="col-lg-6 mb-5">
-                    <h2 class="font-weight-bold heading text-primary mb-4">
-                        Our Agents
-                    </h2>
-                    <p class="text-black-50">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-                        enim pariatur similique debitis vel nisi qui reprehenderit totam?
-                        Quod maiores.
-                    </p>
-                </div>
-            </div>
             <div class="row">
-                <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
-                    <div class="h-100 person">
-                        <img src="web/images/person_1-min.jpg" alt="Image" class="img-fluid" />
-
-                        <div class="person-contents">
-                            <h2 class="mb-0"><a href="#">James Doe</a></h2>
-                            <span class="meta d-block mb-3">Real Estate Agent</span>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Facere officiis inventore cumque tenetur laboriosam, minus
-                                culpa doloremque odio, neque molestias?
-                            </p>
-
-                            <ul class="social list-unstyled list-inline dark-hover">
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="icon-twitter"></span></a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="icon-facebook"></span></a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="icon-linkedin"></span></a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="icon-instagram"></span></a>
-                                </li>
-                            </ul>
-                        </div>
+                <div class="col-md-6">
+                    <div class="img-box">
+                        <img src="{{ asset('web/images/about-img.png') }}" alt="Tentang Kami">
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
-                    <div class="h-100 person">
-                        <img src="web/images/person_2-min.jpg" alt="Image" class="img-fluid" />
-
-                        <div class="person-contents">
-                            <h2 class="mb-0"><a href="#">Jean Smith</a></h2>
-                            <span class="meta d-block mb-3">Real Estate Agent</span>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Facere officiis inventore cumque tenetur laboriosam, minus
-                                culpa doloremque odio, neque molestias?
-                            </p>
-
-                            <ul class="social list-unstyled list-inline dark-hover">
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="icon-twitter"></span></a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="icon-facebook"></span></a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="icon-linkedin"></span></a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="icon-instagram"></span></a>
-                                </li>
-                            </ul>
+                <div class="col-md-6">
+                    <div class="detail-box">
+                        <div class="heading_container">
+                            <h2>{{ $konf->instansi_setting }}</h2>
                         </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
-                    <div class="h-100 person">
-                        <img src="web/images/person_3-min.jpg" alt="Image" class="img-fluid" />
-
-                        <div class="person-contents">
-                            <h2 class="mb-0"><a href="#">Alicia Huston</a></h2>
-                            <span class="meta d-block mb-3">Real Estate Agent</span>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Facere officiis inventore cumque tenetur laboriosam, minus
-                                culpa doloremque odio, neque molestias?
-                            </p>
-
-                            <ul class="social list-unstyled list-inline dark-hover">
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="icon-twitter"></span></a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="icon-facebook"></span></a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="icon-linkedin"></span></a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="icon-instagram"></span></a>
-                                </li>
-                            </ul>
-                        </div>
+                        <p>{!! $konf->tentang_setting !!}</p>
+                        <a href="{{ url('about') }}">Selengkapnya</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @endsection

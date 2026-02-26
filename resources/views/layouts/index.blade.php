@@ -141,6 +141,61 @@ $konf = DB::table('setting')->first();
                             </ul>
                         </li>
 
+                        <li
+                            class="menu-item {{ Route::is('kategori_service.*') || Route::is('service.*') ? 'active open' : '' }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class="menu-icon tf-icons bx bx-wrench"></i>
+                                <div>Service Gadget</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item {{ Route::is('kategori_service.*') ? 'active' : '' }}"><a
+                                        href="{{ route('kategori_service.index') }}" class="menu-link">
+                                        <div>Kategori Service</div>
+                                    </a></li>
+                                <li class="menu-item {{ Route::is('service.*') ? 'active' : '' }}"><a
+                                        href="{{ route('service.index') }}" class="menu-link">
+                                        <div>Service</div>
+                                    </a></li>
+
+                            </ul>
+                        </li>
+
+                        <li
+                            class="menu-item {{ Route::is('kategori_aksesoris.*') || Route::is('aksesoris.*') ? 'active open' : '' }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class="menu-icon tf-icons bx bx-plug"></i>
+                                <div>Aksesoris Gadget</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item {{ Route::is('kategori_aksesoris.*') ? 'active' : '' }}"><a
+                                        href="{{ route('kategori_aksesoris.index') }}" class="menu-link">
+                                        <div>Kategori Aksesoris</div>
+                                    </a></li>
+                                <li class="menu-item {{ Route::is('aksesoris.*') ? 'active' : '' }}"><a
+                                        href="{{ route('aksesoris.index') }}" class="menu-link">
+                                        <div> Aksesoris</div>
+                                    </a></li>
+
+
+                            </ul>
+                        </li>
+
+                        <li class="menu-item {{ Route::is('kredit.*') ? 'active open' : '' }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class="menu-icon tf-icons bx bx-wallet"></i>
+                                <div>Kredit Gadget</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item {{ Route::is('kredit.*') ? 'active' : '' }}"><a
+                                        href="{{ route('kredit.index') }}" class="menu-link">
+                                        <div>Kredit</div>
+                                    </a></li>
+
+
+
+                            </ul>
+                        </li>
+
 
 
                         {{-- ROLE: KASIR --}}
