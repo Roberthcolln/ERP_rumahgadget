@@ -31,6 +31,7 @@ class RateCardController extends Controller
             'nama_layanan' => 'required',
             'platform' => 'required|array|min:1', // Validasi array
             'harga' => 'required|numeric',
+            'talent' => 'required|numeric',
             'gambar_layanan' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -43,6 +44,7 @@ class RateCardController extends Controller
             'platform' => $request->platform, // Langsung simpan array (otomatis jadi JSON karena casting)
             'deskripsi_layanan' => $request->deskripsi_layanan,
             'harga' => $request->harga,
+            'talent' => $request->talent,
             'gambar_layanan' => $namaGambar,
             'slug_layanan' => Str::slug($request->nama_layanan),
         ]);
@@ -80,6 +82,7 @@ class RateCardController extends Controller
             'platform' => $request->platform,
             'deskripsi_layanan' => $request->deskripsi_layanan,
             'harga' => $request->harga,
+            'talent' => $request->talent,
             'gambar_layanan' => $namaGambar,
             'slug_layanan' => Str::slug($request->nama_layanan),
         ]);

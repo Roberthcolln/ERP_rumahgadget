@@ -2,7 +2,8 @@
 
 @section('isi')
     {{-- HERO SECTION --}}
-    <div class="hero_area" style="min-height: auto; background: linear-gradient(45deg, #1a1c20, #222831);">
+    <div class="hero_area"
+        style="min-height: auto; background: linear-gradient(45deg, rgba(26, 28, 32, 0.8), rgba(34, 40, 49, 0.8));">
         <div class="container" style="padding: 60px 15px 40px 15px; position: relative; z-index: 2;">
             <div class="row align-items-center justify-content-center text-center">
                 <div class="col-lg-8">

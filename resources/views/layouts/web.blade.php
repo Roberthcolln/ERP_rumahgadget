@@ -19,7 +19,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             color: #0c0c0c;
-            background-color: #ffffffb3;
+            background-color: #ffffff;
         }
 
         .hero_area {
@@ -344,8 +344,8 @@
         </header>
         @php
             // 1. Tentukan Judul dan Deskripsi default (untuk halaman Home / '/')
-            $sliderTitle = 'Gadget Berkualitas';
-            $sliderDesc = 'Temukan smartphone impianmu dengan kondisi terbaik dan garansi terpercaya.';
+            $sliderTitle = 'Rumah Gadget';
+            $sliderDesc = 'Every Gadget Has a Story';
 
             // 2. Logika Penentuan Konten Slider berdasarkan URL
             if (Request::is('web_service*')) {

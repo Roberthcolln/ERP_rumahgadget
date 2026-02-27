@@ -26,17 +26,38 @@
                                         value="{{ $ratecard->nama_layanan }}" required>
                                 </div>
 
-                                {{-- Platform --}}
+                                {{-- Platform (Multiple Select) --}}
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-bold">Platform</label>
-                                    <select name="platform" class="form-select" required>
-                                        @php $platforms = ['Instagram', 'TikTok', 'YouTube', 'Twitter/X', 'Facebook']; @endphp
-                                        @foreach ($platforms as $p)
-                                            <option value="{{ $p }}"
-                                                {{ $ratecard->platform == $p ? 'selected' : '' }}>{{ $p }}
+                                    <label class="form-label fw-bold">Platform <span class="text-danger">*</span></label>
+                                    <select name="platform[]" class="form-select @error('platform') is-invalid @enderror"
+                                        multiple required>
+                                        @php
+                                            // Mengonversi data dari database (string/json) menjadi array
+                                            $selectedPlatforms = is_array($ratecard->platform)
+                                                ? $ratecard->platform
+                                                : explode(',', $ratecard->platform);
+
+                                            // Pilihan platform yang tersedia
+                                            $availablePlatforms = [
+                                                'Instagram',
+                                                'Story Intsagram++',
+                                                'Di Samperin Trio Kocak',
+                                                'TikTok',
+                                                'YouTube',
+                                                'Twitter/X',
+                                                'Facebook',
+                                            ];
+                                        @endphp
+
+                                        @foreach ($availablePlatforms as $plat)
+                                            <option value="{{ $plat }}"
+                                                {{ in_array($plat, old('platform', $selectedPlatforms)) ? 'selected' : '' }}>
+                                                {{ $plat }}
                                             </option>
                                         @endforeach
                                     </select>
+                                    <small class="text-muted">Tekan Ctrl (Win) / Command (Mac) untuk memilih lebih dari
+                                        satu.</small>
                                 </div>
 
                                 {{-- Harga --}}
@@ -49,22 +70,31 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Talent </label>
+                                    <input type="number" name="talent" class="form-control"
+                                        value="{{ $ratecard->talent }}" required>
+                                </div>
+
                                 {{-- Gambar --}}
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold">Ubah Thumbnail (Kosongkan jika tidak diganti)</label>
-                                    <input type="file" name="gambar_layanan" class="form-control" accept="image/*">
+                                    <input type="file" name="gambar_layanan" id="inputImg" class="form-control"
+                                        accept="image/*">
                                     <div class="mt-2">
-                                        <small class="text-muted d-block mb-1">Preview Saat Ini:</small>
-                                        <img src="{{ asset('file/ratecard/' . $ratecard->gambar_layanan) }}"
-                                            class="rounded shadow-sm" width="100" height="60"
-                                            style="object-fit: cover">
+                                        <small class="text-muted d-block mb-1">Preview:</small>
+                                        {{-- Menampilkan gambar lama sebagai default --}}
+                                        <img id="previewImg" src="{{ asset('file/ratecard/' . $ratecard->gambar_layanan) }}"
+                                            class="rounded shadow-sm" width="120" style="object-fit: cover">
                                     </div>
                                 </div>
 
-                                {{-- Deskripsi --}}
+                                {{-- Deskripsi dengan Editor --}}
                                 <div class="col-md-12 mb-3">
                                     <label class="form-label fw-bold">Deskripsi Layanan</label>
-                                    <textarea name="deskripsi_layanan" id="editor" class="form-control" rows="4">{{ $ratecard->deskripsi_layanan }}</textarea>
+                                    <div class="editor-container">
+                                        <textarea name="deskripsi_layanan" id="editor" class="form-control">{{ $ratecard->deskripsi_layanan }}</textarea>
+                                    </div>
                                 </div>
                             </div>
 
@@ -80,4 +110,46 @@
             </div>
         </div>
     </div>
+
+    {{-- Script Inisialisasi Editor & Preview --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script>
+        // Preview Gambar saat Upload
+        document.getElementById('inputImg').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('previewImg').setAttribute('src', event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Inisialisasi CKEditor 5
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote',
+                    'insertTable', 'undo', 'redo'
+                ]
+            })
+            .then(editor => {
+                editor.editing.view.change(writer => {
+                    writer.setStyle('min-height', '250px', editor.editing.view.document.getRoot());
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 250px !important;
+        }
+
+        .ck.ck-editor__main>.ck-editor__editable {
+            background-color: #fff;
+        }
+    </style>
 @endsection

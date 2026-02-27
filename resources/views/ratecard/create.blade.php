@@ -76,6 +76,16 @@
                                     @enderror
                                 </div>
 
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Talent <span class="text-danger">*</span></label>
+                                    <input type="number" name="talent"
+                                        class="form-control @error('talent') is-invalid @enderror"
+                                        value="{{ old('talent') }}">
+                                    @error('talent')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                                 {{-- Gambar --}}
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold">Thumbnail/Icon Layanan <span

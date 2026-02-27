@@ -2,10 +2,9 @@
 
 @section('isi')
     <style>
-        /* (CSS tetap sama seperti sebelumnya, tidak ada perubahan) */
         .pricing_section {
             background: #f8f9fa;
-            padding: 60px 0;
+            padding: 80px 0;
         }
 
         .pricing_container {
@@ -14,15 +13,14 @@
             justify-content: center;
             gap: 30px;
             padding-top: 20px;
+            margin-bottom: 60px;
+            /* Jarak ke info extra */
         }
 
         .pricing_card {
-            /* Ganti URL dengan gambar background kartu Anda */
-            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
-                url('{{ asset('web/images/1.jpg') }}');
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('{{ asset('web/images/1.jpg') }}');
             background-size: cover;
             background-position: center;
-
             border-radius: 20px;
             width: 320px;
             padding: 40px 30px;
@@ -38,9 +36,7 @@
 
         .pricing_card:hover {
             transform: translateY(-10px);
-            /* Saat hover, overlay sedikit menipis agar gambar background lebih jelas */
-            background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
-                url('{{ asset('web/images/1.jpg') }}');
+            background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('{{ asset('web/images/1.jpg') }}');
             background-size: cover;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             border-color: #ffbe33;
@@ -53,6 +49,79 @@
             box-shadow: 0 10px 30px rgba(255, 190, 51, 0.2);
         }
 
+        /* --- Extra Info Wrapper (Addons & Gears) --- */
+        .extra_info_wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+            padding: 40px;
+            background: #fff;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            border: 1px solid #eee;
+        }
+
+        .addon_box h4,
+        .gear_box h4 {
+            font-weight: 800;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #222;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .addon_item {
+            background: #fffdf5;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #ffbe33;
+            font-weight: 700;
+            color: #444;
+            transition: 0.3s;
+        }
+
+        .addon_item:hover {
+            background: #fef5d4;
+        }
+
+        .gear_grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .gear_item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #f1f1f1;
+        }
+
+        .gear_item small {
+            display: block;
+            color: #ffbe33;
+            font-weight: 700;
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .gear_item span {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        /* --- Utility Classes --- */
         .badge_featured {
             position: absolute;
             top: 15px;
@@ -63,42 +132,20 @@
             transform: rotate(45deg);
             font-size: 11px;
             font-weight: 800;
-            letter-spacing: 1px;
         }
 
         .platform_icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 15px;
             object-fit: contain;
-            border-radius: 15px;
-        }
-
-        .platform_badge_wrapper {
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-
-        .platform_badge {
-            display: inline-block;
-            padding: 4px 12px;
-            background: #f1f3f5;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #495057;
-            border: 1px solid #dee2e6;
         }
 
         .service_name {
             font-weight: 800;
-            font-size: 22px;
+            font-size: 20px;
             margin-bottom: 10px;
-            color: #222;
-            min-height: 54px;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -111,82 +158,88 @@
             margin-bottom: 20px;
         }
 
-        .price_tag span {
-            font-size: 14px;
-            color: #888;
-            font-weight: 400;
-        }
-
-        .description_list {
-            text-align: left;
-            margin-bottom: 30px;
-            font-size: 14px;
-            color: #555;
-            flex-grow: 1;
-            border-top: 1px solid #f8f9fa;
-            padding-top: 20px;
-        }
-
-        .description_list ul {
-            padding-left: 1.2rem;
-            list-style-type: none;
-        }
-
-        .description_list ul li {
-            position: relative;
-            margin-bottom: 8px;
-        }
-
-        .description_list ul li::before {
-            content: "\f00c";
-            font-family: FontAwesome;
-            position: absolute;
-            left: -20px;
-            color: #28a745;
-            font-size: 12px;
-        }
-
         .btn_order {
             display: inline-block;
-            padding: 14px 20px;
+            padding: 14px;
             background-color: #ffbe33;
             color: #000;
             border-radius: 12px;
             font-weight: 700;
-            transition: all 0.3s;
-            width: 100%;
+            transition: 0.3s;
+            text-align: center;
             text-transform: uppercase;
             text-decoration: none !important;
+            margin-top: auto;
         }
 
         .btn_order:hover {
             background-color: #000;
             color: #ffbe33;
-            transform: translateY(-2px);
+        }
+
+        @media (max-width: 991px) {
+            .extra_info_wrapper {
+                grid-template-columns: 1fr;
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .gear_grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 
     <section class="pricing_section">
         <div class="container">
-            <div class="heading_container heading_center mb-5 text-center">
-                <h2 style="font-weight: 800; color: #000; font-size: 36px;">Rate Card Layanan</h2>
-                <p style="color: #666; max-width: 600px; margin: 0 auto;">Pilih paket konten kreatif yang paling sesuai untuk
-                    bisnis Anda.</p>
+            <div class="text-center mb-5">
+                <h2 style="font-weight: 800; font-size: 38px; color: #111;">Rate Card Layanan</h2>
+                <p style="color: #777;">Solusi konten kreatif profesional untuk meningkatkan branding bisnis Anda.</p>
+            </div>
+
+            <div class="extra_info_wrapper">
+                <div class="addon_box">
+                    <h4><i class="fa fa-plus-circle text-warning mr-2"></i> Add-on</h4>
+                    <div class="addon_item">
+                        <span>Keranjang Kuning</span>
+                        <span class="text-warning">Rp. 499K</span>
+                    </div>
+                    <div class="addon_item">
+                        <span>Request Tgl Posting</span>
+                        <span class="text-warning">Rp. 499K</span>
+                    </div>
+                </div>
+
+                <div class="gear_box">
+                    <h4><i class="fa fa-video-camera text-warning mr-2"></i> Peralatan Perang</h4>
+                    <div class="gear_grid">
+                        <div class="gear_item">
+                            <small>Kamera (Handycam)</small>
+                            <span>SONY A7C II</span>
+                        </div>
+                        <div class="gear_item">
+                            <small>Stabilizer (Kepala Ayam)</small>
+                            <span>DJI RONIN SC III</span>
+                        </div>
+                        <div class="gear_item">
+                            <small>Lensa (Kacamata Kakyol)</small>
+                            <span>SONY GMaster FE 1.4 24mm</span>
+                        </div>
+                        <div class="gear_item">
+                            <small>Audio (Rekam pake Hape)</small>
+                            <span>SARAMONIC</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             @php
-                // 1. Ambil 2 harga tertinggi untuk label POPULER
                 $topPrices = $ratecards->pluck('harga')->unique()->sortDesc()->take(2)->toArray();
-
-                // 2. Logika memindahkan harga TERMUDAH ke TENGAH
-                // Urutkan dari termahal ke termurah dulu
                 $sortedCards = $ratecards->sortByDesc('harga')->values();
                 $count = $sortedCards->count();
-
                 if ($count >= 3) {
-                    // Ambil item terakhir (paling murah)
                     $cheapestItem = $sortedCards->pop();
-                    // Masukkan ke posisi tengah index (misal data ada 3, masuk ke index 1)
                     $middleIndex = floor($count / 2);
                     $sortedCards->splice($middleIndex, 0, [$cheapestItem]);
                 }
@@ -197,17 +250,11 @@
                     @php
                         $isPopuler = in_array($item->harga, $topPrices);
                         $platforms = is_array($item->platform) ? $item->platform : explode(',', $item->platform);
-                        $platformString = implode(', ', $platforms);
-
-                        $pesanWa =
-                            'Halo Admin, saya tertarik dengan layanan: *' .
-                            $item->nama_layanan .
-                            "*\nPlatform: " .
-                            $platformString .
-                            "\nHarga: Rp " .
-                            number_format($item->harga, 0, ',', '.') .
-                            "\n\nBisa bantu jelaskan prosedurnya?";
-                        $urlWa = 'https://wa.me/' . ($konf->no_wa ?? '628123456789') . '?text=' . urlencode($pesanWa);
+                        $urlWa =
+                            'https://wa.me/' .
+                            ($konf->no_wa ?? '628123456789') .
+                            '?text=' .
+                            urlencode('Halo Admin, saya tertarik paket: ' . $item->nama_layanan);
                     @endphp
 
                     <div class="pricing_card {{ $isPopuler ? 'featured' : '' }}">
@@ -216,34 +263,40 @@
                         @endif
 
                         <img src="{{ asset('file/ratecard/' . $item->gambar_layanan) }}"
-                            onerror="this.src='https://via.placeholder.com/80?text=Icon'" alt="Icon"
-                            class="platform_icon">
+                            onerror="this.src='https://via.placeholder.com/80?text=Icon'" class="platform_icon">
 
-                        <div class="platform_badge_wrapper">
+                        <div class="mb-3">
                             @foreach ($platforms as $p)
-                                <span class="platform_badge">
-                                    <i class="fa fa-tag mr-1"></i> {{ trim($p) }}
+                                <span class="badge badge-light shadow-sm"
+                                    style="font-size: 10px; padding: 5px 10px; border-radius: 50px;">
+                                    <i class="fa fa-tag mr-1 text-warning"></i>{{ trim($p) }}
                                 </span>
                             @endforeach
                         </div>
 
+                        {{-- Nama Layanan tetap di H3 --}}
                         <h3 class="service_name">{{ $item->nama_layanan }}</h3>
 
-                        <div class="price_tag">
-                            Rp {{ number_format($item->harga, 0, ',', '.') }}
-                            <span>/ paket</span>
-                        </div>
+                        {{-- Posisi Talent dipindah ke bawah Nama Layanan agar lebih bersih --}}
+                        <p style="font-size: 14px; color: #666; font-weight: 500; margin-top: -10px; margin-bottom: 15px;">
+                            <i class="fa fa-users text-primary mr-1"></i> {{ $item->talent }} Talent
+                        </p>
 
-                        <div class="description_list">
+                        <div class="price_tag">Rp {{ number_format($item->harga, 0, ',', '.') }}</div>
+
+                        <div style="text-align: left; font-size: 13px; color: #555; margin-bottom: 25px;">
                             {!! $item->deskripsi_layanan !!}
                         </div>
 
                         <a href="{{ $urlWa }}" target="_blank" class="btn_order">
-                            <i class="fa fa-whatsapp mr-2"></i> Pesan Sekarang
+                            <i class="fa fa-whatsapp mr-1"></i> Pesan Sekarang
                         </a>
                     </div>
                 @endforeach
             </div>
+
+
+
         </div>
     </section>
 @endsection

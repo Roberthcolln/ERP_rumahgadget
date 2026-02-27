@@ -32,7 +32,7 @@
 
         {{-- Statistik Cards --}}
         <div class="row mb-4">
-            <div class="col-md-6 col-lg-4 mb-3">
+            <div class="col-md-6 col-lg-6 mb-3">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="card-title d-flex align-items-start justify-content-between">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4 mb-3">
+            <div class="col-md-6 col-lg-6 mb-3">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="card-title d-flex align-items-start justify-content-between">
