@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Feb 2026 pada 04.54
+-- Waktu pembuatan: 27 Feb 2026 pada 08.46
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -84,22 +84,6 @@ CREATE TABLE `cache` (
   `value` mediumtext NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `cache`
---
-
-INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('laravel-cache-042b0bfc82ea08979ea1ba083bf4b6d3', 'i:1;', 1771721231),
-('laravel-cache-042b0bfc82ea08979ea1ba083bf4b6d3:timer', 'i:1771721231;', 1771721231),
-('laravel-cache-3e163eed328d91a543f0374de32513f5', 'i:1;', 1771725718),
-('laravel-cache-3e163eed328d91a543f0374de32513f5:timer', 'i:1771725718;', 1771725718),
-('laravel-cache-97ea0d204888a3914ddcab4360fd1c43', 'i:1;', 1771734811),
-('laravel-cache-97ea0d204888a3914ddcab4360fd1c43:timer', 'i:1771734811;', 1771734811),
-('laravel-cache-c525a5357e97fef8d3db25841c86da1a', 'i:1;', 1772155425),
-('laravel-cache-c525a5357e97fef8d3db25841c86da1a:timer', 'i:1772155425;', 1772155425),
-('laravel-cache-f980f13938d0ea754f5c742b4bba363b', 'i:1;', 1771718160),
-('laravel-cache-f980f13938d0ea754f5c742b4bba363b:timer', 'i:1771718160;', 1771718160);
 
 -- --------------------------------------------------------
 
@@ -384,7 +368,64 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (28, '2026_02_25_154329_create_services_table', 15),
 (29, '2026_02_26_130640_create_gudang_aksesoris_table', 16),
 (30, '2026_02_26_162526_create_kredits_table', 17),
-(31, '2026_02_27_091736_create_sewa_produk_table', 18);
+(31, '2026_02_27_091736_create_sewa_produk_table', 18),
+(32, '2026_02_27_125320_create_orders_table', 19),
+(33, '2026_02_27_130227_create_order_details_table', 20),
+(34, '2026_02_27_131514_add_produk_id_to_order_details', 21),
+(35, '2026_02_27_150029_create_rate_cards_table', 22);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `number` varchar(255) NOT NULL,
+  `nama_pelanggan` varchar(255) NOT NULL,
+  `whatsapp` varchar(255) NOT NULL,
+  `alamat` text NOT NULL,
+  `total_harga` decimal(15,2) NOT NULL,
+  `status_pembayaran` varchar(255) NOT NULL DEFAULT 'pending',
+  `snap_token` varchar(255) DEFAULT NULL,
+  `hp_lama` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `orders`
+--
+
+INSERT INTO `orders` (`id`, `number`, `nama_pelanggan`, `whatsapp`, `alamat`, `total_harga`, `status_pembayaran`, `snap_token`, `hp_lama`, `created_at`, `updated_at`) VALUES
+(4, 'INV-5CE1DX1772169393', 'Fajar', '0812345654', 'fsgdfnghmjgfg', 43399000.00, 'pending', '4202dde6-4228-45ee-8c79-bb25e33f4944', NULL, '2026-02-27 05:16:33', '2026-02-27 05:16:34'),
+(5, 'INV-STDWET1772169592', 'Rama Widana Putra', '081234565466', 'sdvfbgnhhngbf', 7999000.00, 'pending', 'c312d03c-04b5-4c26-8e02-a1bdf15c2d23', NULL, '2026-02-27 05:19:52', '2026-02-27 05:19:53');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `order_details`
+--
+
+CREATE TABLE `order_details` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `produk_id` int(11) NOT NULL,
+  `nama_produk` varchar(255) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `harga` decimal(15,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `order_details`
+--
+
+INSERT INTO `order_details` (`id`, `order_id`, `produk_id`, `nama_produk`, `qty`, `harga`, `created_at`, `updated_at`) VALUES
+(1, 4, 3, 'iPhone 17 Pro Max', 1, 43399000.00, '2026-02-27 05:16:33', '2026-02-27 05:16:33'),
+(2, 5, 2, 'iPhone 13', 1, 7999000.00, '2026-02-27 05:19:52', '2026-02-27 05:19:52');
 
 -- --------------------------------------------------------
 
@@ -492,6 +533,33 @@ INSERT INTO `produk` (`id_produk`, `id_kategori`, `id_jenis`, `id_tipe`, `id_war
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `rate_cards`
+--
+
+CREATE TABLE `rate_cards` (
+  `id_rate_card` bigint(20) UNSIGNED NOT NULL,
+  `nama_layanan` varchar(255) NOT NULL,
+  `platform` varchar(255) NOT NULL,
+  `deskripsi_layanan` text NOT NULL,
+  `harga` decimal(15,2) NOT NULL,
+  `gambar_layanan` varchar(255) DEFAULT NULL,
+  `slug_layanan` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `rate_cards`
+--
+
+INSERT INTO `rate_cards` (`id_rate_card`, `nama_layanan`, `platform`, `deskripsi_layanan`, `harga`, `gambar_layanan`, `slug_layanan`, `created_at`, `updated_at`) VALUES
+(1, 'Paket Ngakak', '[\"Story Intsagram++\"]', '<ul><li>BEBAS PILIH JADWAL POSTING</li><li>Di Posting di Story Akun IG @Rumahgadgetbali</li><li>File Asli Menjadi Milik Klien Sepenuhnya</li><li>Bisa Request Konten Sesuai Permintaan</li><li>Durasi Video Bisa Sampai 1 Menit Lebih</li><li>Shooting Konten di Store Rumah Gadget</li></ul>', 499000.00, 'RateCard_1772176730.png', 'paket-ngakak', '2026-02-27 07:18:50', '2026-02-27 07:18:50'),
+(2, 'Paket Ngabrut', '[\"Instagram\",\"TikTok\",\"YouTube\",\"Facebook\"]', '<ul><li>Di Posting di Reels IG @banyakdramaaa</li><li>Di Posting di TikTok @banyakdramaaa</li><li>Di Posting di Fanpage @Rumah Gadget</li><li>Di Posting di YouTube @RumahGadgetStory</li><li>Bebas Request Konten Sesuai Permintaan</li><li>Durasi Video Bisa Sampai 1 Menit Lebih</li><li>File Asli Menjadi Milik Klien Sepenuhnya</li><li>Shooting Konten di Store Rumah Gadget</li><li>Jadwal Posting Ditentukan Oleh Tim Rumah Gadget</li></ul>', 1999000.00, 'RateCard_1772176915.png', 'paket-ngabrut', '2026-02-27 07:21:56', '2026-02-27 07:21:56'),
+(3, 'Paket Visit', '[\"Di Samperin Trio Kocak\"]', '<ul><li>Bebas Request Konten Sesuai Permintaan</li><li>Free Biaya Akomodasi Talent (Khusus Area Denpasar)</li><li>Perlengkapan Shooting Professional Dari Tim RG</li><li>Di Posting di Reels IG @banyakdramaaa</li><li>Di Posting di TikTok @banyakdramaaa</li><li>Di Posting di Fanpage @Rumah Gadget</li><li>Di Posting di YouTube @RumahGadgetStory</li><li>Durasi Video Bisa Sampai 1 Menit Lebih</li><li>File Asli Menjadi Milik Klien Sepenuhnya</li><li>Jadwal Posting Ditentukan Oleh Tim Rumah Gadget</li></ul>', 2999000.00, 'RateCard_1772177147.png', 'paket-visit', '2026-02-27 07:25:47', '2026-02-27 07:25:47');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `services`
 --
 
@@ -573,8 +641,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('hfm8eGvaqBFSTxU6GM2zTl450joz8gTpN9ATOMEQ', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiN3ZQWndoSllCdjBsT2JlbXBabFc2aHVNOEdvUWdmRDFqaU9yREtJMiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9nZXQtcHJvZHVrLWRldGFpbC8zIjtzOjU6InJvdXRlIjtzOjI3OiJnZW5lcmF0ZWQ6OmRZTkJuRVBaclBiVUc3V08iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiOTEwMTk3MTdmOTEyY2MwNGJlOGVkNjZlNmYxM2RlZmVlMDZlYzkxYjc4YzNhODk3M2QxNTA5ZDU1NGY1YWM5MCI7fQ==', 1772164413),
-('YW3hIo0TMuur8D8NmVJDDMh4JbrfOFKJJHglZRrx', NULL, '192.168.0.171', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiU3JIN0ppVWN2bU1vTFBvMlU3Vm9oS0tUREhmcXJidGZhcHE5SUtOZyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjU6Imh0dHA6Ly8xOTIuMTY4LjAuMTI0OjgwMDAiO3M6NToicm91dGUiO3M6NDoiaG9tZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjE6e3M6ODoiaW50ZW5kZWQiO3M6MzM6Imh0dHA6Ly8xOTIuMTY4LjAuMTI0OjgwMDAvc2VydmljZSI7fX0=', 1772161251);
+('hfm8eGvaqBFSTxU6GM2zTl450joz8gTpN9ATOMEQ', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiN3ZQWndoSllCdjBsT2JlbXBabFc2aHVNOEdvUWdmRDFqaU9yREtJMiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9yYXRlLWNhcmQiO3M6NToicm91dGUiO3M6MTI6IndlYi5yYXRlY2FyZCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjY0OiI5MTAxOTcxN2Y5MTJjYzA0YmU4ZWQ2NmU2ZjEzZGVmZWUwNmVjOTFiNzhjM2E4OTczZDE1MDlkNTU0ZjVhYzkwIjtzOjQ6ImNhcnQiO2E6MDp7fX0=', 1772178318);
 
 -- --------------------------------------------------------
 
@@ -923,6 +990,19 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `order_details`
+--
+ALTER TABLE `order_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_details_order_id_foreign` (`order_id`);
+
+--
 -- Indeks untuk tabel `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
@@ -949,6 +1029,12 @@ ALTER TABLE `personal_access_tokens`
 ALTER TABLE `produk`
   ADD PRIMARY KEY (`id_produk`),
   ADD KEY `produk_id_supplier_foreign` (`id_supplier`);
+
+--
+-- Indeks untuk tabel `rate_cards`
+--
+ALTER TABLE `rate_cards`
+  ADD PRIMARY KEY (`id_rate_card`);
 
 --
 -- Indeks untuk tabel `services`
@@ -1090,7 +1176,19 @@ ALTER TABLE `kredit_produk`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT untuk tabel `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT untuk tabel `order_details`
+--
+ALTER TABLE `order_details`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `pelanggan`
@@ -1109,6 +1207,12 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `produk`
   MODIFY `id_produk` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT untuk tabel `rate_cards`
+--
+ALTER TABLE `rate_cards`
+  MODIFY `id_rate_card` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `services`
@@ -1190,6 +1294,12 @@ ALTER TABLE `kredit_produk`
   ADD CONSTRAINT `kredit_produk_id_tipe_foreign` FOREIGN KEY (`id_tipe`) REFERENCES `tipe` (`id_tipe`) ON DELETE CASCADE,
   ADD CONSTRAINT `kredit_produk_id_varian_foreign` FOREIGN KEY (`id_varian`) REFERENCES `varian` (`id_varian`) ON DELETE CASCADE,
   ADD CONSTRAINT `kredit_produk_id_warna_foreign` FOREIGN KEY (`id_warna`) REFERENCES `warna` (`id_warna`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `order_details`
+--
+ALTER TABLE `order_details`
+  ADD CONSTRAINT `order_details_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `produk`

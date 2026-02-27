@@ -295,7 +295,7 @@
 
 
                             <li
-                                class="nav-item dropdown {{ Request::is('jual*', 'kredits*', 'rental*', 'tukar-tambah*', 'kartu-tarif*', 'aksesoriss*') ? 'active' : '' }}">
+                                class="nav-item dropdown {{ Request::is('jual*', 'kredits*', 'rental*', 'tukar-tambah*', 'rate-card*', 'aksesoriss*') ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Layanan & Info
@@ -315,8 +315,8 @@
                                     <a class="dropdown-item {{ Request::is('rental*') ? 'active' : '' }}"
                                         href="{{ url('rental') }}">Sewa iPhone</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item {{ Request::is('kartu-tarif*') ? 'active' : '' }}"
-                                        href="{{ url('kartu-tarif') }}">Rate Card</a>
+                                    <a class="dropdown-item {{ Request::is('rate-card*') ? 'active' : '' }}"
+                                        href="{{ url('rate-card') }}">Rate Card</a>
 
                                 </div>
                             </li>
@@ -343,10 +343,11 @@
             </div>
         </header>
         @php
-            // Tentukan Judul dan Deskripsi berdasarkan route saat ini
+            // 1. Tentukan Judul dan Deskripsi default (untuk halaman Home / '/')
             $sliderTitle = 'Gadget Berkualitas';
             $sliderDesc = 'Temukan smartphone impianmu dengan kondisi terbaik dan garansi terpercaya.';
 
+            // 2. Logika Penentuan Konten Slider berdasarkan URL
             if (Request::is('web_service*')) {
                 $sliderTitle = 'Layanan Servis Profesional';
                 $sliderDesc = 'Solusi perbaikan gadget cepat, bergaransi, dan ditangani teknisi ahli.';
@@ -357,16 +358,16 @@
                 $sliderTitle = 'Aksesoris Terlengkap';
                 $sliderDesc = 'Lengkapi gadgetmu dengan pelindung, charger, dan audio original.';
             } elseif (Request::is('jual*')) {
-                $sliderTitle = 'Jual & Tukar Tambah';
-                $sliderDesc = 'Kami hargai gadget lamamu dengan harga tinggi untuk tukar tambah ke unit baru.';
-            }
-            // Perubahan: Menggunakan istilah Rental sesuai permintaan
-            elseif (Request::is('rental*')) {
+                $sliderTitle = 'Jual HP Harga Tinggi';
+                $sliderDesc = 'Kami hargai gadget lamamu dengan penawaran terbaik untuk tukar tambah.';
+            } elseif (Request::is('rental*') || Request::is('sewa*')) {
                 $sliderTitle = 'Sewa iPhone & Gadget';
                 $sliderDesc = 'Solusi sewa iPhone harian atau mingguan untuk kebutuhan konten dan gaya hidupmu.';
-            } elseif (Request::is('rate_card*')) {
-                $sliderTitle = 'Rate Card & Tarif';
-                $sliderDesc = 'Informasi tarif layanan jasa dan kartu tarif iklan kami secara transparan.';
+            }
+            // Bagian Rate Card (Mendukung rate-card atau rate_card)
+            elseif (Request::is('rate*card*')) {
+                $sliderTitle = 'Social Media Rate Card';
+                $sliderDesc = 'Pilihan paket konten kreatif untuk meningkatkan engagement dan promosi bisnis Anda.';
             } elseif (Request::is('artikel*')) {
                 $sliderTitle = 'Artikel Gadget Terbaru';
                 $sliderDesc = 'Update seputar teknologi, tips gadget, dan perkembangan dunia smartphone.';
@@ -375,24 +376,30 @@
                 $sliderDesc = 'Cicilan ringan tanpa ribet. Miliki gadget impianmu sekarang, bayar nanti.';
             } elseif (Request::is('tukar-tambah*')) {
                 $sliderTitle = 'Tukar Tambah Gadget';
-                $sliderDesc = 'Upgrade gadget lama kamu ke gadget impian dengan harga terbaik dan proses yang instan.';
+                $sliderDesc = 'Upgrade gadget lama kamu ke unit impian dengan proses instan dan transparan.';
             }
         @endphp
 
+        {{-- 3. Render Section Slider --}}
         @if (Request::is('/') ||
                 Request::is('web_service*') ||
                 Request::is('harga*') ||
                 Request::is('aksesoriss*') ||
                 Request::is('jual*') ||
                 Request::is('rental*') ||
-                Request::is('rate_card*') ||
+                Request::is('sewa*') ||
+                Request::is('rate*card*') ||
                 Request::is('artikel*') ||
                 Request::is('tukar-tambah*') ||
                 Request::is('kredits*'))
             <section class="slider_section flex-grow-1 d-flex align-items-center text-white text-center">
                 <div class="container">
-                    <h1 class="font-weight-bold slider-text-shadow">{{ $sliderTitle }}</h1>
-                    <p class="slider-text-shadow lead">{{ $sliderDesc }}</p>
+                    <h1 class="font-weight-bold slider-text-shadow animate__animated animate__fadeInDown">
+                        {{ $sliderTitle }}
+                    </h1>
+                    <p class="slider-text-shadow lead animate__animated animate__fadeInUp">
+                        {{ $sliderDesc }}
+                    </p>
                 </div>
             </section>
         @endif
@@ -619,8 +626,7 @@
             <i class="fa fa-mobile"></i>
             <span>Sewa iPhone</span>
         </a>
-        <a href="{{ url('kartu-tarif') }}"
-            class="mobile-nav-item {{ Request::is('kartu-tarif*') ? 'active' : '' }}">
+        <a href="{{ url('rate-card') }}" class="mobile-nav-item {{ Request::is('rate-card*') ? 'active' : '' }}">
             <i class="fa fa-address-card"></i>
             <span>Rate Card</span>
         </a>

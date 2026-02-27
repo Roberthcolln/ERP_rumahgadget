@@ -124,20 +124,16 @@ $konf = DB::table('setting')->first();
                             </a>
                         </li>
 
-                        {{-- MENU BARU: Pesanan Online --}}
-                        <li class="menu-item {{ Route::is('order.*') ? 'active' : '' }}">
-                            <a href="{{ route('order.index') }}" class="menu-link">
-                                <i class="menu-icon tf-icons bx bx-cart"></i>
-                                <div>Pesanan Online</div>
-                                {{-- Badge Otomatis untuk pesanan yang statusnya masih 'pending' --}}
-                                @php
-                                    $pendingOrders = \App\Models\Order::where('status_pembayaran', 'pending')->count();
-                                @endphp
-                                @if ($pendingOrders > 0)
-                                    <div class="badge bg-label-warning ms-auto">{{ $pendingOrders }}</div>
-                                @endif
+                        <li class="menu-item {{ Route::is('ratecard.*') ? 'active' : '' }}">
+                            <a href="{{ route('ratecard.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-list-check"></i>
+                                <div>Layanan Rate Card </div>
+                                <div class="badge bg-label-secondary ms-auto">{{ \App\Models\ratecard::count() }}</div>
                             </a>
                         </li>
+
+
+
 
                         {{-- Katalog Gadget --}}
                         <li

@@ -68,7 +68,10 @@ Route::post('/proses-checkout', [App\Http\Controllers\CheckoutController::class,
 
 Route::get('/finish', [App\Http\Controllers\CheckoutController::class, 'finish']);
 
+Route::get('/rate-card', [HomeController::class, 'rateCardWeb'])->name('web.ratecard');
+
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\RateCardController;
 
 // Tambahkan route ini
 Route::post('/cart/update-qty', [CheckoutController::class, 'updateQty']);
@@ -100,7 +103,7 @@ Route::middleware([
     Route::resource('sewa', SewaProdukController::class);
     Route::resource('kategori_aksesoris', KategoriAksesorisController::class);
     Route::resource('aksesoris', AksesorisController::class);
-
+    Route::resource('ratecard', RateCardController::class);
     Route::resource('supplier', SupplierController::class);
     Route::resource('pelanggan', PelangganController::class);
 

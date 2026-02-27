@@ -356,4 +356,13 @@ class HomeController extends Controller
 
         return view('artikel_detail', compact('konf', 'artikel', 'rekomendasi'));
     }
+    // Tambahkan di HomeController atau RateCardController
+    public function rateCardWeb()
+    {
+        $konf = DB::table('setting')->first();
+        // Mengambil data rate card
+        $ratecards = \App\Models\RateCard::orderBy('platform', 'asc')->get();
+
+        return view('ratecard_view', compact('konf', 'ratecards'));
+    }
 }
