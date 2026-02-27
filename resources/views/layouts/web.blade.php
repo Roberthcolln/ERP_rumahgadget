@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>{{ $konf->instansi_setting ?? 'Toko Gadget' }}</title>
-
+    <link rel="shortcut icon" href="{{ asset('favicon/' . $konf->favicon_setting) }}" type="">
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -19,7 +19,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             color: #0c0c0c;
-            background-color: #ffffff;
+            background-color: #ffffffb3;
         }
 
         .hero_area {
@@ -104,12 +104,131 @@
             margin-right: 15px;
             font-size: 20px;
         }
+
+        /* Membuat Header Sticky */
+        .header_section {
+            padding: 15px 0;
+            position: fixed;
+            /* Gunakan fixed agar menempel saat scroll */
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            transition: background-color 0.3s ease;
+            /* Transisi halus saat berubah warna */
+        }
+
+        /* Memberikan background gelap saat di-scroll (Opsional namun disarankan) */
+        .header_section.sticky-nav {
+            background-color: rgba(34, 40, 49, 0.95);
+            /* Warna #222831 dengan transparansi */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            padding: 10px 0;
+            /* Navigasi mengecil sedikit saat scroll */
+        }
+
+        /* Pastikan hero area memiliki padding top agar konten awal tidak tertutup navbar */
+        .hero_area {
+            padding-top: 70px;
+            /* Sesuaikan dengan tinggi navbar Anda */
+        }
+
+        @media (max-width: 991px) {
+            .header_section {
+                display: none;
+                /* Tetap sembunyikan di mobile sesuai logika awal Anda */
+            }
+
+            .hero_area {
+                padding-top: 0;
+                /* Reset padding di mobile karena pakai mobile-header */
+            }
+        }
+
+
+        /* Efek Hover untuk Box Produk */
+        .box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .box:hover img {
+            transform: scale(1.1);
+        }
+
+        .btn-outline-dark:hover {
+            background-color: #ffbe33;
+            border-color: #ffbe33;
+            color: #000;
+        }
+
+        /* Memastikan tinggi box sama meski nama produk panjangnya beda */
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        /* Pastikan modal muncul di atas segalanya */
+        #modalDetailProduk {
+            z-index: 10000 !important;
+        }
+
+        /* Memperbaiki tampilan modal di HP */
+        @media (max-width: 576px) {
+            .modal-dialog-centered {
+                display: flex;
+                align-items: center;
+                min-height: calc(100% - 1rem);
+            }
+
+            .modal-content {
+                max-height: 90vh;
+                /* Agar modal tidak terlalu mentok layar atas-bawah */
+            }
+
+            .modal-footer .btn {
+                margin-left: 0 !important;
+                width: 100%;
+            }
+
+            /* Mencegah tabrakan dengan mobile-nav jika ada */
+            #modalDetailProduk {
+                padding-bottom: 60px;
+            }
+        }
+
+        /* Styling isi deskripsi agar rapi */
+        #detailDeskripsi p {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 991px) {
+
+            /* Mencegah konten tertutup karena header menjadi sticky/fixed */
+            .hero_area {
+                padding-top: 0 !important;
+            }
+
+            /* Memastikan transisi smooth jika ada perubahan warna atau posisi */
+            .mobile-header {
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        /* Pastikan Modal Detail Produk tetap berada di atas mobile-header */
+        .modal {
+            z-index: 2000 !important;
+        }
+
+        .modal-backdrop {
+            z-index: 1999 !important;
+        }
     </style>
 </head>
 
 <body>
-    <div class="mobile-header d-lg-none d-flex align-items-center justify-content-between px-3 py-2"
-        style="background-color: #222831; border-bottom: 2px solid #ffffff;">
+    <div class="mobile-header d-lg-none d-flex align-items-center justify-content-between px-3 py-2 sticky-top"
+        style="background-color: #222831; border-bottom: 2px solid #ffffff; z-index: 1050; top: 0;">
+
         <a class="navbar-brand m-0" href="{{ url('/') }}" style="display: flex; align-items: center;">
             <img src="{{ asset('logo/' . $konf->logo_setting) }}" alt="Logo {{ $konf->instansi_setting }}"
                 style="height: 30px; width: auto; margin-right: 10px; object-fit: contain;">
@@ -149,12 +268,13 @@
                             <li class="nav-item {{ Request::is('web_service*') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ url('web_service') }}">Servis</a>
                             </li>
-                            <li class="nav-item {{ Request::is('aksesoriss*') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ url('aksesoriss') }}">Aksesoris</a>
+                            <li class="nav-item {{ Request::is('artikel*') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ url('artikel') }}">Artikel</a>
                             </li>
 
+
                             <li
-                                class="nav-item dropdown {{ Request::is('jual*', 'kredits*', 'sewa-iphone*', 'kartu-tarif*', 'berita*') ? 'active' : '' }}">
+                                class="nav-item dropdown {{ Request::is('jual*', 'kredits*', 'rental*', 'tukar-tambah*', 'kartu-tarif*', 'aksesoriss*') ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Layanan & Info
@@ -164,16 +284,19 @@
 
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item {{ Request::is('jual*') ? 'active' : '' }}"
-                                        href="{{ url('jual') }}">Jual Gadget (Trade-in)</a>
+                                        href="{{ url('jual') }}">Jual Gadget </a>
+                                    <a class="dropdown-item {{ Request::is('aksesoriss*') ? 'active' : '' }}"
+                                        href="{{ url('aksesoriss') }}">Aksesoris</a>
+                                    <a class="dropdown-item {{ Request::is('tukar-tambah*') ? 'active' : '' }}"
+                                        href="{{ url('tukar-tambah') }}">Tukar Tambah</a>
                                     <a class="dropdown-item {{ Request::is('kredits*') ? 'active' : '' }}"
                                         href="{{ url('kredits') }}">Info Kredit</a>
-                                    <a class="dropdown-item {{ Request::is('sewa-iphone*') ? 'active' : '' }}"
-                                        href="{{ url('sewa-iphone') }}">Sewa iPhone</a>
+                                    <a class="dropdown-item {{ Request::is('rental*') ? 'active' : '' }}"
+                                        href="{{ url('rental') }}">Sewa iPhone</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item {{ Request::is('kartu-tarif*') ? 'active' : '' }}"
                                         href="{{ url('kartu-tarif') }}">Rate Card</a>
-                                    <a class="dropdown-item {{ Request::is('berita*') ? 'active' : '' }}"
-                                        href="{{ url('berita') }}">Berita Gadget</a>
+
                                 </div>
                             </li>
 
@@ -207,18 +330,23 @@
             } elseif (Request::is('jual*')) {
                 $sliderTitle = 'Jual & Tukar Tambah';
                 $sliderDesc = 'Kami hargai gadget lamamu dengan harga tinggi untuk tukar tambah ke unit baru.';
-            } elseif (Request::is('sewa*')) {
+            }
+            // Perubahan: Menggunakan istilah Rental sesuai permintaan
+            elseif (Request::is('rental*')) {
                 $sliderTitle = 'Sewa iPhone & Gadget';
-                $sliderDesc = 'Sewa harian atau mingguan untuk kebutuhan konten atau gaya hidupmu.';
+                $sliderDesc = 'Solusi sewa iPhone harian atau mingguan untuk kebutuhan konten dan gaya hidupmu.';
             } elseif (Request::is('rate_card*')) {
                 $sliderTitle = 'Rate Card & Tarif';
                 $sliderDesc = 'Informasi tarif layanan jasa dan kartu tarif iklan kami secara transparan.';
-            } elseif (Request::is('berita*')) {
-                $sliderTitle = 'Berita Gadget Terbaru';
+            } elseif (Request::is('artikel*')) {
+                $sliderTitle = 'Artikel Gadget Terbaru';
                 $sliderDesc = 'Update seputar teknologi, tips gadget, dan perkembangan dunia smartphone.';
             } elseif (Request::is('kredits*')) {
                 $sliderTitle = 'Kredit Gadget Mudah';
                 $sliderDesc = 'Cicilan ringan tanpa ribet. Miliki gadget impianmu sekarang, bayar nanti.';
+            } elseif (Request::is('tukar-tambah*')) {
+                $sliderTitle = 'Tukar Tambah Gadget';
+                $sliderDesc = 'Upgrade gadget lama kamu ke gadget impian dengan harga terbaik dan proses yang instan.';
             }
         @endphp
 
@@ -227,14 +355,15 @@
                 Request::is('harga*') ||
                 Request::is('aksesoriss*') ||
                 Request::is('jual*') ||
-                Request::is('sewa*') ||
+                Request::is('rental*') ||
                 Request::is('rate_card*') ||
-                Request::is('berita*') ||
+                Request::is('artikel*') ||
+                Request::is('tukar-tambah*') ||
                 Request::is('kredits*'))
             <section class="slider_section flex-grow-1 d-flex align-items-center text-white text-center">
                 <div class="container">
                     <h1 class="font-weight-bold slider-text-shadow">{{ $sliderTitle }}</h1>
-                    <p class="slider-text-shadow">{{ $sliderDesc }}</p>
+                    <p class="slider-text-shadow lead">{{ $sliderDesc }}</p>
                 </div>
             </section>
         @endif
@@ -243,6 +372,80 @@
     <main>
         @yield('isi')
     </main>
+
+    <div class="modal fade" id="modalDetailProduk" tabindex="-1" role="dialog" aria-hidden="true"
+        style="z-index: 9999;">
+        <div class="modal-dialog modal-lg modal-dialog-centered mx-2 mx-md-auto" role="document">
+            <div class="modal-content" style="border-radius: 15px; border: none; overflow: hidden;">
+                <div
+                    class="modal-header bg-dark text-white d-flex align-items-center justify-content-between py-2 px-3">
+                    <h5 class="modal-title font-weight-bold mb-0" id="detailNamaProduk"
+                        style="font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%;">
+                        Detail Produk</h5>
+                    <button type="button" class="close text-white m-0 p-0" data-dismiss="modal" aria-label="Close"
+                        style="opacity: 1; outline: none;">
+                        <span aria-hidden="true" style="font-size: 28px;">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-3" style="max-height: 70vh; overflow-y: auto;">
+                    <div class="row">
+                        <div class="col-md-5 text-center mb-3">
+                            <div class="img-container p-2 bg-light rounded">
+                                <img id="detailGambar" src="" class="img-fluid rounded shadow-sm"
+                                    alt="Gambar Produk" style="max-height: 250px; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <h4 class="text-dark font-weight-bold mb-1" id="detailNamaProdukText"
+                                style="font-size: 1.2rem;"></h4>
+                            <h5 class="text-warning font-weight-bold mb-3" id="detailHarga"></h5>
+
+                            <div class="table-responsive">
+                                <table class="table table-sm table-borderless text-dark mb-0"
+                                    style="font-size: 13px;">
+                                    <tr>
+                                        <td width="35%">Kategori</td>
+                                        <td id="detailKategori">: -</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jenis</td>
+                                        <td id="detailJenis">: -</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tipe</td>
+                                        <td id="detailTipe">: -</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Varian</td>
+                                        <td id="detailVarian">: -</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Warna</td>
+                                        <td id="detailWarna">: -</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <hr class="my-2">
+                            <div class="description-section">
+                                <h6 class="font-weight-bold mb-1" style="font-size: 14px;">Deskripsi:</h6>
+                                <div id="detailDeskripsi" class="text-muted"
+                                    style="font-size: 13px; line-height: 1.5;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex flex-column flex-md-row p-2">
+                    <a href="#" id="btnHubungiAdmin"
+                        class="btn btn-success btn-block rounded-pill mb-2 mb-md-0 px-4">
+                        <i class="fa fa-whatsapp mr-1"></i> Tanya Stok Via WhatsApp
+                    </a>
+                    <button type="button" class="btn btn-light btn-block btn-md-auto rounded-pill px-4"
+                        data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer_section">
         <div class="container">
@@ -352,13 +555,23 @@
             <i class="fa fa-tag"></i>
             <span>Harga</span>
         </a>
-        <a href="{{ url('servis') }}" class="mobile-nav-item {{ Request::is('servis*') ? 'active' : '' }}">
+        <a href="{{ url('web_service') }}"
+            class="mobile-nav-item {{ Request::is('web_service*') ? 'active' : '' }}">
             <i class="fa fa-wrench"></i>
             <span>Servis</span>
         </a>
-        <a href="{{ url('aksesoris') }}" class="mobile-nav-item {{ Request::is('aksesoris*') ? 'active' : '' }}">
+        <a href="{{ url('artikel') }}" class="mobile-nav-item {{ Request::is('artikel*') ? 'active' : '' }}">
+            <i class="fa fa-newspaper-o"></i>
+            <span>Artikel Gadget</span>
+        </a>
+        <a href="{{ url('aksesoriss') }}" class="mobile-nav-item {{ Request::is('aksesoriss*') ? 'active' : '' }}">
             <i class="fa fa-headphones"></i>
             <span>Aksesoris</span>
+        </a>
+        <a href="{{ url('tukar-tambah') }}"
+            class="mobile-nav-item {{ Request::is('tukar-tambah*') ? 'active' : '' }}">
+            <i class="fa fa-headphones"></i>
+            <span>Tukar Tambah</span>
         </a>
         <a href="{{ url('jual') }}" class="mobile-nav-item {{ Request::is('jual*') ? 'active' : '' }}">
             <i class="fa fa-money"></i>
@@ -368,8 +581,7 @@
             <i class="fa fa-credit-card"></i>
             <span>Kredit</span>
         </a>
-        <a href="{{ url('sewa-iphone') }}"
-            class="mobile-nav-item {{ Request::is('sewa-iphone*') ? 'active' : '' }}">
+        <a href="{{ url('rental') }}" class="mobile-nav-item {{ Request::is('rental*') ? 'active' : '' }}">
             <i class="fa fa-mobile"></i>
             <span>Sewa iPhone</span>
         </a>
@@ -378,11 +590,92 @@
             <i class="fa fa-address-card"></i>
             <span>Rate Card</span>
         </a>
-        <a href="{{ url('berita') }}" class="mobile-nav-item {{ Request::is('berita*') ? 'active' : '' }}">
-            <i class="fa fa-newspaper-o"></i>
-            <span>Berita Gadget</span>
-        </a>
+
     </div>
+
+    <script>
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 50) {
+                $('.header_section').addClass('sticky-nav');
+            } else {
+                $('.header_section').removeClass('sticky-nav');
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.btn-detail').on('click', function() {
+                var id = $(this).data('id');
+
+                // Tampilkan loading sederhana (opsional)
+                $('#detailNamaProdukText').text('Memuat...');
+
+                $.ajax({
+                    url: "{{ url('/produk/detail') }}/" + id,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function(data) {
+                        // Isi data teks dasar
+                        $('#detailNamaProduk').text(data.nama_produk);
+                        $('#detailNamaProdukText').text(data.nama_produk);
+
+                        // LOGIKA HARGA DISKON DI MODAL
+                        var htmlHarga = '';
+                        if (data.harga_promo_produk > 0) {
+                            // Jika ada promo, tampilkan harga promo dan harga jual dicoret
+                            htmlHarga = '<div class="d-flex flex-column">' +
+                                '<span class="text-warning" style="font-size: 1.3rem;">Rp ' +
+                                new Intl.NumberFormat('id-ID').format(data.harga_promo_produk) +
+                                '</span>' +
+                                '<span class="text-danger" style="text-decoration: line-through; font-size: 0.9rem; font-weight: normal;">Rp ' +
+                                new Intl.NumberFormat('id-ID').format(data.harga_jual_produk) +
+                                '</span>' +
+                                '</div>';
+                        } else {
+                            // Jika tidak ada promo, hanya tampilkan harga jual biasa
+                            htmlHarga = 'Rp ' + new Intl.NumberFormat('id-ID').format(data
+                                .harga_jual_produk);
+                        }
+
+                        // Masukkan ke elemen detailHarga menggunakan .html() karena membawa tag span
+                        $('#detailHarga').html(htmlHarga);
+
+                        // Deskripsi (Gunakan .html() agar tag HTML dari database diproses)
+                        $('#detailDeskripsi').html(data.deskripsi_produk ||
+                            '<p class="text-muted italic">Tidak ada deskripsi produk.</p>');
+
+                        // Isi data relasi lainnya (Kategori, Jenis, dll)
+                        $('#detailKategori').text(': ' + (data.kategori ? data.kategori
+                            .nama_kategori : '-'));
+                        $('#detailJenis').text(': ' + (data.jenis ? data.jenis.nama_jenis :
+                            '-'));
+                        $('#detailTipe').text(': ' + (data.tipe ? data.tipe.nama_tipe : '-'));
+                        $('#detailVarian').text(': ' + (data.varian ? data.varian.nama_varian :
+                            '-'));
+                        $('#detailWarna').text(': ' + (data.warna ? data.warna.nama_warna :
+                            '-'));
+
+                        // Gambar & Link WA
+                        var pathGambar = "{{ asset('file/produk') }}/" + data.gambar_produk;
+                        $('#detailGambar').attr('src', data.gambar_produk ? pathGambar :
+                            "{{ asset('web/images/no-image.png') }}");
+
+                        var waLink =
+                            "https://wa.me/{{ $konf->no_hp_setting }}?text=Halo Admin, saya ingin bertanya tentang produk: " +
+                            data.nama_produk;
+                        $('#btnHubungiAdmin').attr('href', waLink);
+
+                        // Tampilkan Modal
+                        $('#modalDetailProduk').modal('show');
+                    },
+                    error: function() {
+                        alert("Gagal mengambil data produk.");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

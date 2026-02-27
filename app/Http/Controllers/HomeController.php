@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berita;
 use App\Models\Jenis;
 use App\Models\Kategori;
 use App\Models\KategoriService;
@@ -15,6 +16,7 @@ use App\Models\Varian;
 use App\Models\Warna;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class HomeController extends Controller
 {
@@ -27,13 +29,26 @@ class HomeController extends Controller
         $q = $request->q;
         $konf = DB::table('setting')->first();
 
-        // Ambil semua produk, sertakan relasi kategori agar lebih efisien
-        $produk = \App\Models\Produk::with('kategori')->get();
+        // Ambil produk dengan relasi, filter pencarian (jika ada), dan batasi 6 data
+        $produk = \App\Models\Produk::with(['kategori', 'jenis']) // Tambahkan 'jenis' untuk logika harga tadi
+            ->when($q, function ($query) use ($q) {
+                return $query->where('nama_produk', 'like', '%' . $q . '%');
+            })
+            ->limit(6) // Membatasi hanya 6 data
+            ->get();
 
         // Ambil kategori unik untuk menu filter
         $kategori = \App\Models\Kategori::all();
 
         return view('welcome', compact('konf', 'produk', 'kategori'));
+    }
+
+    public function getDetailProduk($id)
+    {
+        $produk = \App\Models\Produk::with(['kategori', 'jenis', 'tipe', 'varian', 'warna'])
+            ->findOrFail($id);
+
+        return response()->json($produk);
     }
 
     public function jual(Request $request)
@@ -213,5 +228,84 @@ class HomeController extends Controller
         }
 
         return view('kredits', compact('konf', 'kredit', 'kategori', 'jenis'));
+    }
+
+    public function tukarTambah(Request $request)
+    {
+        $konf = DB::table('setting')->first();
+
+        // 1. HP Client: diambil dari produk dengan jenis tertentu
+        $hpClient = Produk::with(['varian', 'jenis'])
+            ->whereHas('jenis', function ($q) {
+                $q->whereIn('nama_jenis', ['iPhone Ex iBox', 'iPhone Second', 'Android Second']);
+            })->get();
+
+        // 2. HP Pilihan (Target): Semua jenis produk
+        $hpTarget = Produk::with(['varian', 'jenis'])->get();
+
+        return view('tukar_tambah', compact('konf', 'hpClient', 'hpTarget'));
+    }
+
+    public function getProdukDetail($id)
+    {
+        $produk = Produk::with(['varian', 'jenis'])->find($id);
+        if ($produk) {
+            $waktuDb = $produk->updated_at ?: $produk->created_at;
+            return Response::json([
+                'success' => true,
+                'id' => $produk->id_produk,
+                'nama' => $produk->nama_produk,
+                'varian' => $produk->varian->nama_varian ?? '-',
+                'harga_raw' => $produk->harga_jual_produk,
+                'harga_fmt' => 'Rp ' . number_format($produk->harga_jual_produk, 0, ',', '.'),
+                'waktu' => $waktuDb ? $waktuDb->format('d/m/Y - H:i') : now()->format('d/m/Y - H:i')
+            ]);
+        }
+        return response()->json(['success' => false], 404);
+    }
+
+    public function sewa(Request $request)
+    {
+        $konf = DB::table('setting')->first();
+        $search = $request->input('search');
+
+        // Ambil data sewa dengan relasi produk, varian, dan warna
+        $sewa = \App\Models\SewaProduk::with(['produk.varian', 'produk.warna'])
+            ->when($search, function ($query) use ($search) {
+                $query->whereHas('produk', function ($q) use ($search) {
+                    $q->where('nama_produk', 'LIKE', "%{$search}%");
+                });
+            })
+            ->get();
+
+        return view('sewa_view', compact('konf', 'sewa'));
+    }
+
+    public function artikel(Request $request)
+    {
+        $konf = DB::table('setting')->first();
+        $q = $request->input('search');
+
+        $artikels = Berita::when($q, function ($query) use ($q) {
+            return $query->where('judul_berita', 'LIKE', "%{$q}%")
+                ->orWhere('isi_berita', 'LIKE', "%{$q}%");
+        })
+            ->latest()
+            ->paginate(9);
+
+        return view('artikel_view', compact('konf', 'artikels'));
+    }
+
+    public function artikelDetail($slug)
+    {
+        $konf = DB::table('setting')->first();
+        // Mencari berdasarkan slug_berita
+        $artikel = Berita::where('slug_berita', $slug)->firstOrFail();
+
+        // Ambil artikel lain sebagai rekomendasi
+        $rekomendasi = Berita::where('id_berita', '!=', $artikel->id_berita)
+            ->limit(5)->get();
+
+        return view('artikel_detail', compact('konf', 'artikel', 'rekomendasi'));
     }
 }

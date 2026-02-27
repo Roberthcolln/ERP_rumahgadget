@@ -63,7 +63,7 @@ class BeritaController extends Controller
 
         $berita->gambar_berita = $namagambarberita;
         $berita->slug_berita = Str::slug($request->judul_berita);
-        $berita->tanggal_berita = Carbon::now();
+        $berita->tgl_berita = Carbon::now();
         $berita->save();
         return redirect()->route('berita.index')->with('Sukses', 'Berhasil Tambah Berita');
     }
@@ -109,7 +109,7 @@ class BeritaController extends Controller
             'isi_berita' => $request->isi_berita,
 
             'gambar_berita' => $namagambarberita,
-            'tanggal_berita' => $berita->tanggal_berita,
+            'tgl_berita' => $berita->tgl_berita,
             'slug_berita' => $berita->slug_berita,
         ];
         if ($request->gambar_berita != "") {

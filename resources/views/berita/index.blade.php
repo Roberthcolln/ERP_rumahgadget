@@ -85,10 +85,10 @@
                                 <td class="text-center text-muted fw-medium">{{ $loop->iteration }}</td>
                                 <td>
                                     <span class="d-block fw-bold text-dark">
-                                        {{ Carbon\Carbon::parse($row->tanggal_berita)->isoFormat('D MMMM Y') }}
+                                        {{ Carbon\Carbon::parse($row->tgl_berita)->isoFormat('D MMMM Y') }}
                                     </span>
                                     <small
-                                        class="text-muted">{{ Carbon\Carbon::parse($row->tanggal_berita)->isoFormat('dddd') }}</small>
+                                        class="text-muted">{{ Carbon\Carbon::parse($row->tgl_berita)->isoFormat('dddd') }}</small>
                                 </td>
                                 <td style="max-width: 300px; white-space: normal;">
                                     <h6 class="mb-1 fw-bold text-primary">{{ $row->judul_berita }}</h6>

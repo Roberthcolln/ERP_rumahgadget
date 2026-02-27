@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Feb 2026 pada 14.15
+-- Waktu pembuatan: 27 Feb 2026 pada 04.54
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -61,10 +61,7 @@ CREATE TABLE `berita` (
   `isi_berita` text NOT NULL,
   `gambar_berita` varchar(255) NOT NULL,
   `slug_berita` varchar(255) NOT NULL,
-  `user_id` int(11) NOT NULL,
   `tgl_berita` date NOT NULL,
-  `id_kategori_berita` int(11) NOT NULL,
-  `id_kategori_karyawan` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -73,9 +70,8 @@ CREATE TABLE `berita` (
 -- Dumping data untuk tabel `berita`
 --
 
-INSERT INTO `berita` (`id_berita`, `judul_berita`, `isi_berita`, `gambar_berita`, `slug_berita`, `user_id`, `tgl_berita`, `id_kategori_berita`, `id_kategori_karyawan`, `created_at`, `updated_at`) VALUES
-(5, 'Kenaikan Gaji 2026', '<p>Kenaikan gaji karyawan di tahun 2026 sebesar 30% oleh presiden wawowo hahahahahah. Kenaikan gaji karyawan di tahun 2026 sebesar 30% oleh presiden wawowo hahahahahahKenaikan gaji karyawan di tahun 2026 sebesar 30% oleh presiden wawowo hahahahahah</p>', '1767717542-kenaikan-gaji-2026.jpeg', 'kenaikan-gaji-2026', 1, '2026-01-07', 1, 3, '2026-01-06 16:21:49', '2026-01-13 10:46:27'),
-(6, 'tes123 releated', '<p>csdgfy</p>', 'Berita20260113065005.jpg', 'tes123-releated', 1, '2026-01-13', 2, 10, '2026-01-13 10:50:05', '2026-01-13 10:50:05');
+INSERT INTO `berita` (`id_berita`, `judul_berita`, `isi_berita`, `gambar_berita`, `slug_berita`, `tgl_berita`, `created_at`, `updated_at`) VALUES
+(7, 'Cara Mengetahui HP Disadap, Ciri-Ciri dan Cara Mengatasinya', '<p>Di era digital seperti sekarang, banyak orang mulai khawatir soal keamanan privasi. Tidak sedikit yang bertanya, <strong>bagaimana cara mengetahui HP disadap atau tidak</strong>. Apalagi dengan maraknya kasus kebocoran data, phishing, hingga penyadapan lewat aplikasi tertentu, rasa curiga itu jadi masuk akal.</p><p>Sebenarnya, penyadapan HP bukan sekadar mitos. Tapi kabar baiknya, ada tanda-tanda yang bisa kita kenali sejak awal. Kalau kamu merasa ada yang aneh dengan ponselmu, simak penjelasan lengkap berikut ini.</p><h2>Apakah HP Bisa Disadap?</h2><p>Jawabannya: bisa.</p><p>Penyadapan bisa terjadi melalui:</p><ul><li>Aplikasi berbahaya (spyware)</li><li>Link phishing</li><li>WiFi publik yang tidak aman</li><li>Akses fisik ke perangkat</li><li>Clone akun WhatsApp</li></ul><p>Bahkan, menurut imbauan keamanan digital dari Kementerian Komunikasi dan Informatika Republik Indonesia, masyarakat diminta lebih waspada terhadap aplikasi tidak resmi dan tautan mencurigakan yang berpotensi mencuri data pribadi.</p><p>Artinya, memahami cara mengetahui HP disadap itu penting sebagai langkah pencegahan.</p><h2>Ciri-Ciri HP Disadap yang Paling Umum</h2><p>Berikut tanda-tanda yang sering muncul jika HP kamu terindikasi disadap:</p><h3>1. Baterai Cepat Habis Padahal Tidak Dipakai Berat</h3><p>Spyware biasanya berjalan di latar belakang dan terus mengirim data. Ini membuat baterai lebih boros dari biasanya.</p><h3>2. HP Terasa Panas Tanpa Alasan Jelas</h3><p>Kalau ponsel terasa panas padahal tidak dipakai gaming atau streaming, bisa jadi ada proses tersembunyi yang aktif.</p><h3>3. Muncul Aplikasi Asing yang Tidak Pernah Diinstal</h3><p>Cek daftar aplikasi. Kalau ada yang mencurigakan, jangan langsung diabaikan.</p><h3>4. Kuota Internet Cepat Habis</h3><p>Aplikasi penyadap bekerja dengan mengirim data ke server tertentu, yang membuat konsumsi data meningkat drastis.</p><h3>5. Muncul SMS atau Notifikasi Aneh</h3><p>Kode OTP atau SMS asing tanpa kamu minta bisa jadi tanda akun sedang diakses orang lain.</p><h2>Cara Mengetahui HP Disadap Secara Manual</h2><p>Sekarang kita masuk ke bagian paling penting: <strong>cara mengetahui HP disadap dengan langkah sederhana.</strong></p><h3>1. Cek Penggunaan Baterai</h3><p>Masuk ke:<br>Pengaturan → Baterai → Penggunaan Baterai</p><p>Lihat aplikasi mana yang paling boros. Jika ada aplikasi tidak dikenal mengonsumsi daya besar, patut dicurigai.</p><h3>2. Cek Penggunaan Data Internet</h3><p>Masuk ke:<br>Pengaturan → Jaringan → Penggunaan Data</p><p>Perhatikan aplikasi yang aktif di latar belakang tanpa kamu buka.</p><h3>3. Gunakan Kode USSD</h3><p>Beberapa kode yang bisa dicoba:</p><p>*#21# → untuk cek pengalihan panggilan</p><p>*#62# → untuk cek nomor pengalihan saat tidak aktif</p><p>##002# → untuk menonaktifkan semua pengalihan</p><p>Jika muncul pengalihan ke nomor asing yang tidak kamu kenal, segera nonaktifkan.</p><h3>4. Periksa WhatsApp Web</h3><p>Buka:<br>WhatsApp → Titik tiga → Perangkat Tertaut</p><p>Pastikan tidak ada perangkat asing yang login tanpa izin.</p><h2>Cara Mengatasi Jika HP Terindikasi Disadap</h2><p>Kalau kamu merasa ada tanda-tanda mencurigakan, lakukan ini:</p><h3>✅ Hapus Aplikasi Mencurigakan</h3><p>Uninstall aplikasi yang tidak jelas asal-usulnya.</p><h3>✅ Ganti Semua Password</h3><p>Mulai dari email, media sosial, hingga mobile banking.</p><h3>✅ Update Sistem Operasi</h3><p>Update biasanya menutup celah keamanan.</p><h3>✅ Reset Pabrik (Factory Reset)</h3><p>Ini cara paling ampuh untuk menghilangkan spyware. Pastikan backup data penting dulu.</p><h3>✅ Aktifkan Verifikasi Dua Langkah</h3><p>Terutama untuk WhatsApp, Gmail, dan akun penting lainnya.</p><h2>Cara Mencegah HP Disadap</h2><p>Lebih baik mencegah daripada mengatasi. Berikut tipsnya:</p><ul><li>Jangan klik link sembarangan</li><li>Hindari install aplikasi dari luar Play Store / App Store</li><li>Jangan pakai WiFi publik tanpa VPN</li><li>Kunci HP dengan PIN atau biometrik</li><li>Jangan pernah meminjamkan HP ke orang sembarangan</li></ul><p>Menurut panduan keamanan dari Badan Siber dan Sandi Negara, kesadaran pengguna adalah pertahanan pertama terhadap serangan siber.</p><h2>FAQ Seputar HP Disadap</h2><h3>Apakah HP bisa disadap tanpa kita tahu?</h3><p>Bisa. Itulah kenapa penting memahami cara mengetahui HP disadap sejak dini.</p><h3>Apakah reset HP bisa menghilangkan penyadapan?</h3><p>Ya, dalam banyak kasus spyware akan hilang setelah reset pabrik.</p><h3>Apakah WhatsApp bisa disadap?</h3><p>Bisa jika kode OTP bocor atau WhatsApp Web diakses tanpa izin.</p><h2>Kesimpulan</h2><p>Cara mengetahui HP disadap sebenarnya tidak serumit yang dibayangkan. Kuncinya adalah peka terhadap perubahan kecil pada perangkat: baterai boros, data cepat habis, atau muncul aktivitas aneh.</p><p>Kalau kamu menemukan satu atau dua tanda, jangan panik. Lakukan pengecekan bertahap dan amankan akun pentingmu segera.</p><p>Privasi itu bukan hal sepele. Di dunia digital, yang lengah biasanya jadi korban pertama.</p><p>Cek <a href=\"http://localhost:8000/harga\"><strong>Pricelist Kami</strong></a> Sekarang! Temukan Rekomendasi Gadget Terbaru yang Fenomenal Setiap Hari.</p>', 'Berita20260227104526.png', 'cara-mengetahui-hp-disadap-ciri-ciri-dan-cara-mengatasinya', '2026-02-27', '2026-02-27 02:45:26', '2026-02-27 02:46:41');
 
 -- --------------------------------------------------------
 
@@ -100,8 +96,8 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 ('laravel-cache-3e163eed328d91a543f0374de32513f5:timer', 'i:1771725718;', 1771725718),
 ('laravel-cache-97ea0d204888a3914ddcab4360fd1c43', 'i:1;', 1771734811),
 ('laravel-cache-97ea0d204888a3914ddcab4360fd1c43:timer', 'i:1771734811;', 1771734811),
-('laravel-cache-c525a5357e97fef8d3db25841c86da1a', 'i:2;', 1772074463),
-('laravel-cache-c525a5357e97fef8d3db25841c86da1a:timer', 'i:1772074463;', 1772074463),
+('laravel-cache-c525a5357e97fef8d3db25841c86da1a', 'i:1;', 1772155425),
+('laravel-cache-c525a5357e97fef8d3db25841c86da1a:timer', 'i:1772155425;', 1772155425),
 ('laravel-cache-f980f13938d0ea754f5c742b4bba363b', 'i:1;', 1771718160),
 ('laravel-cache-f980f13938d0ea754f5c742b4bba363b:timer', 'i:1771718160;', 1771718160);
 
@@ -203,12 +199,14 @@ CREATE TABLE `jenis` (
 --
 
 INSERT INTO `jenis` (`id_jenis`, `id_kategori`, `nama_jenis`, `created_at`, `updated_at`) VALUES
-(4, 3, 'IPhone New', '2026-02-17 10:09:37', '2026-02-17 10:09:37'),
-(5, 3, 'IPhone Ex Ibox', '2026-02-17 10:10:10', '2026-02-17 10:10:10'),
+(4, 3, 'iPhone New', '2026-02-17 10:09:37', '2026-02-26 14:41:09'),
+(5, 3, 'iPhone Ex Ibox', '2026-02-17 10:10:10', '2026-02-26 14:41:19'),
 (6, 4, 'Samsung', '2026-02-17 10:10:32', '2026-02-17 10:10:32'),
 (7, 4, 'Vivo', '2026-02-17 10:10:45', '2026-02-17 10:10:45'),
 (8, 4, 'OPPO', '2026-02-21 17:34:29', '2026-02-21 17:34:29'),
-(9, 5, 'Pelindung (Protection)', '2026-02-21 17:41:44', '2026-02-21 17:41:44');
+(9, 5, 'Pelindung (Protection)', '2026-02-21 17:41:44', '2026-02-21 17:41:44'),
+(10, 3, 'iPhone Second', '2026-02-26 14:24:21', '2026-02-26 14:24:21'),
+(11, 4, 'Android Second', '2026-02-26 14:24:47', '2026-02-26 14:24:47');
 
 -- --------------------------------------------------------
 
@@ -385,7 +383,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (27, '2026_02_24_034452_add_qty_to_produk_table', 14),
 (28, '2026_02_25_154329_create_services_table', 15),
 (29, '2026_02_26_130640_create_gudang_aksesoris_table', 16),
-(30, '2026_02_26_162526_create_kredits_table', 17);
+(30, '2026_02_26_162526_create_kredits_table', 17),
+(31, '2026_02_27_091736_create_sewa_produk_table', 18);
 
 -- --------------------------------------------------------
 
@@ -485,7 +484,10 @@ INSERT INTO `produk` (`id_produk`, `id_kategori`, `id_jenis`, `id_tipe`, `id_war
 (2, 3, 4, 3, 11, 3, 1, 'iPhone 13', '<p>Varian : 128gb<br>Color : Midnight</p>', 7999000, 8249000, 7999000, '1771436312.jpg', '2026-02-18 17:38:32', '2026-02-25 03:00:09'),
 (3, 3, 4, 5, 13, 3, 1, 'iPhone 17 Pro Max', '<p>Varian : 2TB<br>Color : Cosmic Orange</p>', 43399000, 43999000, 43399000, '1771437184.jpg', '2026-02-18 17:53:04', '2026-02-25 03:01:15'),
 (4, 3, 4, 5, 11, 4, 1, 'iPhone 17 Pro Max', '<p>Varian : 2TB<br>Color : Midnight</p>', 43399000, 43999000, 43399000, '1771438662.jpg', '2026-02-18 18:17:42', '2026-02-25 03:03:06'),
-(9, 4, 7, 4, 11, 3, 1, 'Vivo Y04S', '<p>tes</p>', 1000000, 2000000, 1500000, '1771991273.jpeg', '2026-02-25 03:47:53', '2026-02-25 05:11:59');
+(9, 4, 7, 4, 11, 3, 1, 'Vivo Y04S', '<p>tes</p>', 1000000, 2000000, 1500000, '1771991273.jpeg', '2026-02-25 03:47:53', '2026-02-25 05:11:59'),
+(10, 3, 5, 8, 11, 3, 1, 'iPhone 13', '<p>Mantap</p>', 6999000, 9299000, 0, '1772117071.jpeg', '2026-02-26 14:44:31', '2026-02-26 14:44:31'),
+(11, 3, 10, 9, 11, 5, 1, 'iPhone XR', '<p>Oke lah</p>', 2000000, 3399000, 0, '1772117200.jpeg', '2026-02-26 14:46:40', '2026-02-26 14:46:40'),
+(12, 4, 11, 10, 13, 5, 1, 'Samsung a37', '<p>Bisa lahhh !</p>', 3500000, 5000000, 0, '1772117365.jpg', '2026-02-26 14:49:25', '2026-02-26 14:49:25');
 
 -- --------------------------------------------------------
 
@@ -571,8 +573,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('CMsIZ9iqPQkLiJEIQbbxu3zF9I2fiwN0VN7M6cpg', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVmxuY0RzM1ZXT2xiUWs0OFNlTVlBVTl4Nzc0RmtXS0RCZ1o4WVpJaiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCI7czo1OiJyb3V0ZSI7czo0OiJob21lIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1772105859),
-('WzxvPLlkQNsOIfvRFVVI7Yhs2X4CujfDSGasXfwJ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiYmkyMFZjMG5yMHdud1o2Y011b0ZHNllLY2dIQ3lINzVpdDVuWmJQUCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9oYXJnYSI7czo1OiJyb3V0ZSI7czo1OiJoYXJnYSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjE6e3M6ODoiaW50ZW5kZWQiO3M6Mjg6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9rcmVkaXQiO319', 1772111547);
+('hfm8eGvaqBFSTxU6GM2zTl450joz8gTpN9ATOMEQ', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiN3ZQWndoSllCdjBsT2JlbXBabFc2aHVNOEdvUWdmRDFqaU9yREtJMiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9nZXQtcHJvZHVrLWRldGFpbC8zIjtzOjU6InJvdXRlIjtzOjI3OiJnZW5lcmF0ZWQ6OmRZTkJuRVBaclBiVUc3V08iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiOTEwMTk3MTdmOTEyY2MwNGJlOGVkNjZlNmYxM2RlZmVlMDZlYzkxYjc4YzNhODk3M2QxNTA5ZDU1NGY1YWM5MCI7fQ==', 1772164413),
+('YW3hIo0TMuur8D8NmVJDDMh4JbrfOFKJJHglZRrx', NULL, '192.168.0.171', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiU3JIN0ppVWN2bU1vTFBvMlU3Vm9oS0tUREhmcXJidGZhcHE5SUtOZyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjU6Imh0dHA6Ly8xOTIuMTY4LjAuMTI0OjgwMDAiO3M6NToicm91dGUiO3M6NDoiaG9tZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjE6e3M6ODoiaW50ZW5kZWQiO3M6MzM6Imh0dHA6Ly8xOTIuMTY4LjAuMTI0OjgwMDAvc2VydmljZSI7fX0=', 1772161251);
 
 -- --------------------------------------------------------
 
@@ -607,7 +609,34 @@ CREATE TABLE `setting` (
 --
 
 INSERT INTO `setting` (`id_setting`, `instansi_setting`, `pimpinan_setting`, `logo_setting`, `favicon_setting`, `tentang_setting`, `keyword_setting`, `alamat_setting`, `instagram_setting`, `youtube_setting`, `email_setting`, `no_hp_setting`, `maps_setting`, `created_at`, `updated_at`, `alamat_setting_2`, `no_hp_setting_2`, `email_setting_2`, `maps_setting_2`) VALUES
-(1, 'Rumah Gadget', 'Roberth Colln', '1771350679_512x512.png', '1771350679_512x512.png', '<p>CRM Rumah Gadget Bali</p>', 'CRM Rumah Gadget Bali', 'Jl. Gn. Agung No.140A, Tegal Kertha, Kec. Denpasar Bar., Kota Denpasar, Bali 80111', 'https://www.instagram.com/robertj_colln/', 'https://www.youtube.com/watch?v=Mb_98vAimsw', 'rggunungagung@gmail.com', '081297600976', 'https://www.google.com/maps/embed?pb=!4v1771428148809!6m8!1m7!1sRHTujwMHpdlVMGdP6uA5Wg!2m2!1d-8.651670852486884!2d115.1966507223476!3f20.242256!4f0!5f0.7820865974627469', NULL, '2026-02-18 15:33:59', 'Jl. Teuku Umar No.63, Dauh Puri Klod, Kec. Denpasar Bar., Kota Denpasar, Bali 80113', '081297600976', 'rgteukuumar@gmail.com', 'https://www.google.com/maps/embed?pb=!4v1771428092619!6m8!1m7!1s8epLolCOFu-GnGvVr6hmtw!2m2!1d-8.671935486547097!2d115.2089626783986!3f112.8887!4f0!5f0.7820865974627469');
+(1, 'Rumah Gadget', 'Roberth Colln', '1771350679_512x512.png', '1771350679_512x512.png', '<p>Cari iPhone Ex-iBox atau Android Second berkualitas? Kunjungi <strong>Rumah Gadget</strong>! Melayani tukar tambah (Trade-In) dengan harga kompetitif, unit siap pakai, dan bergaransi resmi toko.</p>', 'CRM Rumah Gadget Bali', 'Jl. Gn. Agung No.140A, Tegal Kertha, Kec. Denpasar Bar., Kota Denpasar, Bali 80111', 'https://www.instagram.com/robertj_colln/', 'https://www.youtube.com/watch?v=Mb_98vAimsw', 'rggunungagung@gmail.com', '081297600976', 'https://www.google.com/maps/embed?pb=!4v1771428148809!6m8!1m7!1sRHTujwMHpdlVMGdP6uA5Wg!2m2!1d-8.651670852486884!2d115.1966507223476!3f20.242256!4f0!5f0.7820865974627469', NULL, '2026-02-27 02:19:57', 'Jl. Teuku Umar No.63, Dauh Puri Klod, Kec. Denpasar Bar., Kota Denpasar, Bali 80113', '081297600976', 'rgteukuumar@gmail.com', 'https://www.google.com/maps/embed?pb=!4v1771428092619!6m8!1m7!1s8epLolCOFu-GnGvVr6hmtw!2m2!1d-8.671935486547097!2d115.2089626783986!3f112.8887!4f0!5f0.7820865974627469');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `sewa_produk`
+--
+
+CREATE TABLE `sewa_produk` (
+  `id_sewa` bigint(20) UNSIGNED NOT NULL,
+  `id_produk` bigint(20) UNSIGNED NOT NULL,
+  `harga_24_jam` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `harga_2_hari` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `harga_3_hari` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `harga_7_hari` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `harga_14_hari` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `harga_1_bulan` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `harga_per_jam` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `sewa_produk`
+--
+
+INSERT INTO `sewa_produk` (`id_sewa`, `id_produk`, `harga_24_jam`, `harga_2_hari`, `harga_3_hari`, `harga_7_hari`, `harga_14_hari`, `harga_1_bulan`, `harga_per_jam`, `created_at`, `updated_at`) VALUES
+(1, 11, 99000.00, 159000.00, 239000.00, 449000.00, 799000.00, 1199000.00, 100000.00, '2026-02-27 01:24:10', '2026-02-27 01:24:10');
 
 -- --------------------------------------------------------
 
@@ -632,7 +661,10 @@ INSERT INTO `stok` (`id`, `id_produk`, `id_gudang`, `qty`, `created_at`, `update
 (1, 2, 2, 10, NULL, '2026-02-25 03:25:26'),
 (3, 3, 3, 0, NULL, '2026-02-22 03:10:57'),
 (4, 4, 2, 23, NULL, '2026-02-22 00:26:35'),
-(9, 9, 2, 5, '2026-02-25 03:47:53', '2026-02-25 05:11:59');
+(9, 9, 2, 5, '2026-02-25 03:47:53', '2026-02-25 05:11:59'),
+(10, 10, 2, 10, '2026-02-26 14:44:31', '2026-02-26 14:44:31'),
+(11, 11, 2, 10, '2026-02-26 14:46:40', '2026-02-26 14:46:40'),
+(12, 12, 2, 10, '2026-02-26 14:49:25', '2026-02-26 14:49:25');
 
 -- --------------------------------------------------------
 
@@ -684,7 +716,10 @@ INSERT INTO `tipe` (`id_tipe`, `nama_tipe`, `id_jenis`, `created_at`, `updated_a
 (4, 'Y04S', 7, '2026-02-17 11:12:34', '2026-02-17 11:12:34'),
 (5, 'iPhone 17 Pro Max', 4, '2026-02-17 21:13:30', '2026-02-17 21:13:30'),
 (6, 'OPPO A3X', 8, '2026-02-21 17:34:42', '2026-02-21 17:34:42'),
-(7, 'Casing/Cover', 9, '2026-02-21 17:42:20', '2026-02-21 17:42:20');
+(7, 'Casing/Cover', 9, '2026-02-21 17:42:20', '2026-02-21 17:42:20'),
+(8, 'iPhone 13', 5, '2026-02-26 14:42:39', '2026-02-26 14:42:39'),
+(9, 'iPhone XR', 10, '2026-02-26 14:45:02', '2026-02-26 14:45:02'),
+(10, 'Samsung a37', 11, '2026-02-26 14:47:48', '2026-02-26 14:47:48');
 
 -- --------------------------------------------------------
 
@@ -937,6 +972,13 @@ ALTER TABLE `setting`
   ADD PRIMARY KEY (`id_setting`);
 
 --
+-- Indeks untuk tabel `sewa_produk`
+--
+ALTER TABLE `sewa_produk`
+  ADD PRIMARY KEY (`id_sewa`),
+  ADD KEY `sewa_produk_id_produk_foreign` (`id_produk`);
+
+--
 -- Indeks untuk tabel `stok`
 --
 ALTER TABLE `stok`
@@ -988,7 +1030,7 @@ ALTER TABLE `aksesoris`
 -- AUTO_INCREMENT untuk tabel `berita`
 --
 ALTER TABLE `berita`
-  MODIFY `id_berita` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_berita` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -1012,7 +1054,7 @@ ALTER TABLE `gudang_aksesoris`
 -- AUTO_INCREMENT untuk tabel `jenis`
 --
 ALTER TABLE `jenis`
-  MODIFY `id_jenis` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_jenis` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `jobs`
@@ -1048,7 +1090,7 @@ ALTER TABLE `kredit_produk`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT untuk tabel `pelanggan`
@@ -1066,7 +1108,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT untuk tabel `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `id_produk` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_produk` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `services`
@@ -1081,10 +1123,16 @@ ALTER TABLE `setting`
   MODIFY `id_setting` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT untuk tabel `sewa_produk`
+--
+ALTER TABLE `sewa_produk`
+  MODIFY `id_sewa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT untuk tabel `stok`
 --
 ALTER TABLE `stok`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `supplier`
@@ -1096,7 +1144,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT untuk tabel `tipe`
 --
 ALTER TABLE `tipe`
-  MODIFY `id_tipe` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_tipe` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
@@ -1154,6 +1202,12 @@ ALTER TABLE `produk`
 --
 ALTER TABLE `services`
   ADD CONSTRAINT `services_id_kategori_service_foreign` FOREIGN KEY (`id_kategori_service`) REFERENCES `kategori_service` (`id_kategori_service`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `sewa_produk`
+--
+ALTER TABLE `sewa_produk`
+  ADD CONSTRAINT `sewa_produk_id_produk_foreign` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

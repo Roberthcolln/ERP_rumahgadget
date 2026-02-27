@@ -16,6 +16,7 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SewaProdukController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TipeController;
 use App\Http\Controllers\VarianController;
@@ -49,6 +50,15 @@ Route::get('/service/detail/{id}', [HomeController::class, 'detailService']);
 
 Route::get('/kredits', [HomeController::class, 'kredits'])->name('kredits');
 
+Route::get('/tukar-tambah', [HomeController::class, 'tukarTambah'])->name('tukar.tambah');
+Route::get('/get-produk-detail/{id}', [HomeController::class, 'getProdukDetail']);
+
+Route::get('/rental', [HomeController::class, 'sewa'])->name('sewa_web');
+
+Route::get('/produk/detail/{id}', [HomeController::class, 'getDetailProduk'])->name('produk.detail');
+
+Route::get('/artikel', [HomeController::class, 'artikel']);
+Route::get('/artikel/{slug}', [HomeController::class, 'artikelDetail']);
 
 Route::middleware([
     'auth:sanctum',
@@ -73,7 +83,7 @@ Route::middleware([
     Route::resource('kredit', KreditController::class);
     Route::resource('kategori_service', KategoriServiceController::class);
     Route::resource('service', ServiceController::class);
-
+    Route::resource('sewa', SewaProdukController::class);
     Route::resource('kategori_aksesoris', KategoriAksesorisController::class);
     Route::resource('aksesoris', AksesorisController::class);
 

@@ -90,8 +90,9 @@ $konf = DB::table('setting')->first();
 
                     {{-- ROLE: ADMIN --}}
                     @if (auth()->user()->jabatan == 'Admin')
-                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Manajemen
-                                Utama</span></li>
+                        <li class="menu-header small text-uppercase">
+                            <span class="menu-header-text">Manajemen Utama</span>
+                        </li>
 
                         {{-- Berita --}}
                         <li class="menu-item {{ Route::is('berita.*') ? 'active' : '' }}">
@@ -141,6 +142,24 @@ $konf = DB::table('setting')->first();
                             </ul>
                         </li>
 
+                        {{-- FITUR BARU: Sewa iPhone --}}
+                        <li class="menu-item {{ Route::is('sewa.*') ? 'active open' : '' }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class="menu-icon tf-icons bx bx-time-five"></i>
+                                <div>Sewa iPhone</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li
+                                    class="menu-item {{ Route::is('sewa.index') || Route::is('sewa.edit') ? 'active' : '' }}">
+                                    <a href="{{ route('sewa.index') }}" class="menu-link">
+                                        <div>Daftar Harga Sewa</div>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        {{-- Service Gadget --}}
                         <li
                             class="menu-item {{ Route::is('kategori_service.*') || Route::is('service.*') ? 'active open' : '' }}">
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -156,10 +175,10 @@ $konf = DB::table('setting')->first();
                                         href="{{ route('service.index') }}" class="menu-link">
                                         <div>Service</div>
                                     </a></li>
-
                             </ul>
                         </li>
 
+                        {{-- Aksesoris Gadget --}}
                         <li
                             class="menu-item {{ Route::is('kategori_aksesoris.*') || Route::is('aksesoris.*') ? 'active open' : '' }}">
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -175,11 +194,10 @@ $konf = DB::table('setting')->first();
                                         href="{{ route('aksesoris.index') }}" class="menu-link">
                                         <div> Aksesoris</div>
                                     </a></li>
-
-
                             </ul>
                         </li>
 
+                        {{-- Kredit Gadget --}}
                         <li class="menu-item {{ Route::is('kredit.*') ? 'active open' : '' }}">
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
                                 <i class="menu-icon tf-icons bx bx-wallet"></i>
@@ -190,15 +208,8 @@ $konf = DB::table('setting')->first();
                                         href="{{ route('kredit.index') }}" class="menu-link">
                                         <div>Kredit</div>
                                     </a></li>
-
-
-
                             </ul>
                         </li>
-
-
-
-                        {{-- ROLE: KASIR --}}
                     @endif
                 </ul>
             </aside>
