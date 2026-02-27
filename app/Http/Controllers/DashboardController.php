@@ -19,18 +19,21 @@ class DashboardController extends Controller
         $title = 'Dashboard';
         $konf  = DB::table('setting')->first();
 
+        $today = Carbon::today();
 
-        $now          = Carbon::now();
-        $today        = $now->copy()->startOfDay();
-        $startOfWeek  = $now->copy()->startOfWeek();
-        $startOfMonth = $now->copy()->startOfMonth();
-        $startLast7   = Carbon::today()->subDays(6);
-        $endLast7     = $now;
+        // Mengambil statistik ringkas
+        $totalOrderHariIni = \App\Models\Order::whereDate('created_at', $today)->count();
+        $totalPendapatan   = \App\Models\Order::where('status_pembayaran', 'success')->sum('total_harga');
 
+        // Mengambil 5 order terbaru dengan relasi details
+        $recentOrders = \App\Models\Order::with('details')->latest()->take(5)->get();
 
         return view('dashboard.index', compact(
             'title',
             'konf',
+            'totalOrderHariIni',
+            'totalPendapatan',
+            'recentOrders'
         ));
     }
 }

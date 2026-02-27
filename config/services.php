@@ -13,6 +13,15 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    'midtrans' => [
+        'serverKey' => env('MIDTRANS_SERVER_KEY'),
+        'clientKey' => env('MIDTRANS_CLIENT_KEY'),
+        'isProduction' => env('MIDTRANS_IS_PRODUCTION', false),
+        'isSanitized' => true,
+        'is3ds' => true,
+    ],
+
+
 
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),

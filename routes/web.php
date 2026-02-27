@@ -60,6 +60,20 @@ Route::get('/produk/detail/{id}', [HomeController::class, 'getDetailProduk'])->n
 Route::get('/artikel', [HomeController::class, 'artikel']);
 Route::get('/artikel/{slug}', [HomeController::class, 'artikelDetail']);
 
+Route::post('/add-to-cart', [HomeController::class, 'addToCart']);
+Route::get('/checkout', [HomeController::class, 'checkout']);
+
+// Gunakan yang ini
+Route::post('/proses-checkout', [App\Http\Controllers\CheckoutController::class, 'prosesCheckout']);
+
+Route::get('/finish', [App\Http\Controllers\CheckoutController::class, 'finish']);
+
+use App\Http\Controllers\CheckoutController;
+
+// Tambahkan route ini
+Route::post('/cart/update-qty', [CheckoutController::class, 'updateQty']);
+Route::post('/cart/remove', [CheckoutController::class, 'remove']);
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -89,6 +103,8 @@ Route::middleware([
 
     Route::resource('supplier', SupplierController::class);
     Route::resource('pelanggan', PelangganController::class);
+
+    Route::get('/orders', [App\Http\Controllers\CheckoutController::class, 'indexOrder'])->name('order.index');
 
 
     Route::get('/fetch-jenis', [TipeController::class, 'fetchJenis']);

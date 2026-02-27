@@ -90,6 +90,27 @@ $konf = DB::table('setting')->first();
 
                     {{-- ROLE: ADMIN --}}
                     @if (auth()->user()->jabatan == 'Admin')
+
+                        <li class="menu-header small text-uppercase">
+                            <span class="menu-header-text">E-Commerce</span>
+                        </li>
+
+
+                        {{-- MENU BARU: Pesanan Online --}}
+                        <li class="menu-item {{ Route::is('order.*') ? 'active' : '' }}">
+                            <a href="{{ route('order.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-cart"></i>
+                                <div>Pesanan Online</div>
+                                {{-- Badge Otomatis untuk pesanan yang statusnya masih 'pending' --}}
+                                @php
+                                    $pendingOrders = \App\Models\Order::where('status_pembayaran', 'pending')->count();
+                                @endphp
+                                @if ($pendingOrders > 0)
+                                    <div class="badge bg-label-warning ms-auto">{{ $pendingOrders }}</div>
+                                @endif
+                            </a>
+                        </li>
+
                         <li class="menu-header small text-uppercase">
                             <span class="menu-header-text">Manajemen Utama</span>
                         </li>
@@ -100,6 +121,21 @@ $konf = DB::table('setting')->first();
                                 <i class="menu-icon tf-icons bx bx-news"></i>
                                 <div>Berita & Informasi</div>
                                 <div class="badge bg-label-secondary ms-auto">{{ \App\Models\Berita::count() }}</div>
+                            </a>
+                        </li>
+
+                        {{-- MENU BARU: Pesanan Online --}}
+                        <li class="menu-item {{ Route::is('order.*') ? 'active' : '' }}">
+                            <a href="{{ route('order.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-cart"></i>
+                                <div>Pesanan Online</div>
+                                {{-- Badge Otomatis untuk pesanan yang statusnya masih 'pending' --}}
+                                @php
+                                    $pendingOrders = \App\Models\Order::where('status_pembayaran', 'pending')->count();
+                                @endphp
+                                @if ($pendingOrders > 0)
+                                    <div class="badge bg-label-warning ms-auto">{{ $pendingOrders }}</div>
+                                @endif
                             </a>
                         </li>
 
@@ -155,7 +191,6 @@ $konf = DB::table('setting')->first();
                                         <div>Daftar Harga Sewa</div>
                                     </a>
                                 </li>
-
                             </ul>
                         </li>
 

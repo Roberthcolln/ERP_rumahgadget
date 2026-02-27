@@ -101,6 +101,11 @@
                                         data-id="{{ $pro->id_produk }}">
                                         <i class="fa fa-eye mr-1"></i> Lihat Detail
                                     </button>
+
+                                    <button type="button" class="btn btn-primary btn-block add-to-cart mt-2"
+                                        data-id="{{ $pro->id_produk }}" style="border-radius: 10px;">
+                                        <i class="fa fa-shopping-cart"></i> Tambah Keranjang
+                                    </button>
                                 </div>
                             </div>
                         </div>

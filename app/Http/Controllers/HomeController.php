@@ -6,17 +6,13 @@ use App\Models\Berita;
 use App\Models\Jenis;
 use App\Models\Kategori;
 use App\Models\KategoriService;
-use App\Models\Musik;
 use App\Models\Produk;
 use App\Models\Service;
-use App\Models\Setting;
-use App\Models\Supplier;
 use App\Models\Tipe;
-use App\Models\Varian;
-use App\Models\Warna;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -49,6 +45,58 @@ class HomeController extends Controller
             ->findOrFail($id);
 
         return response()->json($produk);
+    }
+
+    public function addToCart(Request $request)
+    {
+        $id = $request->id_produk;
+        $produk = \App\Models\Produk::findOrFail($id);
+
+        $cart = Session::get('cart', []);
+
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "nama" => $produk->nama_produk,
+                "quantity" => 1,
+                "harga" => ($produk->harga_promo_produk > 0) ? $produk->harga_promo_produk : $produk->harga_jual_produk,
+                "gambar" => $produk->gambar_produk
+            ];
+        }
+
+        Session::put('cart', $cart);
+        return response()->json(['message' => 'Produk berhasil ditambah!', 'cart_count' => count($cart)]);
+    }
+
+    public function checkout()
+    {
+        $cart = Session::get('cart');
+        if (!$cart) return redirect('/')->with('error', 'Keranjang kosong!');
+
+        $konf = DB::table('setting')->first();
+        return view('checkout', compact('cart', 'konf'));
+    }
+
+    public function prosesCheckout(Request $request)
+    {
+        $cart = Session::get('cart');
+        $pesan = "Halo Admin, saya mau pesan:\n\n";
+
+        foreach ($cart as $item) {
+            $pesan .= "- " . $item['nama'] . " (" . $item['quantity'] . "x)\n";
+        }
+
+        $pesan .= "\nTotal: Rp " . number_format($this->getTotalHarga($cart));
+        $pesan .= "\n\nData Pembeli:";
+        $pesan .= "\nNama: " . $request->nama;
+        $pesan .= "\nMetode: " . $request->metode_kirim;
+        $pesan .= "\nAlamat: " . $request->alamat;
+
+        $urlWa = "https://wa.me/6281xxx?text=" . urlencode($pesan);
+
+        Session::forget('cart'); // Kosongkan keranjang
+        return redirect($urlWa);
     }
 
     public function jual(Request $request)

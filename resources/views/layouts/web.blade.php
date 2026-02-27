@@ -222,6 +222,20 @@
         .modal-backdrop {
             z-index: 1999 !important;
         }
+
+        /* Badge untuk jumlah keranjang */
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: #ffbe33;
+            color: #222831;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+            border: 1px solid #ffffff;
+        }
     </style>
 </head>
 
@@ -230,17 +244,24 @@
         style="background-color: #222831; border-bottom: 2px solid #ffffff; z-index: 1050; top: 0;">
 
         <a class="navbar-brand m-0" href="{{ url('/') }}" style="display: flex; align-items: center;">
-            <img src="{{ asset('logo/' . $konf->logo_setting) }}" alt="Logo {{ $konf->instansi_setting }}"
+            <img src="{{ asset('logo/' . $konf->logo_setting) }}" alt="Logo"
                 style="height: 30px; width: auto; margin-right: 10px; object-fit: contain;">
-
             <span style="font-size: 18px; color: #ffffff; font-weight: bold; line-height: 1;">
                 {{ $konf->instansi_setting }}
             </span>
         </a>
 
-        <a href="https://wa.me/{{ $konf->no_hp_setting }}" class="btn btn-success btn-sm rounded-pill px-3">
-            <i class="fa fa-whatsapp"></i>
-        </a>
+        <div class="d-flex align-items-center">
+            <a href="{{ url('checkout') }}" class="text-white mr-3 position-relative" style="font-size: 20px;">
+                <i class="fa fa-shopping-cart"></i>
+                @if (session('cart'))
+                    <span class="cart-badge">{{ count(session('cart')) }}</span>
+                @endif
+            </a>
+            <a href="https://wa.me/{{ $konf->no_hp_setting }}" class="btn btn-success btn-sm rounded-pill px-3">
+                <i class="fa fa-whatsapp"></i>
+            </a>
+        </div>
     </div>
     <div class="hero_area">
         <header class="header_section d-none d-lg-block">
@@ -303,7 +324,15 @@
 
                         </ul>
 
-                        <div class="user_option">
+                        <div class="user_option d-flex align-items-center">
+                            <a href="{{ url('checkout') }}" class="mr-3 text-white position-relative"
+                                style="font-size: 20px;">
+                                <i class="fa fa-shopping-cart"></i>
+                                @if (session('cart'))
+                                    <span class="cart-badge">{{ count(session('cart')) }}</span>
+                                @endif
+                            </a>
+
                             <a href="https://wa.me/{{ $konf->no_hp_setting }}"
                                 class="btn btn-success rounded-pill px-3 py-2" style="font-weight: 400;">
                                 <i class="fa fa-whatsapp"></i>
@@ -546,10 +575,15 @@
         });
     </script>
 
+
     <div class="mobile-nav d-lg-none">
         <a href="{{ url('/') }}" class="mobile-nav-item {{ Request::is('/') ? 'active' : '' }}">
             <i class="fa fa-home"></i>
             <span>Home</span>
+        </a>
+        <a href="{{ url('checkout') }}" class="mobile-nav-item {{ Request::is('checkout*') ? 'active' : '' }}">
+            <i class="fa fa-shopping-cart"></i>
+            <span>Keranjang</span>
         </a>
         <a href="{{ url('harga') }}" class="mobile-nav-item {{ Request::is('harga*') ? 'active' : '' }}">
             <i class="fa fa-tag"></i>
@@ -673,6 +707,23 @@
                         alert("Gagal mengambil data produk.");
                     }
                 });
+            });
+        });
+    </script>
+
+    <script>
+        $('.add-to-cart').click(function() {
+            let id = $(this).data('id');
+            $.post("{{ url('add-to-cart') }}", {
+                _token: '{{ csrf_token() }}',
+                id_produk: id
+            }, function(data) {
+                alert(data.message);
+                // Refresh halaman agar badge update (Cara simpel)
+                location.reload();
+
+                // ATAU update angka badge manual jika tidak ingin reload:
+                // $('.cart-badge').text(data.cart_count); 
             });
         });
     </script>
