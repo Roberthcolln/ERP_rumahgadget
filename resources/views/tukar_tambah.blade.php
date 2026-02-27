@@ -2,124 +2,212 @@
 
 @section('isi')
     <style>
+        /* Desain Latar Belakang & Kartu */
+        .jual_hp_section {
+            background: rgba(255, 255, 255, 0.9);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 60px 0;
+        }
+
         .card-trade {
-            border-radius: 20px;
-            border: none;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
         }
 
-        .select2-container--bootstrap4 .select2-selection {
+        /* Styling Input & Tombol */
+        .form-label-custom {
+            font-weight: 700;
+            color: #444;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .custom-select-lg {
             border-radius: 15px !important;
+            border: 2px solid #eee;
+            height: calc(2.8rem + 2px) !important;
+            font-weight: 500;
         }
 
-        .divider-custom {
-            border-top: 2px dashed #dee2e6;
-            margin: 20px 0;
+        .btn-calc {
+            background: #000;
+            color: #fff;
+            border-radius: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 12px 30px;
+            transition: all 0.3s;
         }
 
-        /* Overlay untuk mengunci konten sebelum setuju */
+        .btn-calc:hover {
+            background: #333;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Rincian Hasil */
+        .result-box {
+            background: #fff;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 2px solid #ffbe33;
+        }
+
+        .result-header {
+            background: #ffbe33;
+            padding: 20px;
+            color: #000;
+        }
+
+        .price-tag {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #000;
+            text-shadow: 1px 1px 0px #fff;
+        }
+
+        /* Overlay Lock */
         #lock-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
             z-index: 10;
-            border-radius: 20px;
+            border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
+        .badge-step {
+            width: 30px;
+            height: 30px;
+            background: #ffbe33;
+            color: #000;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+        }
     </style>
 
-    <section class="jual_hp_section layout_padding">
+    <section class="jual_hp_section">
         <div class="container">
-            <div class="heading_container heading_center mb-5">
-                <h2 style="font-weight: 800; color: #000;">Cek Harga HP Kamu</h2>
-                <p style="color: #666;">Bandingkan harga dan dapatkan penawaran tukar tambah terbaik</p>
+            <div class="text-center mb-5">
+                <h1 class="display-4 font-weight-bold" style="color: #000;">Smart Trade-In</h1>
+                <p class="lead" style="color: #444;">Tukar tambah HP lama kamu dengan yang baru hanya dalam hitungan detik.
+                </p>
             </div>
 
             <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <div class="card card-trade p-4 mb-4 position-relative" id="mainFormArea">
+                <div class="col-lg-11">
+                    <div class="card card-trade p-4 p-md-5 position-relative">
                         <div id="lock-overlay">
-                            <button class="btn btn-dark btn-lg" data-toggle="modal" data-target="#modalToC"
-                                style="border-radius: 12px;">
-                                Baca & Setujui Syarat Terlebih Dahulu
+                            <button class="btn btn-dark btn-lg shadow-lg" data-toggle="modal" data-target="#modalToC"
+                                style="border-radius: 50px; padding: 15px 40px; font-weight: 700;">
+                                <i class="fa fa-unlock-alt mr-2"></i> Buka Kalkulator Tukar Tambah
                             </button>
                         </div>
 
-                        <div class="row g-3">
-                            <div class="col-md-5">
-                                <label class="small font-weight-bold">HP Kamu Saat Ini</label>
-                                <select class="form-control form-control-lg select2" id="hpClient" disabled>
-                                    <option value="" selected disabled>Pilih Gadget Kamu</option>
+                        <div class="row align-items-end">
+                            <div class="col-md-5 mb-3 mb-md-0">
+                                <label class="form-label-custom">
+                                    <span class="badge-step">1</span> Gadget Kamu Saat Ini
+                                </label>
+                                <select class="form-control custom-select-lg shadow-sm" id="hpClient" disabled>
+                                    <option value="" selected disabled>Pilih Merk & Tipe HP...</option>
                                     @foreach ($hpClient as $item)
-                                        <option value="{{ $item->id_produk }}">{{ $item->nama_produk }}
-                                            ({{ $item->varian->nama_varian ?? '-' }})
+                                        <option value="{{ $item->id_produk }}">
+                                            {{ $item->nama_produk }} ({{ $item->varian->nama_varian ?? '-' }})
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="col-md-2 text-center d-none d-md-block mb-3">
+                                <div class="bg-dark text-white rounded-circle mx-auto d-flex align-items-center justify-content-center"
+                                    style="width: 50px; height: 50px;">
+                                    <i class="fa fa-exchange fa-lg"></i>
+                                </div>
+                            </div>
+
                             <div class="col-md-5">
-                                <label class="small font-weight-bold">HP Impian (Tukar Ke)</label>
-                                <select class="form-control form-control-lg select2" id="hpTarget" disabled>
-                                    <option value="" selected disabled>Pilih Gadget Impian</option>
+                                <label class="form-label-custom">
+                                    <span class="badge-step">2</span> Gadget Impian
+                                </label>
+                                <select class="form-control custom-select-lg shadow-sm" id="hpTarget" disabled>
+                                    <option value="" selected disabled>Pilih HP yang Diinginkan...</option>
                                     @foreach ($hpTarget as $item)
-                                        <option value="{{ $item->id_produk }}">{{ $item->nama_produk }}
-                                            ({{ $item->varian->nama_varian ?? '-' }})
+                                        <option value="{{ $item->id_produk }}">
+                                            {{ $item->nama_produk }} ({{ $item->varian->nama_varian ?? '-' }})
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button id="btnHitung" class="btn btn-primary btn-lg btn-block" disabled
-                                    style="border-radius: 15px; background-color: #007bff;">
-                                    Cek Harga
+
+                            <div class="col-12 mt-4">
+                                <button id="btnHitung" class="btn btn-calc btn-block shadow-sm" disabled>
+                                    <i class="fa fa-calculator mr-2"></i> HITUNG SELISIH HARGA
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <div id="hasilKalkulasi" style="display: none;">
-                        <div class="card card-trade p-4 text-center mb-4">
-                            <h5 class="text-muted mb-1">Cukup Menambah</h5>
-                            <h1 class="display-4 font-weight-bold text-dark" id="totalBayar">Rp 0</h1>
-                            <p class="small text-muted">Kalkulasi per <span id="waktuUpdate"></span> WITA</p>
-                            <div class="divider-custom"></div>
-                            <h4 class="font-weight-bold mb-4">Rincian Perhitungan</h4>
-                            <div class="table-responsive">
-                                <table class="table table-borderless text-left">
-                                    <thead>
-                                        <tr class="text-muted" style="font-size: 0.9rem;">
-                                            <th>Gadget Kamu Saat ini</th>
-                                            <th>Varian</th>
-                                            <th class="text-right">Estimasi Harga</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="font-weight-bold">
-                                            <td id="namaClient">-</td>
-                                            <td id="varianClient">-</td>
-                                            <td class="text-right text-success">(+) <span id="hargaClient">Rp 0</span></td>
-                                        </tr>
-                                        <tr class="text-muted" style="font-size: 0.9rem;">
-                                            <th>Gadget Pilihan Kamu</th>
-                                            <th>Varian</th>
-                                            <th class="text-right">Estimasi Harga</th>
-                                        </tr>
-                                        <tr class="font-weight-bold border-bottom">
-                                            <td id="namaTarget">-</td>
-                                            <td id="varianTarget">-</td>
-                                            <td class="text-right text-danger">(-) <span id="hargaTarget">Rp 0</span></td>
-                                        </tr>
-                                        <tr class="font-weight-bold" style="font-size: 1.2rem;">
-                                            <td colspan="2" class="pt-3">Tambah Sebesar</td>
-                                            <td class="text-right pt-3" id="totalBayarRow">Rp 0</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                    <div id="hasilKalkulasi" class="mt-5" style="display: none;">
+                        <div class="result-box shadow-lg">
+                            <div class="result-header text-center">
+                                <h5 class="text-uppercase font-weight-bold mb-0">Estimasi Sisa Pembayaran</h5>
+                            </div>
+                            <div class="p-4 p-md-5">
+                                <div class="text-center mb-5">
+                                    <p class="text-muted mb-1">Anda Cukup Menambah:</p>
+                                    <h1 class="price-tag" id="totalBayar">Rp 0</h1>
+                                    <span class="badge badge-warning px-3 py-2 mt-2">Update: <span
+                                            id="waktuUpdate"></span></span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4 mb-md-0">
+                                        <div class="p-3 rounded-20 border" style="background: #f8f9fa;">
+                                            <h6 class="font-weight-bold text-muted">HP LAMA ANDA</h6>
+                                            <h5 id="namaClient" class="font-weight-bold text-dark">-</h5>
+                                            <p id="varianClient" class="small mb-2">-</p>
+                                            <h4 class="text-success font-weight-bold">Value: <span id="hargaClient">Rp
+                                                    0</span></h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 rounded-20 border" style="background: #f8f9fa;">
+                                            <h6 class="font-weight-bold text-muted">HP BARU ANDA</h6>
+                                            <h5 id="namaTarget" class="font-weight-bold text-dark">-</h5>
+                                            <p id="varianTarget" class="small mb-2">-</p>
+                                            <h4 class="text-danger font-weight-bold">Price: <span id="hargaTarget">Rp
+                                                    0</span></h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5 text-center">
+                                    <p class="text-muted small">*Harga di atas adalah estimasi. Kondisi fisik unit sangat
+                                        menentukan harga akhir.</p>
+                                    <a href="https://wa.me/{{ $konf->whatsapp ?? '' }}" target="_blank"
+                                        class="btn btn-success btn-lg rounded-pill px-5 shadow">
+                                        <i class="fa fa-whatsapp mr-2"></i> HUBUNGI ADMIN UNTUK TUKAR SEKARANG
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -128,29 +216,33 @@
         </div>
     </section>
 
-    <div class="modal fade" id="modalToC" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content" style="border-radius: 30px; border: none;">
-                <div class="modal-body bg-dark text-white p-5" style="border-radius: 30px;">
-                    <h4 class="text-center mb-4" style="font-weight: 700;">Syarat & Ketentuan Tukar Tambah</h4>
-                    <ul style="list-style: none; padding-left: 0; line-height: 2.2; opacity: 0.9;">
-                        <li>• Lolos pengecekan fungsi secara langsung oleh tim general check up Rumah Gadget</li>
-                        <li>• Fisik mulus tidak ada lecet, retak dan sebagainya</li>
-                        <li>• Fungsi Hp secara keseluruhan normal</li>
-                        <li>• IMEI tidak terblokir dan terdaftar di database Beacukai</li>
-                        <li>• Baterai tidak drop dengan kesehatan minimal 85%</li>
-                        <li>• Spare parts hp original, tidak pernah dibongkar/service sebelumnya</li>
-                        <li>• Terbebas dari iCloud/Google/Samsung Activation Lock</li>
-                        <li>• Tidak tersangkut kasus hukum</li>
-                        <li>• Tidak dalam masa cicilan</li>
-                        <li>• <strong>Wajib membawa identitas diri seperti KTP/SIM/Kartu Pelajar</strong></li>
-                    </ul>
-                    <div class="text-center mt-5">
-                        <button type="button" class="btn btn-light px-5 py-2" id="btnSetuju"
-                            style="border-radius: 12px; font-weight: 700;">
-                            SAYA MENGERTI & SETUJU
-                        </button>
+    <div class="modal fade" id="modalToC" data-backdrop="static" data-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0" style="border-radius: 30px; overflow: hidden;">
+                <div class="modal-body p-0">
+                    <div class="row no-gutters">
+                        <div class="col-md-5 bg-warning d-flex align-items-center justify-content-center p-5">
+                            <div class="text-center">
+                                <i class="fa fa-file-text-o fa-5x mb-3 text-dark"></i>
+                                <h3 class="font-weight-bold text-dark">Ketentuan Unit</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-7 bg-dark text-white p-5">
+                            <ul class="list-unstyled" style="line-height: 2;">
+                                <li><i class="fa fa-check text-warning mr-2"></i> Lolos General Check Up</li>
+                                <li><i class="fa fa-check text-warning mr-2"></i> Fisik mulus (No Dent/Lecet)</li>
+                                <li><i class="fa fa-check text-warning mr-2"></i> Fungsi Normal 100%</li>
+                                <li><i class="fa fa-check text-warning mr-2"></i> IMEI Terdaftar Beacukai/Kemenperin</li>
+                                <li><i class="fa fa-check text-warning mr-2"></i> Battery Health > 85%</li>
+                                <li><i class="fa fa-check text-warning mr-2"></i> iCloud / Google Log Out</li>
+                                <li><i class="fa fa-id-card text-warning mr-2"></i> <strong>Wajib Membawa KTP Asli</strong>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-warning btn-block mt-4 py-3 font-weight-bold"
+                                id="btnSetuju" style="border-radius: 15px;">
+                                MENGERTI & LANJUTKAN
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -160,27 +252,25 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            // 1. Munculkan Modal secara otomatis saat halaman dibuka
             $('#modalToC').modal('show');
 
-            // 2. Logika ketika tombol Setuju diklik
             $('#btnSetuju').on('click', function() {
-                $('#lock-overlay').fadeOut(); // Hilangkan overlay
-                $('#hpClient, #hpTarget, #btnHitung').prop('disabled', false); // Aktifkan input
-                $('#modalToC').modal('hide'); // Tutup modal
+                $('#lock-overlay').fadeOut(600);
+                $('#hpClient, #hpTarget, #btnHitung').prop('disabled', false);
+                $('#modalToC').modal('hide');
             });
 
-            // 3. Logika Hitung (Sama seperti sebelumnya)
             $('#btnHitung').on('click', function() {
                 let idClient = $('#hpClient').val();
                 let idTarget = $('#hpTarget').val();
 
                 if (!idClient || !idTarget) {
-                    alert('Silakan pilih kedua HP untuk dibandingkan!');
+                    alert('Harap pilih kedua gadget!');
                     return;
                 }
 
-                $(this).prop('disabled', true).text('Menghitung...');
+                let btn = $(this);
+                btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Memproses...');
 
                 Promise.all([
                     fetch("{{ url('/get-produk-detail') }}/" + idClient).then(res => res.json()),
@@ -193,6 +283,7 @@
                         $('#namaClient').text(resClient.nama);
                         $('#varianClient').text(resClient.varian);
                         $('#hargaClient').text(resClient.harga_fmt);
+
                         $('#namaTarget').text(resTarget.nama);
                         $('#varianTarget').text(resTarget.varian);
                         $('#hargaTarget').text(resTarget.harga_fmt);
@@ -207,14 +298,18 @@
                         }).format(selisih);
 
                         $('#totalBayar').text(formattedSelisih);
-                        $('#totalBayarRow').text(formattedSelisih);
                         $('#waktuUpdate').text(resTarget.waktu);
-                        $('#hasilKalkulasi').slideDown();
+
+                        $('#hasilKalkulasi').slideDown(800);
+
+                        // Auto scroll ke hasil
+                        $('html, body').animate({
+                            scrollTop: $("#hasilKalkulasi").offset().top - 50
+                        }, 1000);
                     }
-                }).catch(err => {
-                    alert('Terjadi kesalahan saat mengambil data.');
                 }).finally(() => {
-                    $(this).prop('disabled', false).text('Cek Harga');
+                    btn.prop('disabled', false).html(
+                        '<i class="fa fa-calculator mr-2"></i> HITUNG SELISIH HARGA');
                 });
             });
         });
