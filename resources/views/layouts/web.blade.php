@@ -606,12 +606,14 @@
             <span>Artikel Gadget</span>
         </a>
         <a href="{{ url('aksesoriss') }}" class="mobile-nav-item {{ Request::is('aksesoriss*') ? 'active' : '' }}">
-            <i class="fa fa-headphones"></i>
+            {{-- Menggunakan ikon plug atau laptop untuk aksesoris --}}
+            <i class="fa fa-plug"></i>
             <span>Aksesoris</span>
         </a>
+
         <a href="{{ url('tukar-tambah') }}"
             class="mobile-nav-item {{ Request::is('tukar-tambah*') ? 'active' : '' }}">
-            <i class="fa fa-headphones"></i>
+            <i class="fa fa-exchange"></i>
             <span>Tukar Tambah</span>
         </a>
         <a href="{{ url('jual') }}" class="mobile-nav-item {{ Request::is('jual*') ? 'active' : '' }}">
