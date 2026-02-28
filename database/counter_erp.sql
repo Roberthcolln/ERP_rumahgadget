@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 28 Feb 2026 pada 03.52
+-- Waktu pembuatan: 28 Feb 2026 pada 07.17
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -513,6 +513,7 @@ CREATE TABLE `produk` (
   `id_jenis` bigint(20) UNSIGNED NOT NULL,
   `id_tipe` bigint(20) UNSIGNED NOT NULL,
   `id_warna` bigint(20) NOT NULL,
+  `id_promo` int(11) DEFAULT NULL,
   `id_varian` bigint(20) NOT NULL,
   `id_supplier` bigint(20) UNSIGNED DEFAULT NULL,
   `nama_produk` varchar(255) NOT NULL,
@@ -529,14 +530,44 @@ CREATE TABLE `produk` (
 -- Dumping data untuk tabel `produk`
 --
 
-INSERT INTO `produk` (`id_produk`, `id_kategori`, `id_jenis`, `id_tipe`, `id_warna`, `id_varian`, `id_supplier`, `nama_produk`, `deskripsi_produk`, `harga_produk`, `harga_jual_produk`, `harga_promo_produk`, `gambar_produk`, `created_at`, `updated_at`) VALUES
-(2, 3, 4, 3, 11, 3, 1, 'iPhone 13', '<p>Varian : 128gb<br>Color : Midnight</p>', 7999000, 8249000, 7999000, '1771436312.jpg', '2026-02-18 17:38:32', '2026-02-25 03:00:09'),
-(3, 3, 4, 5, 13, 3, 1, 'iPhone 17 Pro Max', '<p>Varian : 2TB<br>Color : Cosmic Orange</p>', 43399000, 43999000, 43399000, '1771437184.jpg', '2026-02-18 17:53:04', '2026-02-25 03:01:15'),
-(4, 3, 4, 5, 11, 4, 1, 'iPhone 17 Pro Max', '<p>Varian : 2TB<br>Color : Midnight</p>', 43399000, 43999000, 43399000, '1771438662.jpg', '2026-02-18 18:17:42', '2026-02-25 03:03:06'),
-(9, 4, 7, 4, 11, 3, 1, 'Vivo Y04S', '<p>tes</p>', 1000000, 2000000, 1500000, '1771991273.jpeg', '2026-02-25 03:47:53', '2026-02-25 05:11:59'),
-(10, 3, 5, 8, 11, 3, 1, 'iPhone 13', '<p>Mantap</p>', 6999000, 9299000, 0, '1772117071.jpeg', '2026-02-26 14:44:31', '2026-02-26 14:44:31'),
-(11, 3, 10, 9, 11, 5, 1, 'iPhone XR', '<p>Oke lah</p>', 2000000, 3399000, 0, '1772117200.jpeg', '2026-02-26 14:46:40', '2026-02-26 14:46:40'),
-(12, 4, 11, 10, 13, 5, 1, 'Samsung a37', '<p>Bisa lahhh !</p>', 3500000, 5000000, 0, '1772117365.jpg', '2026-02-26 14:49:25', '2026-02-26 14:49:25');
+INSERT INTO `produk` (`id_produk`, `id_kategori`, `id_jenis`, `id_tipe`, `id_warna`, `id_promo`, `id_varian`, `id_supplier`, `nama_produk`, `deskripsi_produk`, `harga_produk`, `harga_jual_produk`, `harga_promo_produk`, `gambar_produk`, `created_at`, `updated_at`) VALUES
+(2, 3, 4, 3, 11, 2, 3, 1, 'iPhone 13', '<p>Varian : 128gb<br>Color : Midnight</p>', 7999000, 8249000, 8125000, '1771436312.jpg', '2026-02-18 17:38:32', '2026-02-28 04:14:30'),
+(3, 3, 4, 5, 13, NULL, 3, 1, 'iPhone 17 Pro Max', '<p>Varian : 2TB<br>Color : Cosmic Orange</p>', 43399000, 43999000, 43399000, '1771437184.jpg', '2026-02-18 17:53:04', '2026-02-25 03:01:15'),
+(4, 3, 4, 5, 11, NULL, 4, 1, 'iPhone 17 Pro Max', '<p>Varian : 2TB<br>Color : Midnight</p>', 43399000, 43999000, 43399000, '1771438662.jpg', '2026-02-18 18:17:42', '2026-02-25 03:03:06'),
+(9, 4, 7, 4, 11, NULL, 3, 1, 'Vivo Y04S', '<p>tes</p>', 1000000, 2000000, 1500000, '1771991273.jpeg', '2026-02-25 03:47:53', '2026-02-25 05:11:59'),
+(10, 3, 5, 8, 11, NULL, 3, 1, 'iPhone 13', '<p>Mantap</p>', 6999000, 9299000, 0, '1772117071.jpeg', '2026-02-26 14:44:31', '2026-02-26 14:44:31'),
+(11, 3, 10, 9, 11, NULL, 5, 1, 'iPhone XR', '<p>Oke lah</p>', 2000000, 3399000, 0, '1772117200.jpeg', '2026-02-26 14:46:40', '2026-02-26 14:46:40'),
+(12, 4, 11, 10, 13, NULL, 5, 1, 'Samsung a37', '<p>Bisa lahhh !</p>', 3500000, 5000000, 0, '1772117365.jpg', '2026-02-26 14:49:25', '2026-02-26 14:49:25');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `promo_gadget`
+--
+
+CREATE TABLE `promo_gadget` (
+  `id` int(11) NOT NULL,
+  `nama_promo` varchar(100) DEFAULT NULL,
+  `kode_promo` varchar(20) DEFAULT NULL,
+  `tipe_promo` enum('persentase','nominal') DEFAULT NULL,
+  `nilai_promo` decimal(15,2) DEFAULT NULL,
+  `maksimal_potongan` decimal(15,2) DEFAULT NULL,
+  `minimal_pembelian` decimal(15,2) DEFAULT 0.00,
+  `kuota_total` int(11) DEFAULT 0,
+  `tgl_mulai` datetime DEFAULT NULL,
+  `tgl_selesai` datetime DEFAULT NULL,
+  `status` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `promo_gadget`
+--
+
+INSERT INTO `promo_gadget` (`id`, `nama_promo`, `kode_promo`, `tipe_promo`, `nilai_promo`, `maksimal_potongan`, `minimal_pembelian`, `kuota_total`, `tgl_mulai`, `tgl_selesai`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Harga Spesial', 'RG0002', 'nominal', 13299000.00, NULL, 1.00, 3, '2026-02-28 00:00:00', '2026-03-04 00:00:00', 1, '2026-02-28 03:57:10', '2026-02-28 03:57:10'),
+(2, 'Harga Spesial 1', 'RG00022', 'nominal', 8000000.00, NULL, 1.00, 3, '2026-02-28 00:00:00', '2026-03-02 00:00:00', 1, '2026-02-28 04:12:46', '2026-02-28 04:12:46');
 
 -- --------------------------------------------------------
 
@@ -650,8 +681,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('bLVeSs5z18egJz0q1B5415KAu8A9jf0PG3oPl2H8', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiTHNzb0JSSXA4TXZqMVUwbG9PZHM1SDFyZkNkeWs0VUprb05DTGkzWCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9vcmRlcnMiO3M6NToicm91dGUiO3M6MTE6Im9yZGVyLmluZGV4Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjQ6IjkxMDE5NzE3ZjkxMmNjMDRiZThlZDY2ZTZmMTNkZWZlZTA2ZWM5MWI3OGMzYTg5NzNkMTUwOWQ1NTRmNWFjOTAiO3M6NDI6ImNoZWNrb3V0X2FjY2Vzc190b2tlbl9JTlYtRllNTktIMTc3MjI0NjMwNiI7czozMjoiZjczRlVISU9xM2EwV0xCMkdvaXZxcmEwOVlmaVAxZnQiO3M6NDI6ImNoZWNrb3V0X2FjY2Vzc190b2tlbl9JTlYtVVNERzZRMTc3MjI0Njc4NSI7czozMjoibG4yQlYzMVQxQWlWWHFKbHBVeWpIdjNSUVdUdEQxNnAiO3M6NDI6ImNoZWNrb3V0X2FjY2Vzc190b2tlbl9JTlYtSVZaQlYxMTc3MjI0NzAyOCI7czozMjoiZEs2a0Y4T3Z4V01PdDAwUjRSU2xlemNDWGxHRnJTbGgiO30=', 1772247093),
-('tTBSJ5dGRvMDTmTKlzxRVO9Zp1HVzv8A795SxrIe', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiU3k2ZGlEM3lDdXlSeHgxVXJvUzI5Y2hiY0NTMWQ4bEVoeWZsV0hSSiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCI7czo1OiJyb3V0ZSI7czo0OiJob21lIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1772240761);
+('bLVeSs5z18egJz0q1B5415KAu8A9jf0PG3oPl2H8', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiTHNzb0JSSXA4TXZqMVUwbG9PZHM1SDFyZkNkeWs0VUprb05DTGkzWCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC92YXJpYW4iO3M6NToicm91dGUiO3M6MTI6InZhcmlhbi5pbmRleCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjY0OiI5MTAxOTcxN2Y5MTJjYzA0YmU4ZWQ2NmU2ZjEzZGVmZWUwNmVjOTFiNzhjM2E4OTczZDE1MDlkNTU0ZjVhYzkwIjtzOjQyOiJjaGVja291dF9hY2Nlc3NfdG9rZW5fSU5WLUZZTU5LSDE3NzIyNDYzMDYiO3M6MzI6ImY3M0ZVSElPcTNhMFdMQjJHb2l2cXJhMDlZZmlQMWZ0IjtzOjQyOiJjaGVja291dF9hY2Nlc3NfdG9rZW5fSU5WLVVTREc2UTE3NzIyNDY3ODUiO3M6MzI6ImxuMkJWMzFUMUFpVlhxSmxwVXlqSHYzUlFXVHREMTZwIjtzOjQyOiJjaGVja291dF9hY2Nlc3NfdG9rZW5fSU5WLUlWWkJWMTE3NzIyNDcwMjgiO3M6MzI6ImRLNmtGOE92eFdNT3QwMFI0UlNsZXpjQ1hsR0ZyU2xoIjt9', 1772259050);
 
 -- --------------------------------------------------------
 
@@ -735,7 +765,7 @@ CREATE TABLE `stok` (
 --
 
 INSERT INTO `stok` (`id`, `id_produk`, `id_gudang`, `qty`, `created_at`, `updated_at`) VALUES
-(1, 2, 2, 10, NULL, '2026-02-25 03:25:26'),
+(1, 2, 2, 10, NULL, '2026-02-28 04:14:30'),
 (3, 3, 3, 0, NULL, '2026-02-22 03:10:57'),
 (4, 4, 2, 23, NULL, '2026-02-22 00:26:35'),
 (9, 9, 2, 5, '2026-02-25 03:47:53', '2026-02-25 05:11:59'),
@@ -1041,6 +1071,13 @@ ALTER TABLE `produk`
   ADD KEY `produk_id_supplier_foreign` (`id_supplier`);
 
 --
+-- Indeks untuk tabel `promo_gadget`
+--
+ALTER TABLE `promo_gadget`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `kode_promo` (`kode_promo`);
+
+--
 -- Indeks untuk tabel `rate_cards`
 --
 ALTER TABLE `rate_cards`
@@ -1217,6 +1254,12 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `produk`
   MODIFY `id_produk` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT untuk tabel `promo_gadget`
+--
+ALTER TABLE `promo_gadget`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `rate_cards`
