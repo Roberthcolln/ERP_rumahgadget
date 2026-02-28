@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session; // Tambahkan ini
 use Illuminate\Support\Str; // Tambahkan ini untuk Str::random
 use Midtrans\Config;
 use Midtrans\Snap;
+use Midtrans\Transaction;
 
 class CheckoutController extends Controller
 {
@@ -21,7 +22,13 @@ class CheckoutController extends Controller
 
         // 1. Gunakan with(['details.product']) agar gambar_produk dari relasi produk terbawa
         // 2. Gunakan scope query untuk menjaga controller tetap bersih
-        $query = Order::with(['details.product'])->latest();
+        $query = Order::with([
+            'details.product.kategori',
+            'details.product.jenis',
+            'details.product.tipe',
+            'details.product.varian',
+            'details.product.warna'
+        ])->latest();
 
         // Filter Pencarian (Nama atau No. Invoice)
         if ($request->filled('search')) {
@@ -57,18 +64,20 @@ class CheckoutController extends Controller
                     $total += $item['harga'] * $item['quantity'];
                 }
 
+                $invoiceNumber = 'INV-' . strtoupper(Str::random(6)) . time();
+
                 // Simpan Order
                 $order = Order::create([
-                    'number' => 'INV-' . strtoupper(Str::random(6)) . time(),
+                    'number' => $invoiceNumber,
                     'nama_pelanggan' => $request->nama,
                     'whatsapp' => $request->wa,
                     'alamat' => $request->alamat ?? '-',
                     'total_harga' => $total,
                     'hp_lama' => $request->hp_lama,
                     'status_pembayaran' => 'pending',
+                    'metode_kirim' => $request->metode_kirim,
                 ]);
 
-                // Simpan Detail
                 foreach ($cart as $id => $details) {
                     OrderDetail::create([
                         'order_id' => $order->id,
@@ -79,7 +88,7 @@ class CheckoutController extends Controller
                     ]);
                 }
 
-                // Midtrans
+                // Konfigurasi Midtrans
                 Config::$serverKey = config('services.midtrans.serverKey');
                 Config::$isProduction = config('services.midtrans.isProduction');
                 Config::$isSanitized = true;
@@ -99,14 +108,22 @@ class CheckoutController extends Controller
                 $snapToken = Snap::getSnapToken($params);
                 $order->update(['snap_token' => $snapToken]);
 
+                // --- KEAMANAN TAMBAHAN ---
+                // Simpan token akses unik ke session agar user tidak bisa asal tembak URL /finish
+                // Token ini hanya berlaku untuk sesi browser ini saja.
+                $accessKey = Str::random(32);
+                Session::put('checkout_access_token_' . $order->number, $accessKey);
+
                 Session::forget('cart');
 
-                return response()->json(['snap_token' => $snapToken]);
+                return response()->json([
+                    'snap_token' => $snapToken,
+                    'order_id'   => $order->number // Kita kirim ini untuk handling di frontend jika perlu
+                ]);
             });
         } catch (\Exception $e) {
-            // Log error ke storage/logs/laravel.log agar bisa dibaca
             Log::error('Checkout Error: ' . $e->getMessage());
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => 'Gagal memproses pesanan.'], 500);
         }
     }
 
@@ -114,15 +131,59 @@ class CheckoutController extends Controller
     {
         $order_id = $request->get('order_id');
 
-        // Cari data order berdasarkan nomor invoice
-        $order = Order::where('number', $order_id)->first();
-
-        if (!$order) {
-            return redirect('/')->with('error', 'Pesanan tidak ditemukan.');
+        // 1. Validasi keberadaan Order ID di URL
+        if (!$order_id) {
+            return redirect('/')->with('error', 'Akses ilegal. Order ID tidak ditemukan.');
         }
 
-        $konf = DB::table('setting')->first();
+        // 2. Validasi Session Key (Mencegah user lain menebak URL)
+        if (!Session::has('checkout_access_token_' . $order_id)) {
+            return redirect('/')->with('error', 'Sesi pembayaran Anda telah berakhir atau tidak sah.');
+        }
 
+        // 3. Ambil data Order
+        $order = Order::where('number', $order_id)->first();
+        if (!$order) {
+            return redirect('/')->with('error', 'Pesanan tidak ditemukan di sistem kami.');
+        }
+
+        // 4. Validasi Status ke Server Midtrans (Single Source of Truth)
+        try {
+            Config::$serverKey = config('services.midtrans.serverKey');
+            Config::$isProduction = config('services.midtrans.isProduction');
+
+            $statusMidtrans = Transaction::status($order_id);
+            $transaction = $statusMidtrans->transaction_status;
+            $fraud = $statusMidtrans->fraud_status;
+
+            // Logika Update berdasarkan Response Midtrans
+            if ($transaction == 'capture') {
+                if ($fraud == 'challenge') {
+                    $order->update(['status_pembayaran' => 'pending']);
+                } else if ($fraud == 'accept') {
+                    $order->update(['status_pembayaran' => 'success']);
+                }
+            } else if ($transaction == 'settlement') {
+                $order->update(['status_pembayaran' => 'success']);
+            } else if ($transaction == 'pending') {
+                $order->update(['status_pembayaran' => 'pending']);
+            } else if (in_array($transaction, ['deny', 'expire', 'cancel'])) {
+                $order->update(['status_pembayaran' => 'failed']);
+                return redirect('/')->with('error', 'Pembayaran gagal, dibatalkan, atau kadaluarsa.');
+            }
+        } catch (\Exception $e) {
+            Log::error('Midtrans Status Check Error: ' . $e->getMessage());
+            // Jika koneksi gagal, kita gunakan data di database lokal sebagai cadangan
+            if ($order->status_pembayaran == 'failed') {
+                return redirect('/')->with('error', 'Transaksi gagal.');
+            }
+        }
+
+        // 5. Jika sampai sini berarti aman (status success atau pending)
+        // Hapus session key agar halaman tidak bisa di-refresh terus-menerus (opsional)
+        // Session::forget('checkout_access_token_' . $order_id);
+
+        $konf = DB::table('setting')->first();
         return view('checkout_finish', compact('order', 'konf'));
     }
 

@@ -14,7 +14,8 @@ class Order extends Model
         'total_harga',
         'status_pembayaran',
         'snap_token',
-        'hp_lama'
+        'hp_lama',
+        'metode_kirim',
     ];
 
     public function details()

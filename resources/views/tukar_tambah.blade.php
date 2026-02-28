@@ -173,7 +173,7 @@
                             </div>
                             <div class="p-4 p-md-5">
                                 <div class="text-center mb-5">
-                                    <p class="text-muted mb-1">Anda Cukup Menambah:</p>
+                                    <p id="labelHasil" class="text-muted mb-1">Anda Cukup Menambah:</p>
                                     <h1 class="price-tag" id="totalBayar">Rp 0</h1>
                                     <span class="badge badge-warning px-3 py-2 mt-2">Update: <span
                                             id="waktuUpdate"></span></span>
@@ -280,6 +280,7 @@
                     const resTarget = data[1];
 
                     if (resClient.success && resTarget.success) {
+                        // Isi data detail ke UI
                         $('#namaClient').text(resClient.nama);
                         $('#varianClient').text(resClient.varian);
                         $('#hargaClient').text(resClient.harga_fmt);
@@ -288,21 +289,39 @@
                         $('#varianTarget').text(resTarget.varian);
                         $('#hargaTarget').text(resTarget.harga_fmt);
 
+                        // LOGIKA BARU: Hitung Selisih
                         let selisih = resTarget.harga_raw - resClient.harga_raw;
-                        if (selisih < 0) selisih = 0;
+                        let labelHasil = "";
+                        let absSelisih = Math.abs(selisih);
 
+                        // Format mata uang
                         let formattedSelisih = new Intl.NumberFormat('id-ID', {
                             style: 'currency',
                             currency: 'IDR',
                             minimumFractionDigits: 0
-                        }).format(selisih);
+                        }).format(absSelisih);
 
-                        $('#totalBayar').text(formattedSelisih);
+                        if (selisih > 0) {
+                            // Jika HP Baru lebih mahal
+                            labelHasil = "Anda Cukup Menambah:";
+                            $('#totalBayar').text(formattedSelisih).css('color', '#000');
+                        } else if (selisih < 0) {
+                            // Jika HP Lama lebih mahal (Pelanggan dapat uang/kembalian)
+                            labelHasil = "Anda Mendapatkan Bayaran Senilai:";
+                            $('#totalBayar').text(formattedSelisih).css('color',
+                                '#28a745'); // Warna hijau sukses
+                        } else {
+                            // Jika harga sama
+                            labelHasil = "Tukar Langsung (Sama Harga):";
+                            $('#totalBayar').text("Rp 0").css('color', '#000');
+                        }
+
+                        // Update Label dan Harga
+                        $('.text-muted.mb-1').text(labelHasil);
                         $('#waktuUpdate').text(resTarget.waktu);
-
                         $('#hasilKalkulasi').slideDown(800);
 
-                        // Auto scroll ke hasil
+                        // Auto scroll
                         $('html, body').animate({
                             scrollTop: $("#hasilKalkulasi").offset().top - 50
                         }, 1000);

@@ -57,7 +57,7 @@
             grid-template-columns: 1fr 1.5fr;
             gap: 30px;
             padding: 40px;
-            background: #fff;
+            background: #ffffff;
             border-radius: 25px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
             border: 1px solid #eee;
@@ -232,7 +232,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div><br>
 
             @php
                 $topPrices = $ratecards->pluck('harga')->unique()->sortDesc()->take(2)->toArray();

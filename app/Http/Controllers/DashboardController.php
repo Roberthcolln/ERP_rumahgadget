@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Penjualan;
 use App\Models\PenjualanDetail;
 use App\Models\Produk;
@@ -19,21 +20,40 @@ class DashboardController extends Controller
         $title = 'Dashboard';
         $konf  = DB::table('setting')->first();
 
-        $today = Carbon::today();
+        $fromDate = $request->input('from');
+        $toDate = $request->input('to');
 
-        // Mengambil statistik ringkas
-        $totalOrderHariIni = \App\Models\Order::whereDate('created_at', $today)->count();
-        $totalPendapatan   = \App\Models\Order::where('status_pembayaran', 'success')->sum('total_harga');
+        // Query Dasar
+        $orderQuery = \App\Models\Order::query();
+        $incomeQuery = \App\Models\Order::where('status_pembayaran', 'success');
 
-        // Mengambil 5 order terbaru dengan relasi details
-        $recentOrders = \App\Models\Order::with('details')->latest()->take(5)->get();
+        if ($fromDate && $toDate) {
+            $start = $fromDate . ' 00:00:00';
+            $end = $toDate . ' 23:59:59';
+
+            $orderQuery->whereBetween('created_at', [$start, $end]);
+            $incomeQuery->whereBetween('created_at', [$start, $end]);
+            $labelStats = "Periode " . \Carbon\Carbon::parse($fromDate)->format('d/m/Y') . " - " . \Carbon\Carbon::parse($toDate)->format('d/m/Y');
+        } else {
+            $orderQuery->whereDate('created_at', \Carbon\Carbon::today());
+            $labelStats = "Hari Ini (" . \Carbon\Carbon::today()->format('d/m/Y') . ")";
+        }
+
+        $totalOrder = $orderQuery->count();
+        $totalPendapatan = $incomeQuery->sum('total_harga');
+
+        // --- PERBAIKAN DI SINI ---
+        // Ambil data terbaru berdasarkan filter yang sedang aktif
+        // Kita clone query-nya agar tidak merusak hitungan count di atas
+        $recentOrders = (clone $orderQuery)->with('details')->latest()->take(10)->get();
 
         return view('dashboard.index', compact(
             'title',
             'konf',
-            'totalOrderHariIni',
+            'totalOrder',
             'totalPendapatan',
-            'recentOrders'
+            'recentOrders',
+            'labelStats'
         ));
     }
 }

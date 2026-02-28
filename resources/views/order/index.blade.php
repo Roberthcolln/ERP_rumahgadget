@@ -47,6 +47,7 @@
                             <th class="text-center" width="5%">No</th>
                             <th>Invoice & Tanggal</th>
                             <th>Pelanggan</th>
+                            <th>Metode Kirim</th> {{-- Tambahan Kolom --}}
                             <th>Detail Produk</th>
                             <th>Total Bayar</th>
                             <th class="text-center">Status</th>
@@ -56,7 +57,6 @@
                     <tbody>
                         @forelse ($orders as $o)
                             @php
-                                // Logic warna status dipindah ke atas agar rapi
                                 $statusMap = [
                                     'pending' => ['class' => 'bg-label-warning', 'label' => 'Menunggu'],
                                     'success' => ['class' => 'bg-label-success', 'label' => 'Selesai'],
@@ -66,6 +66,11 @@
                                     'class' => 'bg-label-secondary',
                                     'label' => $o->status_pembayaran,
                                 ];
+
+                                // Logic Icon Metode Kirim
+                                $isPickup =
+                                    stripos($o->metode_kirim, 'ambil') !== false ||
+                                    stripos($o->metode_kirim, 'store') !== false;
                             @endphp
                             <tr>
                                 <td class="text-center text-muted">
@@ -78,15 +83,20 @@
                                 </td>
                                 <td>
                                     <div class="fw-semibold">{{ $o->nama_pelanggan }}</div>
-                                    <small class="text-muted"><i class="bx bx-map small"></i>
-                                        {{ $o->alamat }}</small><br>
                                     <small class="text-muted"><i class="bx bx-phone small"></i> {{ $o->whatsapp }}</small>
+                                </td>
+                                <td>
+                                    {{-- Kolom Metode Kirim --}}
+                                    <div class="d-flex align-items-center">
+                                        <i
+                                            class="bx {{ $isPickup ? 'bx-store-alt text-success' : 'bx-truck text-primary' }} me-2 fs-4"></i>
+                                        <span class="text-capitalize">{{ $o->metode_kirim ?? '-' }}</span>
+                                    </div>
                                 </td>
                                 <td>
                                     <ul class="list-unstyled mb-0 small">
                                         @foreach ($o->details->take(2) as $dtl)
                                             <li class="d-flex align-items-center mb-1">
-                                                {{-- Logic Gambar: Cek foto di detail dulu, kalau null cek ke relasi produk --}}
                                                 <img src="{{ $dtl->product?->gambar_produk ? asset('file/produk/' . $dtl->product->gambar_produk) : asset('assets/img/illustrations/default-device.png') }}"
                                                     onerror="this.onerror=null; this.src='{{ asset('assets/img/illustrations/default-device.png') }}';"
                                                     alt="product" class="rounded me-2 shadow-sm" width="28"
@@ -102,7 +112,6 @@
                                             </li>
                                         @endif
 
-                                        {{-- Sesuai preferensi Anda: Tampilkan info Trade-in jika ada --}}
                                         @if ($o->hp_lama)
                                             <li class="mt-1">
                                                 <span class="badge bg-label-info" style="font-size: 0.65rem;">
@@ -136,18 +145,13 @@
                                                 <i class="bx bxl-whatsapp me-2"></i> Hubungi WA
                                             </a>
                                             <div class="dropdown-divider"></div>
-
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center py-5">
-                                    <img src="{{ $dtl->product?->gambar_produk ? asset('file/produk/' . $dtl->product->gambar_produk) : asset('assets/img/illustrations/default-device.png') }}"
-                                        onerror="this.onerror=null; this.src='{{ asset('assets/img/illustrations/default-device.png') }}';"
-                                        alt="product" class="rounded me-2 shadow-sm" width="28" height="28"
-                                        style="object-fit: cover;">
+                                <td colspan="8" class="text-center py-5">
                                     <p class="text-muted">Tidak ada data transaksi yang ditemukan.</p>
                                 </td>
                             </tr>
@@ -179,10 +183,9 @@
                                 <span class="fw-semibold">{{ $o->created_at->format('d M Y, H:i') }}</span>
                             </div>
                             <div class="col-6 text-end">
-                                <label class="text-muted d-block small fw-bold">STATUS PEMBAYARAN</label>
-                                <span
-                                    class="badge {{ $statusMap[$o->status_pembayaran]['class'] ?? 'bg-label-secondary' }}">
-                                    {{ $statusMap[$o->status_pembayaran]['label'] ?? $o->status_pembayaran }}
+                                <label class="text-muted d-block small fw-bold">METODE KIRIM</label>
+                                <span class="badge bg-label-info text-capitalize">
+                                    {{ $o->metode_kirim ?? '-' }}
                                 </span>
                             </div>
                         </div>
@@ -194,8 +197,8 @@
                                 <span class="fw-semibold">{{ $o->nama_pelanggan }}</span>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Alamat</span>
-                                <span class="fw-semibold">{{ $o->alamat }}</span>
+                                <span class="text-muted">Alamat Pengiriman</span>
+                                <span class="fw-semibold text-end" style="max-width: 60%">{{ $o->alamat }}</span>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <span class="text-muted">WhatsApp</span>
@@ -215,25 +218,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($orders->find($o->id)->details as $dtl)
+                                    @foreach ($o->details as $dtl)
                                         <tr class="border-bottom">
                                             <td class="py-3">
                                                 <div class="d-flex align-items-center">
                                                     <img src="{{ $dtl->product?->gambar_produk ? asset('file/produk/' . $dtl->product->gambar_produk) : asset('assets/img/illustrations/default-device.png') }}"
-                                                        onerror="this.onerror=null; this.src='{{ asset('assets/img/illustrations/default-device.png') }}';"
-                                                        alt="product" class="rounded me-2 shadow-sm" width="28"
-                                                        height="28" style="object-fit: cover;">
+                                                        alt="product" class="rounded me-3 shadow-sm" width="45"
+                                                        height="45" style="object-fit: cover;">
                                                     <div>
-                                                        <div class="fw-bold small text-wrap" style="max-width: 150px;">
+                                                        <div class="fw-bold text-dark" style="font-size: 0.85rem;">
                                                             {{ $dtl->nama_produk }}</div>
-                                                        <small class="text-muted">Rp
-                                                            {{ number_format($dtl->harga, 0, ',', '.') }}</small>
+                                                        <div class="text-muted" style="font-size: 0.7rem;">
+                                                            Rp {{ number_format($dtl->harga, 0, ',', '.') }}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="text-center">{{ $dtl->qty }}</td>
-                                            <td class="text-end fw-semibold">Rp
-                                                {{ number_format($dtl->harga * $dtl->qty, 0, ',', '.') }}</td>
+                                            <td class="text-center small">{{ $dtl->qty }}</td>
+                                            <td class="text-end fw-semibold small">
+                                                Rp {{ number_format($dtl->harga * $dtl->qty, 0, ',', '.') }}
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -15,7 +15,6 @@
                                 <p class="mb-4 text-dark">
                                     Anda masuk ke panel <span
                                         class="fw-bold text-primary">{{ $konf->instansi_setting }}</span>.
-                                    Pantau performa bisnis Anda hari ini.
                                 </p>
                             </div>
                         </div>
@@ -30,33 +29,51 @@
             </div>
         </div>
 
+        {{-- Filter Section --}}
+        <div class="card mb-4">
+            <div class="card-body">
+                <form action="{{ route('dashboard.index') }}" method="GET" class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Dari Tanggal</label>
+                        <input type="date" name="from" class="form-control" value="{{ request('from') }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Sampai Tanggal</label>
+                        <input type="date" name="to" class="form-control" value="{{ request('to') }}">
+                    </div>
+                    <div class="col-md-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary w-100"><i class="bx bx-filter-alt me-1"></i>
+                            Filter</button>
+                        <a href="{{ route('dashboard.index') }}" class="btn btn-outline-secondary"><i
+                                class="bx bx-refresh"></i></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         {{-- Statistik Cards --}}
         <div class="row mb-4">
-            <div class="col-md-6 col-lg-6 mb-3">
-                <div class="card h-100">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100 shadow-sm">
                     <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
-                            <div class="avatar flex-shrink-0">
-                                <span class="badge bg-label-primary p-2"><i class="bx bx-cart fs-3"></i></span>
-                            </div>
+                        <div class="avatar flex-shrink-0 mb-3">
+                            <span class="badge bg-label-primary p-2"><i class="bx bx-cart fs-3"></i></span>
                         </div>
-                        <span class="fw-semibold d-block mb-1">Order Hari Ini</span>
-                        <h3 class="card-title mb-2">{{ $totalOrderHariIni }}</h3>
-                        <small class="text-muted">Pesanan Masuk</small>
+                        <span class="fw-semibold d-block mb-1">Total Order</span>
+                        <h3 class="card-title mb-2">{{ $totalOrder }}</h3>
+                        <small class="text-muted">{{ $labelStats }}</small>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-6 mb-3">
-                <div class="card h-100">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100 shadow-sm">
                     <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
-                            <div class="avatar flex-shrink-0">
-                                <span class="badge bg-label-success p-2"><i class="bx bx-wallet fs-3"></i></span>
-                            </div>
+                        <div class="avatar flex-shrink-0 mb-3">
+                            <span class="badge bg-label-success p-2"><i class="bx bx-wallet fs-3"></i></span>
                         </div>
-                        <span class="fw-semibold d-block mb-1">Total Omzet</span>
+                        <span class="fw-semibold d-block mb-1">Total Pendapatan</span>
                         <h3 class="card-title mb-2">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h3>
-                        <small class="text-muted">Dari Seluruh Pesanan Sukses</small>
+                        <small class="text-muted">{{ $labelStats }}</small>
                     </div>
                 </div>
             </div>
@@ -65,28 +82,28 @@
         {{-- Recent Orders Table --}}
         <div class="row">
             <div class="col-12">
-                <div class="card">
-                    <h5 class="card-header fw-bold"><i class="bx bx-receipt me-2"></i>Pesanan Terbaru</h5>
+                <div class="card shadow-sm">
+                    <h5 class="card-header fw-bold"><i class="bx bx-receipt me-2"></i>Daftar Pesanan {{ $labelStats }}
+                    </h5>
                     <div class="table-responsive text-nowrap">
                         <table class="table table-hover">
-                            <thead>
+                            <thead class="table-light">
                                 <tr>
                                     <th>Invoice</th>
                                     <th>Pelanggan</th>
-                                    <th>Produk</th>
+                                    <th>Item</th>
                                     <th>Total</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
-                            <tbody class="table-border-bottom-0">
+                            <tbody>
                                 @forelse ($recentOrders as $order)
                                     <tr>
                                         <td><strong>{{ $order->number }}</strong></td>
                                         <td>{{ $order->nama_pelanggan }}</td>
-                                        <td>
-                                            <small>{{ $order->details->count() }} item</small>
+                                        <td><span class="badge bg-label-info">{{ $order->details->count() }} item</span>
                                         </td>
-                                        <td>Rp {{ number_format($order->total_harga, 0, ',', '.') }}</td>
+                                        <td class="fw-bold">Rp {{ number_format($order->total_harga, 0, ',', '.') }}</td>
                                         <td>
                                             @php
                                                 $statusClass =
