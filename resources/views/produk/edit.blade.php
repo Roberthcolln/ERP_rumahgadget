@@ -139,6 +139,26 @@
                         </div>
                     </div>
 
+                    {{-- Promo Gadget --}}
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label text-success fw-bold">Hubungkan dengan Promo (Opsional)</label>
+                            <select name="id_promo" class="form-select border-success shadow-sm">
+                                <option value="">-- Tidak Ada Promo / Berhenti Berlangganan --</option>
+                                @foreach ($promo as $p)
+                                    <option value="{{ $p->id }}"
+                                        {{ old('id_promo', $produk->id_promo) == $p->id ? 'selected' : '' }}>
+                                        {{ $p->nama_promo }} — (Potongan: {{ $p->label_diskon }})
+                                        @if ($p->minimal_pembelian > 0)
+                                            [Min. Beli: Rp {{ number_format($p->minimal_pembelian, 0, ',', '.') }}]
+                                        @endif
+                                    </option>
+                                @endforeach
+                            </select>
+                            <small class="text-muted">Pilih promo aktif yang ingin diterapkan pada produk ini.</small>
+                        </div>
+                    </div>
+
                     <div class="row bg-light p-3 rounded mb-3">
                         <div class="col-md-6 mb-3">
                             <label class="form-label text-primary fw-bold">Gudang Penyimpanan</label>
@@ -163,7 +183,8 @@
                     {{-- Upload Gambar --}}
                     <div class="mb-3">
                         <label class="form-label">Gambar Produk</label>
-                        <input type="file" name="gambar_produk" id="inputImg" class="form-control" accept="image/*">
+                        <input type="file" name="gambar_produk" id="inputImg" class="form-control"
+                            accept="image/*">
                         <div class="mt-3">
                             <img id="previewImg"
                                 src="{{ $produk->gambar_produk ? asset('file/produk/' . $produk->gambar_produk) : asset('assets/img/no-image.png') }}"

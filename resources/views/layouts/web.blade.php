@@ -236,6 +236,71 @@
             border-radius: 50%;
             border: 1px solid #ffffff;
         }
+
+        .animate-pulse-price {
+            display: inline-block;
+            animation: price-pulse 1.5s infinite;
+            text-shadow: 0 0 5px rgba(40, 167, 69, 0.2);
+        }
+
+        @keyframes price-pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+                color: #218838;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Container untuk Promo agar Badge Melayang Bisa Diposisikan */
+        .promo-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Badge Melayang Kecil (Flash Deal) */
+        .badge-promo-flash {
+            position: absolute;
+            top: -12px;
+            right: -30px;
+            background: #dc3545;
+            color: white;
+            font-size: 8px;
+            font-weight: bold;
+            padding: 2px 5px;
+            border-radius: 4px;
+            animation: flash-animation 1s infinite;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        @keyframes flash-animation {
+            0% {
+                opacity: 1;
+                transform: scale(1) rotate(-10deg);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.1) rotate(-10deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(-10deg);
+            }
+        }
+
+        /* Baris yang memiliki promo diberi background sangat tipis */
+        tr.has-promo {
+            background-color: rgba(40, 167, 69, 0.02);
+        }
     </style>
 </head>
 

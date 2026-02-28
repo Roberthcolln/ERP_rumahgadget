@@ -24,7 +24,8 @@ class Produk extends Model
         'harga_jual_produk',
         'harga_promo_produk',
         'id_supplier',
-        'gambar_produk'
+        'gambar_produk',
+        'id_promo',
     ];
 
     /**
@@ -96,5 +97,27 @@ class Produk extends Model
     public function getTotalStokAttribute()
     {
         return $this->gudang->sum('pivot.qty');
+    }
+
+    public function promo()
+    {
+        return $this->belongsTo(Promo::class, 'id_promo');
+    }
+
+    // Tambahkan di dalam class Produk
+    public function getHargaFinalAttribute()
+    {
+        // 1. Cek apakah ada promo dari tabel promo_gadget (melalui relasi id_promo)
+        if ($this->id_promo && $this->promo) {
+            return $this->promo->nilai_promo;
+        }
+
+        // 2. Jika tidak ada id_promo, cek harga_promo_produk di tabel produk
+        if ($this->harga_promo_produk > 0) {
+            return $this->harga_promo_produk;
+        }
+
+        // 3. Jika semua di atas kosong/0, gunakan harga_jual_produk
+        return $this->harga_jual_produk;
     }
 }

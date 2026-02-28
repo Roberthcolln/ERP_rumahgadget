@@ -71,6 +71,7 @@ Route::get('/finish', [App\Http\Controllers\CheckoutController::class, 'finish']
 Route::get('/rate-card', [HomeController::class, 'rateCardWeb'])->name('web.ratecard');
 
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\RateCardController;
 
 // Tambahkan route ini
@@ -106,7 +107,7 @@ Route::middleware([
     Route::resource('ratecard', RateCardController::class);
     Route::resource('supplier', SupplierController::class);
     Route::resource('pelanggan', PelangganController::class);
-
+    Route::resource('promo', PromoController::class);
     Route::get('/orders', [App\Http\Controllers\CheckoutController::class, 'indexOrder'])->name('order.index');
 
 

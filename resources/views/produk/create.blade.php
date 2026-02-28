@@ -120,6 +120,18 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Terapkan Promo (Opsional)</label>
+                        <select name="id_promo" class="form-select">
+                            <option value="">-- Tanpa Promo --</option>
+                            @foreach ($promo as $p)
+                                <option value="{{ $p->id }}" {{ old('id_promo') == $p->id ? 'selected' : '' }}>
+                                    {{ $p->nama_promo }} ({{ $p->label_diskon }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="row bg-light p-3 rounded mb-3">
                         <div class="col-md-6 mb-3">
                             <label class="form-label text-success fw-bold">Pilih Gudang *</label>
@@ -136,6 +148,8 @@
                                 placeholder="Jumlah stok..." required min="0">
                         </div>
                     </div>
+
+
 
                     <div class="mb-3">
                         <label class="form-label">Gambar Produk *</label>

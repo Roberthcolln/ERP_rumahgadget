@@ -163,7 +163,7 @@ class HomeController extends Controller
         $id_jenis = $request->input('jenis');
 
         // Tambahkan 'gudang' di WITH untuk mengambil data pivot qty
-        $produk = Produk::with(['tipe', 'jenis', 'varian', 'warna', 'gudang'])
+        $produk = Produk::with(['tipe', 'jenis', 'varian', 'warna', 'gudang', 'promo'])
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('nama_produk', 'LIKE', "%{$search}%")

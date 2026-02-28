@@ -7,6 +7,7 @@ use App\Models\Kategori;
 use App\Models\Jenis;
 use App\Models\Tipe;
 use App\Models\Gudang;
+use App\Models\Promo;
 use App\Models\Supplier;
 use App\Models\Varian;
 use App\Models\Warna;
@@ -22,7 +23,7 @@ class ProdukController extends Controller
         $idGudang = $user->gudangAkses();
 
         // Eager loading relasi varian dan warna agar muncul di index
-        $query = Produk::with(['kategori', 'jenis', 'tipe', 'gudang', 'supplier', 'varian', 'warna'])
+        $query = Produk::with(['kategori', 'jenis', 'tipe', 'gudang', 'supplier', 'varian', 'warna', 'promo'])
             ->when($request->nama_produk, fn($q) => $q->where('nama_produk', 'like', '%' . $request->nama_produk . '%'))
             ->when($request->id_kategori, fn($q) => $q->where('id_kategori', $request->id_kategori))
             ->when($request->id_supplier, fn($q) => $q->where('id_supplier', $request->id_supplier));
@@ -49,12 +50,12 @@ class ProdukController extends Controller
         $warna = Warna::all();
         $user = auth()->user();
         $idGudang = $user->gudangAkses();
-
+        $promo = Promo::where('status', 1)->get();
         $gudang = Gudang::where('status', 'aktif')
             ->when($idGudang, fn($q) => $q->where('id_gudang', $idGudang))
             ->get();
 
-        return view('produk.create', compact('title', 'kategori', 'gudang', 'supplier', 'varian', 'warna'));
+        return view('produk.create', compact('title', 'kategori', 'gudang', 'supplier', 'varian', 'warna', 'promo'));
     }
 
     public function store(Request $request)
@@ -71,6 +72,7 @@ class ProdukController extends Controller
             'id_gudang'         => 'required', // Wajib pilih gudang
             'qty'               => 'required|numeric|min:0', // Wajib isi stok awal
             'gambar_produk'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'id_promo' => 'nullable|exists:promo_gadget,id',
         ]);
 
         try {
@@ -102,6 +104,16 @@ class ProdukController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        $title = 'Detail Produk';
+        // Eager load semua relasi termasuk gudang (pivot untuk qty) dan promo
+        $produk = Produk::with(['kategori', 'jenis', 'tipe', 'gudang', 'supplier', 'varian', 'warna', 'promo'])
+            ->findOrFail($id);
+
+        return view('produk.show', compact('title', 'produk'));
+    }
+
     public function edit($id)
     {
         $produk = Produk::with('gudang')->findOrFail($id);
@@ -112,7 +124,7 @@ class ProdukController extends Controller
         $kategori = Kategori::all();
         $jenis = Jenis::all();
         $tipe = Tipe::all();
-
+        $promo = Promo::where('status', 1)->get();
         $user = auth()->user();
         $idGudang = $user->gudangAkses();
 
@@ -127,7 +139,8 @@ class ProdukController extends Controller
             'gudang',
             'supplier',
             'warna',
-            'varian'
+            'varian',
+            'promo'
         ));
     }
 
@@ -155,6 +168,7 @@ class ProdukController extends Controller
             'id_gudang'         => 'required',
             'qty'               => 'required|numeric',
             'gambar_produk'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'id_promo' => 'nullable|exists:promo_gadget,id',
         ]);
 
         if ($request->hasFile('gambar_produk')) {

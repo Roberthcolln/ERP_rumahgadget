@@ -80,7 +80,7 @@
                             <th>Klasifikasi</th>
                             <th>Harga Jual</th>
                             <th>Stok & Gudang</th>
-                            <th class="text-center" width="100">Aksi</th>
+                            <th class="text-center" width="150">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -105,29 +105,60 @@
                                 <td>
                                     <div class="d-flex flex-wrap gap-1" style="max-width: 250px;">
                                         <span
-                                            class="badge bg-label-primary w-fit-content">{{ $row->kategori->nama_kategori }}</span>
-                                        <span
-                                            class="badge bg-label-info w-fit-content">{{ $row->jenis->nama_jenis }}</span>
-                                        <span
-                                            class="badge bg-label-warning w-fit-content">{{ $row->tipe->nama_tipe }}</span>
-
-                                        {{-- Tambahan Varian & Warna --}}
-                                        @if ($row->varian)
-                                            <span class="badge bg-label-secondary w-fit-content">
-                                                <i class="bx bx-purchase-tag-alt me-1"></i>{{ $row->varian->nama_varian }}
-                                            </span>
-                                        @endif
-                                        @if ($row->warna)
-                                            <span class="badge bg-dark w-fit-content">
-                                                <i class="bx bx-palette me-1"></i>{{ $row->warna->nama_warna }}
-                                            </span>
-                                        @endif
+                                            class="badge bg-label-primary">{{ $row->kategori->nama_kategori ?? '-' }}</span>
+                                        <span class="badge bg-label-info">{{ $row->jenis->nama_jenis ?? '-' }}</span>
+                                        <span class="badge bg-label-warning">{{ $row->tipe->nama_tipe ?? '-' }}</span>
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="fw-bold text-dark">
-                                        Rp{{ number_format($row->harga_jual_produk, 0, ',', '.') }}
-                                    </span>
+                                    <div>
+                                        @php
+                                            $harga_tampil = $row->harga_jual_produk; // Default harga normal
+                                            $is_promo = false;
+
+                                            // 1. Cek Prioritas Pertama: nilai_promo dari relasi promo
+                                            if ($row->promo && $row->promo->nilai_promo > 0) {
+                                                $harga_tampil = $row->promo->nilai_promo;
+                                                $is_promo = true;
+                                            }
+                                            // 2. Cek Prioritas Kedua: harga_promo_produk manual
+                                            elseif ($row->harga_promo_produk > 0) {
+                                                $harga_tampil = $row->harga_promo_produk;
+                                                $is_promo = true;
+                                            }
+                                        @endphp
+
+                                        @if ($is_promo)
+                                            {{-- Tampilkan Harga Promo (Hasil Hierarki) --}}
+                                            <span class="fw-bold text-success d-block">
+                                                Rp{{ number_format($harga_tampil, 0, ',', '.') }}
+                                            </span>
+                                            {{-- Tampilkan Harga Asli dengan Coretan --}}
+                                            <small class="text-danger text-decoration-line-through">
+                                                Rp{{ number_format($row->harga_jual_produk, 0, ',', '.') }}
+                                            </small>
+
+                                            {{-- Label Promo --}}
+                                            @if ($row->promo)
+                                                <div class="mt-1">
+                                                    <span class="badge bg-label-success" style="font-size: 0.65rem;">
+                                                        <i class="bx bxs-offer me-1"></i>{{ $row->promo->nama_promo }}
+                                                    </span>
+                                                </div>
+                                            @else
+                                                <div class="mt-1">
+                                                    <span class="badge bg-label-warning" style="font-size: 0.65rem;">
+                                                        <i class="bx bxs-tag me-1"></i> Promo Manual
+                                                    </span>
+                                                </div>
+                                            @endif
+                                        @else
+                                            {{-- Jika tidak ada promo sama sekali --}}
+                                            <span class="fw-bold text-dark d-block">
+                                                Rp{{ number_format($row->harga_jual_produk, 0, ',', '.') }}
+                                            </span>
+                                        @endif
+                                    </div>
                                 </td>
                                 <td>
                                     @foreach ($row->gudang as $g)
@@ -141,17 +172,26 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
+                                        {{-- TOMBOL SHOW DETAIL --}}
+                                        <a href="{{ route('produk.show', $row->id_produk) }}"
+                                            class="btn btn-icon btn-sm btn-outline-info" data-bs-toggle="tooltip"
+                                            title="Lihat Detail">
+                                            <i class="bx bx-show"></i>
+                                        </a>
+
+                                        {{-- TOMBOL EDIT --}}
                                         <a href="{{ route('produk.edit', $row->id_produk) }}"
                                             class="btn btn-icon btn-sm btn-outline-primary" data-bs-toggle="tooltip"
                                             title="Edit Produk">
                                             <i class="bx bx-edit-alt"></i>
                                         </a>
+
+                                        {{-- TOMBOL DELETE --}}
                                         <form action="{{ route('produk.destroy', $row->id_produk) }}" method="POST"
-                                            class="m-0">
+                                            class="m-0" onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit"
-                                                class="btn btn-icon btn-sm btn-outline-danger show_confirm"
+                                            <button type="submit" class="btn btn-icon btn-sm btn-outline-danger"
                                                 data-bs-toggle="tooltip" title="Hapus Produk">
                                                 <i class="bx bx-trash"></i>
                                             </button>

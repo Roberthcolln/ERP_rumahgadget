@@ -95,18 +95,30 @@ $konf = DB::table('setting')->first();
                             <span class="menu-header-text">E-Commerce</span>
                         </li>
 
-
-                        {{-- MENU BARU: Pesanan Online --}}
+                        {{-- MENU: Pesanan Online --}}
                         <li class="menu-item {{ Route::is('order.*') ? 'active' : '' }}">
                             <a href="{{ route('order.index') }}" class="menu-link">
                                 <i class="menu-icon tf-icons bx bx-cart"></i>
                                 <div>Pesanan Online</div>
-                                {{-- Badge Otomatis untuk pesanan yang statusnya masih 'pending' --}}
                                 @php
                                     $pendingOrders = \App\Models\Order::where('status_pembayaran', 'pending')->count();
                                 @endphp
                                 @if ($pendingOrders > 0)
                                     <div class="badge bg-label-warning ms-auto">{{ $pendingOrders }}</div>
+                                @endif
+                            </a>
+                        </li>
+
+                        {{-- MENU BARU: Promo Gadget --}}
+                        <li class="menu-item {{ Route::is('promo.*') ? 'active' : '' }}">
+                            <a href="{{ route('promo.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bxs-offer"></i>
+                                <div>Promo Gadget</div>
+                                @php
+                                    $activePromo = \App\Models\Promo::where('status', 1)->count();
+                                @endphp
+                                @if ($activePromo > 0)
+                                    <div class="badge bg-label-success ms-auto">{{ $activePromo }}</div>
                                 @endif
                             </a>
                         </li>
@@ -124,20 +136,18 @@ $konf = DB::table('setting')->first();
                             </a>
                         </li>
 
+                        {{-- Rate Card --}}
                         <li class="menu-item {{ Route::is('ratecard.*') ? 'active' : '' }}">
                             <a href="{{ route('ratecard.index') }}" class="menu-link">
                                 <i class="menu-icon tf-icons bx bx-list-check"></i>
-                                <div>Layanan Rate Card </div>
+                                <div>Layanan Rate Card</div>
                                 <div class="badge bg-label-secondary ms-auto">{{ \App\Models\ratecard::count() }}</div>
                             </a>
                         </li>
 
-
-
-
                         {{-- Katalog Gadget --}}
                         <li
-                            class="menu-item {{ Route::is('kategori.*') || Route::is('jenis.*') || Route::is('warna.*') || Route::is('varian.*') || Route::is('tipe.*') || Route::is('produk.*') || Route::is('supplier.*') ? 'active open' : '' }}">
+                            class="menu-item {{ Request::is('kategori*', 'jenis*', 'warna*', 'varian*', 'tipe*', 'produk*', 'supplier*') ? 'active open' : '' }}">
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
                                 <i class="menu-icon tf-icons bx bx-box"></i>
                                 <div>Katalog Gadget</div>
@@ -174,7 +184,7 @@ $konf = DB::table('setting')->first();
                             </ul>
                         </li>
 
-                        {{-- FITUR BARU: Sewa iPhone --}}
+                        {{-- Sewa iPhone --}}
                         <li class="menu-item {{ Route::is('sewa.*') ? 'active open' : '' }}">
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
                                 <i class="menu-icon tf-icons bx bx-time-five"></i>
@@ -190,12 +200,12 @@ $konf = DB::table('setting')->first();
                             </ul>
                         </li>
 
-                        {{-- Service Gadget --}}
+                        {{-- Service & Aksesoris --}}
                         <li
-                            class="menu-item {{ Route::is('kategori_service.*') || Route::is('service.*') ? 'active open' : '' }}">
+                            class="menu-item {{ Request::is('kategori_service*', 'service*', 'kategori_aksesoris*', 'aksesoris*') ? 'active open' : '' }}">
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
                                 <i class="menu-icon tf-icons bx bx-wrench"></i>
-                                <div>Service Gadget</div>
+                                <div>Layanan & Sparepart</div>
                             </a>
                             <ul class="menu-sub">
                                 <li class="menu-item {{ Route::is('kategori_service.*') ? 'active' : '' }}"><a
@@ -206,40 +216,23 @@ $konf = DB::table('setting')->first();
                                         href="{{ route('service.index') }}" class="menu-link">
                                         <div>Service</div>
                                     </a></li>
-                            </ul>
-                        </li>
-
-                        {{-- Aksesoris Gadget --}}
-                        <li
-                            class="menu-item {{ Route::is('kategori_aksesoris.*') || Route::is('aksesoris.*') ? 'active open' : '' }}">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons bx bx-plug"></i>
-                                <div>Aksesoris Gadget</div>
-                            </a>
-                            <ul class="menu-sub">
                                 <li class="menu-item {{ Route::is('kategori_aksesoris.*') ? 'active' : '' }}"><a
                                         href="{{ route('kategori_aksesoris.index') }}" class="menu-link">
                                         <div>Kategori Aksesoris</div>
                                     </a></li>
                                 <li class="menu-item {{ Route::is('aksesoris.*') ? 'active' : '' }}"><a
                                         href="{{ route('aksesoris.index') }}" class="menu-link">
-                                        <div> Aksesoris</div>
+                                        <div>Aksesoris</div>
                                     </a></li>
                             </ul>
                         </li>
 
                         {{-- Kredit Gadget --}}
-                        <li class="menu-item {{ Route::is('kredit.*') ? 'active open' : '' }}">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <li class="menu-item {{ Route::is('kredit.*') ? 'active' : '' }}">
+                            <a href="{{ route('kredit.index') }}" class="menu-link">
                                 <i class="menu-icon tf-icons bx bx-wallet"></i>
                                 <div>Kredit Gadget</div>
                             </a>
-                            <ul class="menu-sub">
-                                <li class="menu-item {{ Route::is('kredit.*') ? 'active' : '' }}"><a
-                                        href="{{ route('kredit.index') }}" class="menu-link">
-                                        <div>Kredit</div>
-                                    </a></li>
-                            </ul>
                         </li>
                     @endif
                 </ul>
