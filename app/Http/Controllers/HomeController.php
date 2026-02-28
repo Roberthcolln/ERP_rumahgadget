@@ -104,10 +104,17 @@ class HomeController extends Controller
         $q = $request->q;
         $konf = DB::table('setting')->first();
 
-        // Ambil semua produk, sertakan relasi kategori agar lebih efisien
-        $produk = \App\Models\Produk::with('kategori')->get();
+        // Filter produk berdasarkan nama_jenis yang ditentukan
+        $produk = \App\Models\Produk::with('kategori', 'jenis')
+            ->whereHas('jenis', function ($query) {
+                $query->whereIn('nama_jenis', ['iPhone Ex IBox', 'iPhone Second', 'Android Second']);
+            })
 
-        // Ambil kategori unik untuk menu filter
+            ->orderBy('nama_produk', 'asc') // Opsional: agar urut abjad
+            ->get();
+
+
+        // Ambil kategori unik untuk menu filter (jika masih diperlukan)
         $kategori = \App\Models\Kategori::all();
 
         return view('jual', compact('konf', 'produk', 'kategori'));
